@@ -14,8 +14,8 @@ $ sudo pip install docker-compose
 
 ```sh
 $ cd ~
-$ git clone http://[i2cat_username]@stash.i2cat.net/scm/TNOV/wp6.git
-$ cd wp6/marketplace
+$ git clone https://github.com/T-NOVA/Marketplace.git
+$ cd marketplace
 $ sudo echo "127.0.0.1 marketplace.t-nova.eu" >> /etc/hosts
 # build cyclops base image
 $ sudo docker build -t cyclops-base cyclops/docker-files/cyclops-base/.
