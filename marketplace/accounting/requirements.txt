@@ -1,0 +1,8 @@
+Django==1.7.8
+djangorestframework==3.1.0
+pika==0.9.14
+requests==2.5.3
+MySQL-python==1.2.5
+python-dateutil
+django-extensions
+django-rest-swagger

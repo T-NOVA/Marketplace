@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsag:Template
+    xmlns:wsag="http://www.ggf.org/namespaces/ws-agreement"
+    wsag:TemplateId="template02">
+
+    <wsag:Name>ExampleTemplate</wsag:Name>
+    <wsag:Context>
+        <wsag:AgreementInitiator>RandomClient</wsag:AgreementInitiator>
+        <wsag:AgreementResponder>provider-prueba</wsag:AgreementResponder>
+        <wsag:ServiceProvider>AgreementResponder</wsag:ServiceProvider>
+        <wsag:ExpirationTime>2014-03-07T12:00:00</wsag:ExpirationTime>
+        <sla:Service xmlns:sla="http://sla.atos.eu">ExampleService</sla:Service>
+    </wsag:Context>
+    <wsag:Terms>
+        <wsag:All>
+            <!-- FUNCTIONAL DESCRIPTION -->
+            <wsag:ServiceDescriptionTerm wsag:Name="SDTName1" wsag:ServiceName="ServiceName">
+                DSL expression
+            </wsag:ServiceDescriptionTerm>
+            <wsag:ServiceDescriptionTerm wsag:Name="SDTName2" wsag:ServiceName="ServiceName">
+                DSL expression
+            </wsag:ServiceDescriptionTerm>
+
+            <!-- OPTIONAL SERVICE REFERENCE -->
+
+            <!-- OPTIONAL SERVICE PROPERTIES : non funcional properties-->
+            <wsag:ServiceProperties wsag:Name="NonFunctional" wsag:ServiceName="ServiceName">
+                <wsag:Variables>
+                    <wsag:Variable wsag:Name="ResponseTime" wsag:Metric="xs:double">
+                        <wsag:Location>qos:ResponseTime</wsag:Location>
+                    </wsag:Variable>
+                    <wsag:Variable wsag:Name="Performance" wsag:Metric="xs:double">
+                        <wsag:Location>qos:Performance</wsag:Location>
+                    </wsag:Variable>
+                </wsag:Variables>
+            </wsag:ServiceProperties>
+            <wsag:GuaranteeTerm Name="GT_ResponseTime">
+                <wsag:ServiceScope ServiceName="ServiceName">/operation1</wsag:ServiceScope>
+                <wsag:ServiceScope ServiceName="ServiceName">/operation2</wsag:ServiceScope>
+                <!-- The qualifying conditions that must be met before the guarantee is evaluated -->
+                <!--
+                <wsag:QualifyingCondition>state EQ 'ready'</wsag:QualifyingCondition>
+                -->
+                <wsag:ServiceLevelObjective>
+                    <wsag:KPITarget>
+                        <wsag:KPIName>ResponseTime</wsag:KPIName> <!--  same name as property for the moment -->
+                        <wsag:CustomServiceLevel>{"constraint" : "ResponseTime BETWEEN (0,0.9)"}</wsag:CustomServiceLevel> <!--  the ServiceProperty is referenced here -->
+                    </wsag:KPITarget>
+                </wsag:ServiceLevelObjective>
+            </wsag:GuaranteeTerm>
+            <wsag:GuaranteeTerm Name="GT_Performance">
+                <wsag:ServiceScope ServiceName="ServiceName"/>
+                <wsag:ServiceLevelObjective>
+                    <wsag:KPITarget>
+                        <wsag:KPIName>Performance</wsag:KPIName> <!--  same name as property for the moment -->
+                        <wsag:CustomServiceLevel>{"constraint" : "Performance BETWEEN (0.1,1)"}</wsag:CustomServiceLevel>
+                    </wsag:KPITarget>
+                </wsag:ServiceLevelObjective>
+                <wsag:BusinessValueList>
+                    <wsag:Important>3</wsag:Important>	<!-- optional importance (integer) -->
+                    <wsag:Penalty>
+                        <wsag:AssessmentInterval>
+                            <wsag:Count>10</wsag:Count>
+                        </wsag:AssessmentInterval>
+                        <wsag:ValueUnit>EUR</wsag:ValueUnit>
+                        <wsag:ValueExpression>99</wsag:ValueExpression>
+                    </wsag:Penalty>
+
+                    <wsag:Reward></wsag:Reward>
+                    <wsag:Preference></wsag:Preference>
+                    <wsag:CustomBusinessValue></wsag:CustomBusinessValue>
+                </wsag:BusinessValueList>
+            </wsag:GuaranteeTerm>
+        </wsag:All>
+    </wsag:Terms>
+</wsag:Template>

@@ -1,0 +1,22 @@
+#Cyclops RC Service configuration file
+
+#Environment variables
+Environment=Tnova
+
+#Cyclops variables
+UDRServiceUrl=http://localhost:8084/udr
+RuleEngineUrl=http://localhost:8080/ruleengine/
+RCServiceUrl=http://localhost:8082/rc
+
+#Tnova variables
+AccountingServiceUrl=http://160.85.4.150
+
+#Scheduler variables
+SchedulerFrequency=300
+
+#InfluxDB variables
+InfluxDBURL=http://160.85.4.150:8086
+InfluxDBPassword=root
+InfluxDBUsername=root
+dbName=rc_service
+eventsDbName=event

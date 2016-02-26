@@ -1,0 +1,714 @@
+<div class="col-xs-12" ng-controller="VNFCreateCtrl">
+    <div class="box box-primary">
+        <div class="box-header">
+            <h3 class="box-title"><i class="fa fa-cube"></i> New VNF</h3>
+        </div>
+        <div class="box-body no-padding">
+            <div class="row no-padding">
+                <div class="col-xs-12">
+                    <ul class="nav nav-pills nav-justified thumbnail">
+                        <li ng-class="{'active': active_step==1, 'disabled': !steps[1].enable}"><a href="javascript:void(0)" ng-click="gotoStep(1)">
+                            <h4 class="list-group-item-heading"><i class="fa fa-info"></i> Step 1</h4>
+                            <p class="list-group-item-text">Basic Information</p>
+                        </a></li>
+                        <li ng-class="{'active': active_step==2, 'disabled': !steps[2].enable}"><a href="javascript:void(0)" ng-click="gotoStep(2)">
+                            <h4 class="list-group-item-heading"><i class="fa fa-clone"></i> Step 2</h4>
+                            <p class="list-group-item-text">VNF Composition</p>
+                        </a></li>
+                        <li ng-class="{'active': active_step==3, 'disabled': !steps[3].enable}"><a href="javascript:void(0)" ng-click="gotoStep(3)">
+                            <h4 class="list-group-item-heading"><i class="fa fa-refresh"></i> Step 3</h4>
+                            <p class="list-group-item-text">Lifecycle Events</p>
+                        </a></li>
+                        <li ng-class="{'active': active_step==4, 'disabled': !steps[4].enable}"><a href="javascript:void(0)" ng-click="gotoStep(4)">
+                            <h4 class="list-group-item-heading"><i class="fa fa-object-ungroup"></i> Step 4</h4>
+                            <p class="list-group-item-text">SLA</p>
+                        </a></li>
+                        <li ng-class="{'active': active_step==5, 'disabled': !steps[5].enable}"><a href="javascript:void(0)" ng-click="gotoStep(5)">
+                            <h4 class="list-group-item-heading"><i class="fa fa-money"></i> Step 5</h4>
+                            <p class="list-group-item-text">Billing Information</p>
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row" id="vnf-step-1" ng-show="active_step==1">
+                <div class="col-xs-12">
+                    <div class="col-md-12 box thumbnail">
+                        <div class="box-header">
+                            <i class="fa fa-info"></i>
+                            <h3 class="box-title">1. Basic Information</h3>
+                        </div>
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label>VNF Name</label>
+                                    <input class="form-control" type="text" ng-model="vnfd.name">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label>VNF Description</label>
+                                    <textarea class="form-control" rows="3" ng-model="vnfd.description"></textarea>
+                                </div>
+                                <div class="form-group col-md-4 col-sm-6">
+                                    <label>VNF Version</label>
+                                    <input class="form-control" type="text" ng-model="vnfd.version">
+                                </div>
+                                <div class="form-group col-md-4 col-sm-6">
+                                    <label>VNF Descriptor Version</label>
+                                    <input class="form-control" type="text" ng-model="vnfd.descriptor_version">
+                                </div>
+                                <div class="form-group col-md-4 col-sm-12">
+                                    <label>VNF Type</label>
+                                    <ui-select class="form-group" ng-model="vnfd.type" ng-disabled="disabled">
+                                        <ui-select-match placeholder="">[[$select.selected.desc]]</ui-select-match>
+                                        <ui-select-choices repeat="vnf_type.code as vnf_type in vnf_types">
+                                            <span ng-bind-html="vnf_type.desc"></span>
+                                            <small ng-bind-html="vnf_type.code"></small>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                            </div>
+                        </div>
+                        <button id="activate-step-1" class="btn btn-primary pull-right" ng-click="nextStep(2)">Next <i class="fa fa-caret-right"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="vnf-step-2" ng-show="active_step==2">
+                <div class="col-xs-12">
+                    <div class="col-md-12 box thumbnail">
+                        <div class="box-header">
+                            <i class="fa fa-clone"></i>
+                            <h3 class="box-title">2. VNF Composition</h3>
+                            <div class="box-tools pull-right">
+
+                                <div style="" class="btn-group" uib-dropdown>
+                                  <button type="button" class="btn btn-default" uib-dropdown-toggle>
+                                    Add Flavor <i class="fa fa-chevron-down"></i>
+                                  </button>
+                                  <ul class="uib-dropdown-menu dropdown-menu" role="menu" aria-labelledby="single-button">
+                                    <li role="menuitem"><a ng-click="enableFlavor('gold')"><span>Add Flavor <span class="label flavor pill gold">Gold</span></span></a></li>
+                                    <li role="menuitem"><a ng-click="enableFlavor('silver')"><span>Add Flavor <span class="label flavor pill silver">Silver</span></span></a></li>
+                                    <li role="menuitem"><a ng-click="enableFlavor('bronze')"><span>Add Flavor <span class="label flavor pill bronze">Bronze</span></span></a></li>
+                                  </ul>
+                                </div>
+
+                                <!--<button class="btn btn-default btn-sm" bs-dropdown="flavorsdropdownmenu" data-html="true" data-animation="none" data-placement="bottom-rigth">Add Flavor <i class="fa fa-chevron-down"></i></button>-->
+                            </div>
+                        </div>
+                        <div class="box-body">
+
+                            <div ng-repeat="(flavor_name, flavor) in flavors">
+
+                                <div class="box box-[[flavor_name]] box-solid" ng-show="flavor.enable">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">[[flavor_name | uppercase]] </h3>
+
+
+                                        <div class="box-tools pull-right">
+                                            <div style="" class="btn-group" uib-dropdown>
+                                              <button type="button" class="btn btn-box-tool" uib-dropdown-toggle>
+                                                <i class="fa fa-copy"></i>
+                                              </button>
+                                              <ul class="uib-dropdown-menu dropdown-menu" role="menu" aria-labelledby="single-button">
+                                                <li role="menuitem" ng-show="[[flavor_name =='gold']]"><a ng-click="copyFlavorTo('gold', 'silver')"><span>Copy to <span class="label flavor pill silver">Silver</span></span></a></li>
+                                                <li role="menuitem" ng-show="[[flavor_name =='gold']]"><a ng-click="copyFlavorTo('gold', 'bronze')"><span>Copy to <span class="label flavor pill bronze">Bronze</span></span></a></li>
+                                                <li role="menuitem" ng-show="[[flavor_name =='silver']]"><a ng-click="copyFlavorTo('silver', 'gold')"><span>Copy to <span class="label flavor pill gold">Gold</span></span></a></li>
+                                                <li role="menuitem" ng-show="[[flavor_name =='silver']]"><a ng-click="copyFlavorTo('silver', 'bronze')"><span>Copy to <span class="label flavor pill bronze">Bronze</span></span></a></li>
+                                                <li role="menuitem" ng-show="[[flavor_name =='bronze']]"><a ng-click="copyFlavorTo('bronze', 'gold')"><span>Copy to <span class="label flavor pill gold">Gold</span></span></a></li>
+                                                <li role="menuitem" ng-show="[[flavor_name =='bronze']]"><a ng-click="copyFlavorTo('bronze', 'silver')"><span>Copy to <span class="label flavor pill silver">Silver</span></span></a></li>
+                                              </ul>
+                                            </div>
+                                            <!--<button class="btn btn-box-tool" bs-dropdown="copy[[flavor_name]]dropdownmenu" data-html="true" data-animation="none" data-placement="bottom"><i class="fa fa-copy"></i></button>-->
+                                            <button class="btn btn-box-tool" ng-click="toggleFlavor(flavor_name)"><i class="fa fa-minus"></i></button>
+                                            <button class="btn btn-box-tool" ng-click="disableFlavor(flavor_name)"><i class="fa fa-remove"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="box-body flavor-container" ng-show="flavor.visible">
+
+                                   <div class="box-header">
+                                        <h4>Virtual Machines (VDUs)</h4>
+
+                                        <div class="box-tools pull-right">
+                                            <button class="btn btn-primary" ng-click="addVDU(flavor_name)"><i class="fa fa-plus"></i> Add Virtual Machine (VDU)
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12" ng-repeat="vdu in flavor.data.vdu">
+                                            <div class="box box-primary">
+                                                <div class="box-header with-border">
+                                                    <h3 class="box-title">Virtual Machine [[ getIndexVDU(flavor_name, vdu) + 1 ]] (vdu[[ getIndexVDU(flavor_name, vdu) ]])</h3>
+
+                                                    <div class="box-tools pull-right">
+                                                        <button class="btn btn-box-tool" ng-click="removeVDU(flavor_name, vdu)"><i class="fa fa-times"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="box-body">
+
+                                                    <div class="form-group col-md-6 col-sm-12">
+
+                                                        <h5>Info</h5>
+                                                        <hr>
+
+                                                        <div class="form-group col-md-10 col-sm-10">
+                                                            <label>Alias</label>
+                                                            <input class="form-control" type="text" ng-model="vdu.alias">
+                                                        </div>
+
+                                                        <div class="form-group col-md-2 col-sm-2">
+                                                             <label>Controller</label><br>
+                                                             <checkbox larger ng-model="vdu.controller"></checkbox>
+                                                        </div>
+
+                                                        <h5>Resources</h5>
+                                                        <hr>
+
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <label>vCPUs</label>
+                                                            <input class="form-control" type="number" ng-model="vdu.resource_requirements.vcpus">
+                                                        </div>
+
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <div class="form-group col-md-4 col-sm-4">
+                                                                <label>Large Pages</label><br>
+                                                                <checkbox larger ng-model="vdu.resource_requirements.memory_parameters.large_pages_required"></checkbox>
+                                                            </div>
+
+                                                            <div class="form-group col-md-4 col-sm-4">
+                                                                <label>Memory Size</label>
+                                                                <input class="form-control" type="number" ng-model="vdu.resource_requirements.memory">
+                                                            </div>
+
+                                                            <div class="form-group col-md-4 col-sm-4">
+                                                                <label>Memory Unit</label>
+                                                                <ui-select class="form-group" ng-model="vdu.resource_requirements.memory_unit" ng-disabled="disabled">
+                                                                    <ui-select-match placeholder="">[[$select.selected]]</ui-select-match>
+                                                                    <ui-select-choices repeat="memory_unit in memory_units">
+                                                                        <span ng-bind-html="memory_unit"></span>
+                                                                    </ui-select-choices>
+                                                                </ui-select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <div class="form-group col-md-4 col-sm-4">
+                                                                <label>Persistence Storage</label><br>
+                                                                <checkbox larger ng-model="vdu.resource_requirements.storage.persistence"></checkbox>
+                                                            </div>
+
+                                                            <div class="form-group col-md-4 col-sm-4">
+                                                                <label>Storage Size</label>
+                                                                <input class="form-control"type="number" ng-model="vdu.resource_requirements.storage.size">
+                                                            </div>
+
+                                                            <div class="form-group col-md-4 col-sm-4">
+                                                                <label>Storage Unit</label>
+                                                                <ui-select class="form-group" ng-model="vdu.resource_requirements.storage.size_unit" ng-disabled="disabled">
+                                                                    <ui-select-match placeholder="">[[$select.selected]]</ui-select-match>
+                                                                    <ui-select-choices repeat="storage_unit in storage_units">
+                                                                        <span ng-bind-html="storage_unit"></span>
+                                                                    </ui-select-choices>
+                                                                </ui-select>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+
+                                                    <div class="form-group col-md-6 col-sm-12">
+
+                                                        <h5>Image</h5>
+                                                        <hr>
+
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <button class="btn btn-default btn-sm" ng-show="hasRole('Function Provider')" ng-click="showImageUploadAModal()"><i class="fa fa-upload"></i> Upload Image</button>
+                                                        </div>
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <label class="control-label">Select Image File</label>
+                                                            <ui-select class="form-group" ng-model="vdu.vm_image" ng-disabled="disabled">
+                                                                <ui-select-match placeholder="">[[$select.selected.image_name]]</ui-select-match>
+                                                                <ui-select-choices repeat="image.nfs_image_name as image in available_images">
+                                                                    <span ng-bind-html="image.image_name"></span>
+                                                                </ui-select-choices>
+                                                            </ui-select>
+                                                        </div>
+
+                                                        <h5>Monitoring</h5>
+                                                        <hr>
+
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <label>Monitoring Parameters (Generic)</label>
+                                                            <ui-select multiple class="form-group" ng-model="vdu.monitoring_parameters" ng-disabled="disabled">
+                                                                <ui-select-match placeholder="">[[$item.desc]] ([[$item.unit]])</ui-select-match>
+                                                                <ui-select-choices repeat="mon_par.metric as mon_par in generic_monitoring_parameters">
+                                                                    <span ng-bind-html="mon_par.desc"></span> (<span ng-bind-html="mon_par.unit"></span>)
+                                                                </ui-select-choices>
+                                                            </ui-select>
+                                                        </div>
+
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <label>Monitoring Parameters (VNF Specific)</label>
+                                                            <ui-select multiple class="form-group" ng-model="vdu.monitoring_parameters_specific" ng-disabled="disabled">
+                                                                <ui-select-match placeholder="">[[$item.desc]] ([[$item.unit]])</ui-select-match>
+                                                                <ui-select-choices repeat="mon_par.metric as mon_par in specific_monitoring_parameters[vnfd.type]">
+                                                                    <span ng-bind-html="mon_par.desc"></span> (<span ng-bind-html="mon_par.unit"></span>)
+                                                                </ui-select-choices>
+                                                            </ui-select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group col-md-12">
+                                                            <label>Bootstrap Script</label>
+                                                            <textarea class="form-control" rows="8" ng-model="vdu.bootstrap_script"></textarea>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr class="in-flavors-separator">
+
+                                    <div class="box-header">
+                                        <h4>Virtual Links</h4>
+
+                                        <div class="box-tools pull-right">
+                                            <button class="btn btn-danger" ng-click="addVL(flavor_name)"><i class="fa fa-plus"></i> Add Virtual Link</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-6" ng-repeat="virtual_link in flavor.data.virtual_links">
+                                            <div class="box box-danger">
+                                                <div class="box-header with-border">
+                                                    <h3 class="box-title">Virtual Link [[ getIndexVL(flavor_name, virtual_link) + 1 ]] (vl[[ getIndexVL(flavor_name, virtual_link)]])</h3>
+
+                                                    <div class="box-tools pull-right">
+                                                        <button class="btn btn-box-tool" ng-click="removeVL(flavor_name, virtual_link)"><i class="fa fa-times"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="box-body">
+
+                                                    <div class="form-group col-md-12 col-sm-12">
+                                                        <label>Alias</label>
+                                                        <input class="form-control" type="text" ng-model="virtual_link.alias">
+                                                    </div>
+
+                                                    <div class="form-group col-md-12 col-sm-12">
+                                                        <label>Link Type</label>
+                                                        <ui-select class="form-group" ng-model="virtual_link.type" ng-disabled="disabled">
+                                                            <ui-select-match placeholder="">[[$select.selected.description]]</ui-select-match>
+                                                            <ui-select-choices repeat="virtual_link_type in connection_link_types">
+                                                                <span ng-bind-html="virtual_link_type.description"></span>
+                                                            </ui-select-choices>
+                                                        </ui-select>
+                                                    </div>
+
+                                                    <div class="form-group col-md-12 col-sm-12">
+                                                        <label>Connection Points <button type="button" class="btn btn-default btn-xs" ng-click="addConnectionPoint(virtual_link)"><span class="fa fa-plus"></span> Add</button></label>
+                                                        <div ng-repeat="cp in virtual_link.connection_points">
+
+                                                            <ui-select class="form-group col-md-10" ng-model="cp.vdu_ref" ng-disabled="disabled">
+                                                                <ui-select-match placeholder="">#[[ cp.id ]] [[$select.selected.alias]] ([[getIndexVDUNameString(flavor_name, $select.selected)]])</ui-select-match>
+                                                                <ui-select-choices repeat="vdu_select in flavor.data.vdu">
+                                                                    <span ng-bind-html="vdu_select.alias"></span> (<span ng-bind-html="getIndexVDUNameString(flavor_name, vdu_select)"></span>)
+                                                                </ui-select-choices>
+                                                            </ui-select>
+                                                            <span class="col-md-2">
+                                                                <button type="button" class="btn btn-danger" ng-click="removeConnectionPoint(virtual_link, cp)"><span class="fa fa-remove"></span></button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group col-md-12 col-sm-12">
+                                                        <label>Bandwidth</label>
+                                                        <ui-select class="form-group" ng-model="virtual_link.bandwidth" ng-disabled="disabled">
+                                                            <ui-select-match placeholder="">[[$select.selected]]</ui-select-match>
+                                                            <ui-select-choices repeat="link_bw in available_bandwidths">
+                                                                <span ng-bind-html="link_bw"></span>
+                                                            </ui-select-choices>
+                                                        </ui-select>
+                                                    </div>
+
+                                                    <div class="form-group col-md-4 col-sm4">
+                                                        <label>Active <small>(Floating IP)</small></label><br>
+                                                        <checkbox larger ng-model="virtual_link.active"></checkbox>
+                                                    </div>
+
+                                                    <div class="form-group col-md-4 col-sm4">
+                                                        <label>Enable DHCP</label><br>
+                                                        <checkbox larger ng-model="virtual_link.dhcp"></checkbox>
+                                                    </div>
+
+                                                    <div class="form-group col-md-4 col-sm4">
+                                                        <label>External Access</label><br>
+                                                        <checkbox larger ng-model="virtual_link.external_access"></checkbox>
+                                                    </div>
+
+                                                    <div class="form-group col-md-12 col-sm-12">
+                                                        <label>Network Subnet (CIRD) <small>(optional)</small></label>
+                                                        <input class="form-control" type="text" ng-model="virtual_link.net_segment">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button id="activate-step-2" class="btn btn-primary pull-right" ng-click="nextStep(3)">Next <i class="fa fa-caret-right"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="vnf-step-3" ng-show="active_step==3">
+                <div class="col-xs-12">
+                    <div class="col-md-12 box thumbnail">
+                        <div class="box-header">
+                            <i class="fa fa-refresh"></i>
+                            <h3 class="box-title">3. Lifecycle Events</h3>
+                        </div>
+                        <div class="box-body">
+
+                            <div ng-repeat="(flavor_name, flavor) in flavors">
+
+                                <div class="box box-[[flavor_name]] box-solid" ng-show="flavor.enable">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">[[flavor_name | uppercase]]</h3>
+
+                                        <div class="box-tools pull-right">
+                                            <button class="btn btn-box-tool" ng-click="toggleFlavor(flavor_name)"><i class="fa fa-minus"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="box-body flavor-container" ng-show="flavor.visible">
+
+                                        <div class="row">
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <div class="box box-default">
+                                                    <div class="box-header with-border">
+                                                        <h3 class="box-title">LIfecycle Events</h3>
+                                                    </div>
+                                                    <div class="box-body">
+
+                                                    <div class="form-group col-md-12 col-sm-12">
+
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <label>VNF Container</label>
+                                                            <input class="form-control" type="text" ng-model="flavor.data.lifecycle_events.vnf_container">
+                                                        </div>
+
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <label>Driver</label>
+                                                            <ui-select class="form-group" ng-model="flavor.data.lifecycle_events.driver" ng-disabled="disabled">
+                                                                <ui-select-match placeholder="">[[$select.selected.driver | uppercase]] <small>[[$select.selected.authentication_type]]</small></ui-select-match>
+                                                                <ui-select-choices repeat="driver in lifecycle_events_drivers">
+                                                                    <span ng-bind-html="driver.driver | uppercase"></span>
+                                                                    <small ng-bind-html="driver.authentication_type"></small>
+                                                                </ui-select-choices>
+                                                            </ui-select>
+                                                        </div>
+
+                                                        <div class="form-group col-md-12">
+                                                            <label>Authentication</label>
+                                                            <textarea class="form-control" rows="3" ng-model="flavor.data.lifecycle_events.authentication"></textarea>
+                                                        </div>
+
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <label>Authentication Username</label>
+                                                            <input class="form-control" type="text" ng-model="flavor.data.lifecycle_events.authentication_username">
+                                                        </div>
+
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <label>Start Event CMD</label>
+                                                            <input class="form-control" type="text" ng-model="flavor.data.lifecycle_events.events.start.command">
+                                                        </div>
+
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <label>Start Event Template Format</label>
+                                                            <ui-select class="form-group" ng-model="vdu.vdu_lifecycle_events.events.start.template_file_format" ng-disabled="disabled">
+                                                                <ui-select-match placeholder="">[[$select.selected.format]]</ui-select-match>
+                                                                <ui-select-choices repeat="format.format as format in event_template_formats">
+                                                                    <span ng-bind-html="format.format"></span>
+                                                                </ui-select-choices>
+                                                            </ui-select>
+                                                        </div>
+
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <label>Start Event Template</label>
+                                                            <textarea class="form-control" rows="1" ng-model="flavor.data.lifecycle_events.events.start.template_file"></textarea>
+                                                        </div>
+
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <label>Stop Event CMD</label>
+                                                            <input class="form-control" type="text" ng-model="flavor.data.lifecycle_events.events.stop.command">
+                                                        </div>
+
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <label>Stop Event Template Format</label>
+                                                            <ui-select class="form-group" ng-model="flavor.data.lifecycle_events.events.stop.template_file_format" ng-disabled="disabled">
+                                                                <ui-select-match placeholder="">[[$select.selected.format]]</ui-select-match>
+                                                                <ui-select-choices repeat="format.format as format in event_template_formats">
+                                                                    <span ng-bind-html="format.format"></span>
+                                                                </ui-select-choices>
+                                                            </ui-select>
+                                                        </div>
+
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <label>Stopt Event Template</label>
+                                                            <textarea class="form-control" rows="1" ng-model="flavor.data.lifecycle_events.events.stop.template_file"></textarea>
+                                                        </div>
+
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <label>Restart Event CMD</label>
+                                                            <input class="form-control" type="text" ng-model="flavor.data.lifecycle_events.events.restart.command">
+                                                        </div>
+
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <label>Restart Event Template Format</label>
+                                                            <ui-select class="form-group" ng-model="flavor.data.lifecycle_events.events.restart.template_file_format" ng-disabled="disabled">
+                                                                <ui-select-match placeholder="">[[$select.selected.format]]</ui-select-match>
+                                                                <ui-select-choices repeat="format.format as format in event_template_formats">
+                                                                    <span ng-bind-html="format.format"></span>
+                                                                </ui-select-choices>
+                                                            </ui-select>
+                                                        </div>
+
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <label>Restart Event Template</label>
+                                                            <textarea class="form-control" rows="1" ng-model="flavor.data.lifecycle_events.events.restart.template_file"></textarea>
+                                                        </div>
+
+                                                      </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <button id="activate-step-3" class="btn btn-primary pull-right" ng-click="nextStep(4)">Next <i class="fa fa-caret-right"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="vnf-step-4" ng-show="active_step==4">
+                <div class="col-xs-12">
+                    <div class="col-md-12 box thumbnail">
+                        <div class="box-header">
+                            <i class="fa fa-object-ungroup"></i>
+                            <h3 class="box-title">4. SLA</h3>
+                        </div>
+                        <div class="box-body">
+
+                            <div ng-repeat="(flavor_name, flavor) in flavors">
+
+                                <div class="box box-[[flavor_name]] box-solid" ng-show="flavor.enable">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">[[flavor_name | uppercase]]</h3>
+
+                                        <div class="box-tools pull-right">
+                                            <button class="btn btn-box-tool" ng-click="toggleFlavor(flavor_name)"><i class="fa fa-minus"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="box-body flavor-container" ng-show="flavor.visible">
+
+                                        <div class="box-header">
+                                            <h4>Assurance Parameters</h4>
+
+                                            <div class="box-tools pull-right">
+                                                <button class="btn btn-default" ng-click="addAssuranceParam(flavor_name)"><i class="fa fa-plus"></i> Add Assurance Parameter</button>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-4 col-sm-6 col-xs-12" ng-repeat="assurance_param in flavor.data.assurance_parameters">
+                                                <div class="box box-default">
+                                                    <div class="box-header with-border">
+                                                        <h3 class="box-title">Assurance Parameter [[ getIndexAssuranceParam(flavor_name, assurance_param) + 1 ]] (param[[ getIndexAssuranceParam(flavor_name, assurance_param)]])</h3>
+
+                                                        <div class="box-tools pull-right">
+                                                            <button class="btn btn-box-tool" ng-click="removeAssuranceParam(flavor_name, assurance_param)"><i class="fa fa-times"></i></button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="box-body">
+
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <label>Monitoring Parameter</label>
+                                                            <ui-select class="form-group" ng-model="assurance_param.monitoring_parameter" ng-disabled="disabled">
+                                                                <ui-select-match placeholder="">[[$select.selected.desc]] ([[$select.selected.unit]])</ui-select-match>
+                                                                <ui-select-choices repeat="mon_par in generic_monitoring_parameters">
+                                                                    <span ng-bind-html="mon_par.desc"></span> (<span ng-bind-html="mon_par.unit"></span>)
+                                                                </ui-select-choices>
+                                                            </ui-select>
+                                                        </div>
+
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <label>Expression</label>
+                                                            <ui-select class="form-group" ng-model="assurance_param.expression" ng-disabled="disabled">
+                                                                <ui-select-match placeholder="">[[$select.selected.code]] ([[$select.selected.desc]])</ui-select-match>
+                                                                <ui-select-choices repeat="sla_exp in sla_expressions">
+                                                                    <span ng-bind-html="sla_exp.code"></span> (<span ng-bind-html="sla_exp.desc"></span>) <small ng-bind-html="sla_exp.sign"></small>
+                                                                </ui-select-choices>
+                                                            </ui-select>
+                                                        </div>
+
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <label>Threshold Value <small>[[assurance_param.monitoring_parameter.unit]]</small></label>
+                                                            <input class="form-control" type="number" ng-model="assurance_param.value">
+                                                        </div>
+
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <label>Compiled Formula</label><br>
+
+                                                            <input class="form-control formula" type="text" disabled="disabled" value="IF [[assurance_param.monitoring_parameter.desc]] IS/ARE [[assurance_param.expression.desc]] [[assurance_param.value]] [[assurance_param.monitoring_parameter.unit]] THEN...">
+                                                        </div>
+
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <label>Violations <button type="button" class="btn btn-default btn-xs" ng-click="addAssuranceParamViolation(assurance_param.violation)"><span class="fa fa-plus"></span> Add</button></label>
+                                                            <div class="row" ng-repeat="v in assurance_param.violation">
+                                                                <div class="form-group col-md-5 col-sm-12">
+                                                                    <label>Breaches Count</label>
+                                                                    <input class="form-control" type="number" ng-model="v.breaches_count">
+                                                                </div>
+
+                                                                <div class="form-group col-md-5 col-sm-12">
+                                                                    <label>Interval <small>(Seconds)</small></label>
+                                                                    <input class="form-control" type="number" ng-model="v.interval">
+                                                                </div>
+
+                                                                <div class="form-group col-md-2 col-sm-12">
+                                                                    <label>Remove</label>
+                                                                    <button type="button" class="btn btn-danger" ng-click="removeAssuranceParamViolation(assurance_param.violation, v)"><span class="fa fa-remove"></span></button>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <label>Penalty Type</label>
+                                                            <ui-select class="form-group" ng-model="assurance_param.penalty.type" ng-disabled="disabled">
+                                                                <ui-select-match placeholder="">[[$select.selected.type]]</ui-select-match>
+                                                                <ui-select-choices repeat="penalty.type as penalty in penalty_types">
+                                                                    <span ng-bind-html="penalty.type"></span>
+                                                                </ui-select-choices>
+                                                            </ui-select>
+                                                        </div>
+
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <label>% Discount</label>
+                                                            <input class="form-control" type="number" ng-model="assurance_param.penalty.value">
+                                                        </div>
+
+                                                        <div class="form-group col-md-6 col-sm-12">
+                                                            <label>Validity Value</label>
+                                                            <input class="form-control" type="number" ng-model="assurance_param.penalty.validity.value">
+                                                        </div>
+
+                                                        <div class="form-group col-md-6 col-sm-12">
+                                                            <label>Validity Period</label>
+                                                            <ui-select class="form-group" ng-model="assurance_param.penalty.validity.period" ng-disabled="disabled">
+                                                                <ui-select-match placeholder="">[[$select.selected.desc]]</ui-select-match>
+                                                                <ui-select-choices repeat="period.code as period in available_periods">
+                                                                    <span ng-bind-html="period.desc"></span>
+                                                                </ui-select-choices>
+                                                            </ui-select>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <button id="activate-step-4" class="btn btn-primary pull-right" ng-click="nextStep(5)">Next <i class="fa fa-caret-right"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="vnf-step-5" ng-show="active_step==5">
+                <div class="col-xs-12">
+                    <div class="col-md-12 box thumbnail">
+                        <div class="box-header">
+                            <i class="fa fa-money"></i>
+                            <h3 class="box-title">5. Billing Information</h3>
+                        </div>
+                        <div class="box-body">
+
+                            <div class="row">
+
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Billing Model</label>
+                                    <ui-select class="form-group" ng-model="vnfd.billing_model.model" ng-disabled="disabled">
+                                        <ui-select-match placeholder="">[[$select.selected.desc]]</ui-select-match>
+                                        <ui-select-choices repeat="billing_model.code as billing_model in billing_model_types">
+                                            <span ng-bind-html="billing_model.desc"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+
+                                <div ng-show="vnfd.billing_model.model=='RS'">
+                                    <div class="form-group col-md-6">
+                                        <label>Period Value</label>
+                                        <input class="form-control" type="number" ng-model="vnfd.billing_model.period.value">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Period</label>
+                                        <ui-select class="form-group" ng-model="vnfd.billing_model.period.period" ng-disabled="disabled">
+                                            <ui-select-match placeholder="">[[$select.selected.desc]]</ui-select-match>
+                                            <ui-select-choices repeat="period.code as period in available_periods">
+                                                <span ng-bind-html="period.desc"></span>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-12">
+                                    <label>Currency</label>
+                                    <ui-select class="form-group" ng-model="vnfd.billing_model.price.unit" ng-disabled="disabled">
+                                        <ui-select-match placeholder="">[[$select.selected.desc]]</ui-select-match>
+                                        <ui-select-choices repeat="cur.code as cur in billing_currencies">
+                                            <span ng-bind-html="cur.desc"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+
+                                <div class="form-group col-md-4 col-sm-12">
+                                    <label>Min Price/Period</label>
+                                    <input class="form-control" type="number" ng-model="vnfd.billing_model.price.min_per_period">
+                                </div>
+                                <div class="form-group col-md-4 col-sm-12">
+                                    <label>Max Price/Period</label>
+                                    <input class="form-control" type="number" ng-model="vnfd.billing_model.price.max_per_period">
+                                </div>
+                                <div class="form-group col-md-4 col-sm-12">
+                                    <label>Setup Price</label>
+                                    <input class="form-control" type="number" ng-model="vnfd.billing_model.price.setup">
+                                </div>
+
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Trade Enable</label><br>
+                                    <checkbox larger ng-model="vnfd.trade"></checkbox>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <button id="activate-step-5" class="btn btn-primary pull-right" ng-click="createVNF()">Create <i class="fa fa-plus"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer no-padding">
+
+        </div>
+    </div>
+</div>

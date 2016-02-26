@@ -1,0 +1,115 @@
+{
+    "context": {
+        "agreementInitiator": "c1", 
+        "agreementResponder": "p6", 
+        "service": "TC / should an ontology be defined or this is free text input?", 
+        "serviceProvider": "AgreementResponder", 
+        "templateId": "serviceservice6gold"
+    }, 
+    "name": "service6gold", 
+    "agreementId": "serviceids101", 
+    "terms": {
+        "allTerms": {
+            "guaranteeTerms": [
+                {
+                    "businessValueList": {
+                        "customBusinessValue": [
+                            {
+                                "count": 1, 
+                                "penalties": [
+                                    {
+                                        "expression": 5, 
+                                        "type": "discount", 
+                                        "unit": "%", 
+                                        "validity": "P1D"
+                                    }
+                                ]
+                            }
+                        ]
+                    }, 
+                    "name": "pepitoservice6", 
+                    "qualifyingCondition": null, 
+                    "serviceLevelObjetive": {
+                        "kpitarget": {
+                            "customServiceLevel": " { \"policies\": [ { \"count\" : 2, \"interval\": 30 } ], \"constraint\" : \"pepitoservice6 GT 0.5\" }", 
+                            "kpiName": "pepitoservice6"
+                        }
+                    }, 
+                    "serviceScope": null
+                }, 
+                {
+                    "businessValueList": {
+                        "customBusinessValue": [
+                            {
+                                "count": 1, 
+                                "penalties": [
+                                    {
+                                        "expression": 5, 
+                                        "type": "discount", 
+                                        "unit": "%", 
+                                        "validity": "P1D"
+                                    }
+                                ]
+                            }
+                        ]
+                    }, 
+                    "name": "juanitoservice6", 
+                    "qualifyingCondition": null, 
+                    "serviceLevelObjetive": {
+                        "kpitarget": {
+                            "customServiceLevel": " { \"policies\": [ { \"count\" : 2, \"interval\": 30 } ], \"constraint\" : \"juanitoservice6 GT 0.7\" }", 
+                            "kpiName": "juanitoservice6"
+                        }
+                    }, 
+                    "serviceScope": null
+                }
+            ], 
+            "serviceDescriptionTerm": {
+                "name": "requirements", 
+                "requirements": [
+                    {
+                        "name": "virt_mem_res_element",
+                        "value": 6,
+                        "unit": "GB" 
+                    },
+                    {
+                        "name": "CPU",
+                        "value": 6,
+                        "unit": "cores"
+                    },
+                    {
+                        "name": "TLB size",
+                        "value": 1024, 
+                        "unit": ""
+                    },
+                    {   
+                        "name": "storage",
+                        "value": 20,
+                        "unit": "GB"
+                    }
+                ], 
+                "serviceName": "calls5k"
+            }, 
+            "serviceProperties": [
+                {
+                    "name": "MonitoredMetrics", 
+                    "serviceName": "default", 
+                    "variableSet": {
+                        "variables": [
+                            {
+                                "location": "/monitor/pepitoservice6", 
+                                "metric": "xs:double", 
+                                "name": "pepitoservice6"
+                            }, 
+                            {
+                                "location": "/monitor/juanitoservice6", 
+                                "metric": "xs:double", 
+                                "name": "juanitoservice6"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    }
+}

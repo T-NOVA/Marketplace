@@ -1,0 +1,115 @@
+{
+    "context": {
+        "agreementInitiator": "providerajax", 
+        "agreementResponder": "fp01", 
+        "service": "TC / should an ontology be defined or this is free text input?", 
+        "serviceProvider": "AgreementResponder", 
+        "templateId": "vnf3a2971d0-2eae-11e5-a2cb-0800200c9a66calls5k"
+    }, 
+    "name": "nombre", 
+    "agreementId": "vnf3a2971d0-2eae-11e5-a2cb-0800200c9a66calls5k", 
+    "terms": {
+        "allTerms": {
+            "guaranteeTerms": [
+                {
+                    "businessValueList": {
+                        "customBusinessValue": [
+                            {
+                                "count": 1, 
+                                "penalties": [
+                                    {
+                                        "expression": 5, 
+                                        "type": "discount", 
+                                        "unit": "%", 
+                                        "validity": "P1D"
+                                    }
+                                ]
+                            }
+                        ]
+                    }, 
+                    "name": "pepito", 
+                    "qualifyingCondition": null, 
+                    "serviceLevelObjetive": {
+                        "kpitarget": {
+                            "customServiceLevel": " { \"policies\": [ { \"count\" : 2, \"interval\": 30 } ], \"constraint\" : \"pepito GT 0.5\" }", 
+                            "kpiName": "pepito"
+                        }
+                    }, 
+                    "serviceScope": null
+                }, 
+                {
+                    "businessValueList": {
+                        "customBusinessValue": [
+                            {
+                                "count": 1, 
+                                "penalties": [
+                                    {
+                                        "expression": 5, 
+                                        "type": "discount", 
+                                        "unit": "%", 
+                                        "validity": "P1D"
+                                    }
+                                ]
+                            }
+                        ]
+                    }, 
+                    "name": "juanito", 
+                    "qualifyingCondition": null, 
+                    "serviceLevelObjetive": {
+                        "kpitarget": {
+                            "customServiceLevel": " { \"policies\": [ { \"count\" : 2, \"interval\": 30 } ], \"constraint\" : \"juanito GT 0.7\" }", 
+                            "kpiName": "juanito"
+                        }
+                    }, 
+                    "serviceScope": null
+                }
+            ], 
+            "serviceDescriptionTerm": {
+                "name": "requirements", 
+                "requirements": [
+                    {
+                        "name": "virt_mem_res_element",
+                        "value": 6,
+                        "unit": "GB" 
+                    },
+                    {
+                        "name": "CPU",
+                        "value": 6,
+                        "unit": "cores"
+                    },
+                    {
+                        "name": "TLB size",
+                        "value": 1024, 
+                        "unit": ""
+                    },
+                    {   
+                        "name": "storage",
+                        "value": 20,
+                        "unit": "GB"
+                    }
+                ], 
+                "serviceName": "calls5k"
+            }, 
+            "serviceProperties": [
+                {
+                    "name": "MonitoredMetrics", 
+                    "serviceName": "default", 
+                    "variableSet": {
+                        "variables": [
+                            {
+                                "location": "/monitor/pepito", 
+                                "metric": "xs:double", 
+                                "name": "pepito"
+                            }, 
+                            {
+                                "location": "/monitor/juanito", 
+                                "metric": "xs:double", 
+                                "name": "juanito"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    }
+}

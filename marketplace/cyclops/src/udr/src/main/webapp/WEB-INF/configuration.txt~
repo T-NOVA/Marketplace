@@ -1,0 +1,49 @@
+# Select the use case you want to work with (TNOVA, MCN, CLOUDSTACK, OPENSTACK)
+Environment=Tnova
+
+# If you are using internal scheduler, provide frequency in seconds
+ScheduleFrequency=300
+
+# In case of working with OpenStack
+KeystoneURL=http://160.85.4.64:5000/v2.0
+KeystoneUsername=cyclops
+KeystonePassword=pEBFKvKuBkvv968E
+KeystoneTenantName=services
+
+# If the collector for OpenStack is Ceilometer
+CeilometerURL=http://160.85.4.64:8777/v2/
+
+# Connection to the TimeSeries database
+InfluxDBURL=http://160.85.4.150:8086
+InfluxDBUsername=root
+InfluxDBPassword=root
+InfluxDBDatabaseName=udr_service
+
+# Settings for RabbitMQ in case of event based usage
+RabbitMQUsername=code
+RabbitMQPassword=pass1234
+RabbitMQHost=messaging.demonstrator.info
+RabbitMQPort=5672
+RabbitMQVirtualHost=/
+
+# If you are working with CloudStack or Anolim's UsageService
+CloudStackURL=https://swiss2.safeswisscloud.ch/client/api
+CloudStackAPIKey=rczr5zwuuUV5QyWtk8w_wD0DaZhX19rY3E-4TmTsTffpEkMQ6QN4eFKIg6CrwHTD_XBqEM_1ITjAHos9HOHTnQ
+CloudStackSecretKey=hioOXe9TLd9FEfHsSxoleLKwEeHE4CnLXXdesHgYjcf2s07fQHdYy3Ow8YwiiiltJqwdE1H3y3UisgdjkyI4ZA
+CloudStackPageSize=500
+CloudStackDBLogsName=udr_logs
+CloudStackEventMeasurement=cloudstack.events
+CloudStackMeterListSelection=meterlist
+
+# If you want to start importing only from this day, specify YYYY-MM-DD, if not, leave empty/delete line
+#CloudStackFirstImport=2015-11-25
+
+# Some MCN settings
+MCNDBEventsName=mcn_events
+MCNEventStart=start
+MCNEventQueue=mcnevents
+
+# And TNova settings
+TNovaDBEventsName=event
+TNovaEventStart=running
+TNovaEventQueue=tnova_events_test

@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>eu.atos.sla</groupId>
+		<artifactId>parent</artifactId>
+		<version>0.1.1-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<artifactId>sla-personalization</artifactId>
+	<packaging>jar</packaging>  
+	<name>SLA Project Personalization</name>
+	<dependencies>
+		<!-- import SLA projects -->
+		<dependency>
+			<groupId>eu.atos.sla</groupId>
+			<artifactId>sla-enforcement</artifactId>
+			<version>0.1.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.atos.sla</groupId>
+			<artifactId>sla-repository</artifactId>
+			<version>0.1.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.atos.sla</groupId>
+			<artifactId>sla-tools</artifactId>
+			<version>0.1.1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<filters>
+			<filter>../configuration.properties</filter>
+		</filters>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>**/*.xml</include>
+					<include>**/*.properties</include>
+				</includes>
+			</resource>
+		</resources>	
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>

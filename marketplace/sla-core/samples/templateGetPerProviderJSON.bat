@@ -1,0 +1,1 @@
+curl -u user:password -H "Accept: application/json" -X GET localhost:8080/sla-service/templates/?providerId=%1

@@ -1,0 +1,1 @@
+curl -u user:password -H "Accept: application/xml" -X GET localhost:8080/sla-service/templates/?serviceIds=%1

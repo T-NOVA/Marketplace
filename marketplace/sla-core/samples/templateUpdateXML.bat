@@ -1,0 +1,1 @@
+curl -u user:password -H "Content-type: application/xml" -H "Accept: application/xml" -d@%2 http://localhost:8080/sla-service/templates/%1 -X PUT

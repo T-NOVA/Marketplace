@@ -1,0 +1,8 @@
+InfluxDBURL==http://160.85.4.150:8086
+InfluxDBUsername==root
+InfluxDBPassword==root
+InfluxDBDatabaseName==billing_service
+RcServiceUrl==http://localhost:8082/rc
+AccountingUrl==http://160.85.4.150
+dbName==billing
+RevenueSharingTableName==revenue_sharing_report

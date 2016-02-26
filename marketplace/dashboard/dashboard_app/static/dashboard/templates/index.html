@@ -1,0 +1,135 @@
+<div ng-controller="RootCtrl">
+
+    <div id="page-wrapper" ng-class="{'open': toggle}" ng-cloak>
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar">
+                <li class="sidebar-main">
+                    <a ng-click="toggleSidebar()">
+                        T-Nova Marketplace
+                        <i class="fa fa-bars menu-icon"></i>
+                    </a>
+                </li>
+                <li class="sidebar-title"><span>MENU</span></li>
+
+                <li class="sidebar-list">
+                    <a href="javascript:void(0)" ng-click="$state.go('index.dashboard')"
+                       ng-class="{active: $state.includes('index.dashboard')}">Dashboard <span class="menu-icon fa fa-tachometer"></span></a>
+                </li>
+
+                <li class="sidebar-list" ng-show="hasRole('Administrator')||hasRole('Function Provider')">
+                    <a href="javascript:void(0)" ng-click="$state.go('index.vnfs.list')"
+                       ng-class="{active: $state.includes('index.vnfs')}"> <span ng-show="hasRole('Function Provider')">My</span> VNFs <span class="menu-icon fa fa-cubes"></span></a>
+                </li>
+
+                <li class="sidebar-list" ng-show="hasRole('Administrator')||hasRole('Function Provider')">
+                    <a href="javascript:void(0)" ng-click="$state.go('index.images.list')"
+                       ng-class="{active: $state.includes('index.images')}"> <span ng-show="hasRole('Function Provider')">My</span> VNF Images <span class="menu-icon fa fa-database"></span></a>
+                </li>
+
+                <li class="sidebar-list" ng-show="hasRole('Administrator')||hasRole('Service Provider')">
+                    <a href="javascript:void(0)" ng-click="$state.go('index.services.list')"
+                       ng-class="{active: $state.includes('index.services')}"> <span ng-show="hasRole('Service Provider')">My</span> Services <span class="menu-icon fa fa-cogs"></span></a>
+                </li>
+
+                <li class="sidebar-list" ng-show="hasRole('Function Provider')">
+                    <a href="javascript:void(0)" ng-click="$state.go('index.trade-requests')"
+                       ng-class="{active: $state.includes('index.trade-requests')}"> Trade Requests <span class="label label-danger" ng-show="getPendingRequests()>0">[[ getPendingRequests() ]]</span> <span class="menu-icon fa fa-exchange"></span></a>
+                </li>
+
+                <li class="sidebar-list" ng-show="hasRole('Customer')||hasRole('Service Provider')">
+                    <a href="javascript:void(0)" ng-click="$state.go('index.monitoring')"
+                       ng-class="{active: $state.includes('index.monitoring')}"> Monitoring <span class="menu-icon fa fa-eye"></span></a>
+                </li>
+
+                <li class="sidebar-list" ng-show="hasRole('Customer')||hasRole('Service Provider')">
+                    <a href="javascript:void(0)" ng-click="$state.go('index.sla.list')"
+                       ng-class="{active: $state.includes('index.sla')}"> SLA <span class="menu-icon fa fa-object-ungroup"></span></a>
+                </li>
+
+                <li class="sidebar-list" ng-show="hasRole('Customer')">
+                    <a href="javascript:void(0)" ng-click="$state.go('index.billing')"
+                       ng-class="{active: $state.includes('index.billing')}"> Billing <span class="menu-icon fa fa-money"></span></a>
+                </li>
+
+                <li class="sidebar-list" ng-show="hasRole('Function Provider')">
+                    <a href="javascript:void(0)" ng-click="$state.go('index.billingrev')"
+                       ng-class="{active: $state.includes('index.billingrev')}"> Billing <span class="menu-icon fa fa-money"></span></a>
+                </li>
+
+                <li class="sidebar-list" ng-show="hasRole('Customer')">
+                    <a href="javascript:void(0)" ng-click="$state.go('index.buy-service')"
+                       ng-class="{active: $state.includes('index.buy-service')}"> Buy Service <span class="menu-icon fa fa-shopping-cart"></span></a>
+                </li>
+
+                <li class="sidebar-list" ng-show="hasRole('Customer')">
+                    <a href="javascript:void(0)" ng-click="$state.go('index.customer-services')"
+                       ng-class="{active: $state.includes('index.customer-services')}"> My Services <span class="menu-icon fa fa-cogs"></span></a>
+                </li>
+
+                <div ng-show="hasRole('Administrator')">
+                    <li class="sidebar-title"><span>ADMIN</span></li>
+                    <li class="sidebar-list">
+                        <a href="javascript:void(0)" ng-click="$state.go('index.users.list')" ng-class="{active: $state.includes('index.users')}">User Management <span class="menu-icon fa fa-users"></span></a>
+                    </li>
+                </div>
+            </ul>
+            <div class="sidebar-footer">
+                <div class="col-xs-12">
+
+                    <a href="http://www.pasiphae.eu" target="_blank">
+                        Powered by Pasiphae
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- End Sidebar -->
+
+        <div id="content-wrapper">
+            <div class="page-content">
+
+                <!-- Header Bar -->
+                <div class="row header" ng-class="{'open': toggle}">
+                    <div class="col-xs-12">
+                        <div class="user pull-right">
+
+                            <span uib-dropdown class="user-menu-dropdown">
+                              <span uib-dropdown-toggle>
+                              [[user_profile.username]] <span class="caret"></span>
+                              </span>
+                                  <ul uib-dropdown-menu class="pull-right">
+                                      <li role="menuitem"><a href="javascript:void(0)" ng-click="$state.go('index.profile')"><i class="fa fa-user"></i> Profile</a></li>
+                                      <li role="menuitem"><a href="javascript:void(0)" ng-click="logout()"><i class="fa fa-sign-out"></i> Logout</a></li>
+                                  </ul>
+                                </span>
+
+                        </div>
+
+                        <div class="meta">
+                            <div class="page">
+                                Dashboard
+                            </div>
+                            <div class="breadcrumb-links">
+                                Home / Dashboard
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Header Bar -->
+
+                <!-- Main Content -->
+                <div class="row main-content">
+                    <!-- <div class="col-xs-12">  </div>-->
+                    <div ui-view></div>
+                </div>
+                <!-- End Page Content -->
+
+            </div>
+            <!-- End Content Wrapper -->
+        </div>
+        <!-- End Page Wrapper -->
+    </div>
+
+</div>
+

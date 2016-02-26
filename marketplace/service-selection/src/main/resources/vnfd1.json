@@ -1,0 +1,459 @@
+{
+  "provider_id": 5,
+  "vdu": [
+    {
+      "resource_requirements": {
+        "network_interface_bandwidth_unit": "",
+        "hypervisor_parameters": {
+          "version": "10002|12001|2.6.32-358.el6.x86_64",
+          "type": "QEMU-KVM"
+        },
+        "memory_unit": "GB",
+        "network_interface_card_capabilities": {
+          "SR-IOV": true,
+          "mirroring": false
+        },
+        "storage": {
+          "size_unit": "GB",
+          "persistence": false,
+          "size": 80
+        },
+        "network_interface_bandwidth": "",
+        "platform_pcie_parameters": {
+          "SR-IOV": true,
+          "device_pass_through": true
+        },
+        "vcpus": 8,
+        "vswitch_capabilities": {
+          "version": "2.0",
+          "type": "ovs",
+          "overlay_tunnel": "GRE"
+        },
+        "data_processing_acceleration_library": "",
+        "memory": 8,
+        "memory_parameters": {
+          "large_pages_required": false,
+          "numa_allocation_policy": ""
+        },
+        "cpu_support_accelerator": "AES-NI"
+      },
+      "vm_image": "http://83.212.108.105:8080/NFS/files/4-pfsense.img",
+      "vm_image_format": "raw",
+      "networking_resources": "",
+      "id": "vdu0",
+      "alias": "pfsense",
+      "connection_points": [
+        {
+          "vlink_ref": "vl0",
+          "id": "cp0"
+        },
+        {
+          "vlink_ref": "vl1",
+          "id": "cp1"
+        },
+        {
+          "vlink_ref": "vl2",
+          "id": "cp2"
+        }
+      ],
+      "monitoring_parameters": [
+        {
+          "metric": "availability",
+          "unit": "%",
+          "desc": "Availability"
+        },
+        {
+          "metric": "cpu_usage",
+          "unit": "%",
+          "desc": "CPU Usage"
+        },
+        {
+          "metric": "memory_usage",
+          "unit": "%",
+          "desc": "Memory Usage"
+        },
+        {
+          "metric": "memory_used",
+          "unit": "MB",
+          "desc": "Memory Used"
+        },
+        {
+          "metric": "memory_free",
+          "unit": "MB",
+          "desc": "Free Memory"
+        },
+        {
+          "metric": "disk_io",
+          "unit": "MB/sec",
+          "desc": "Disk IO"
+        },
+        {
+          "metric": "disk_free",
+          "unit": "GB",
+          "desc": "Available Disk Space"
+        },
+        {
+          "metric": "bps_in",
+          "unit": "Mbps",
+          "desc": "Incoming Bandwidth"
+        },
+        {
+          "metric": "bps_out",
+          "unit": "Mbps",
+          "desc": "Outgoing Bandwidth"
+        }
+      ],
+      "vm_image_md5": "2345094b3b92832abb35162a61f6aa03",
+      "scale_in_out": {
+        "minimum": 1,
+        "maximum": 1
+      }
+    },
+    {
+      "resource_requirements": {
+        "network_interface_bandwidth_unit": "",
+        "hypervisor_parameters": {
+          "version": "10002|12001|2.6.32-358.el6.x86_64",
+          "type": "QEMU-KVM"
+        },
+        "memory_unit": "GB",
+        "network_interface_card_capabilities": {
+          "SR-IOV": true,
+          "mirroring": false
+        },
+        "storage": {
+          "size_unit": "GB",
+          "persistence": false,
+          "size": 60
+        },
+        "network_interface_bandwidth": "",
+        "platform_pcie_parameters": {
+          "SR-IOV": true,
+          "device_pass_through": true
+        },
+        "vcpus": 4,
+        "vswitch_capabilities": {
+          "version": "2.0",
+          "type": "ovs",
+          "overlay_tunnel": "GRE"
+        },
+        "data_processing_acceleration_library": "",
+        "memory": 4,
+        "memory_parameters": {
+          "large_pages_required": false,
+          "numa_allocation_policy": ""
+        },
+        "cpu_support_accelerator": "AES-NI"
+      },
+      "vm_image": "http://83.212.108.105:8080/NFS/files/4-pfsense.img",
+      "vm_image_format": "raw",
+      "networking_resources": "",
+      "id": "vdu1",
+      "alias": "pfsense",
+      "connection_points": [
+        {
+          "vlink_ref": "vl3",
+          "id": "cp3"
+        },
+        {
+          "vlink_ref": "vl4",
+          "id": "cp4"
+        },
+        {
+          "vlink_ref": "vl5",
+          "id": "cp5"
+        }
+      ],
+      "monitoring_parameters": [
+        {
+          "metric": "availability",
+          "unit": "%",
+          "desc": "Availability"
+        },
+        {
+          "metric": "cpu_usage",
+          "unit": "%",
+          "desc": "CPU Usage"
+        },
+        {
+          "metric": "memory_usage",
+          "unit": "%",
+          "desc": "Memory Usage"
+        },
+        {
+          "metric": "memory_used",
+          "unit": "MB",
+          "desc": "Memory Used"
+        },
+        {
+          "metric": "memory_free",
+          "unit": "MB",
+          "desc": "Free Memory"
+        },
+        {
+          "metric": "disk_io",
+          "unit": "MB/sec",
+          "desc": "Disk IO"
+        },
+        {
+          "metric": "disk_free",
+          "unit": "GB",
+          "desc": "Available Disk Space"
+        },
+        {
+          "metric": "bps_in",
+          "unit": "Mbps",
+          "desc": "Incoming Bandwidth"
+        },
+        {
+          "metric": "bps_out",
+          "unit": "Mbps",
+          "desc": "Outgoing Bandwidth"
+        }
+      ],
+      "vm_image_md5": "2345094b3b92832abb35162a61f6aa03",
+      "scale_in_out": {
+        "minimum": 1,
+        "maximum": 1
+      }
+    }
+  ],
+  "name": "pfSense Firewall",
+  "created_at": "2016-01-29T04:44:22Z",
+  "modified_at": "2016-01-29T04:44:22Z",
+  "vlinks": [
+    {
+      "leaf_requirement": "Unlimeted",
+      "connectivity_type": "E-LINE",
+      "vdu_reference": [
+        "vdu0"
+      ],
+      "external_access": true,
+      "connection_points_reference": [
+        "cp0"
+      ],
+      "access": true,
+      "alias": "management",
+      "root_requirement": "Unlimeted",
+      "dhcp": true,
+      "id": "vl0",
+      "qos": ""
+    },
+    {
+      "leaf_requirement": "Unlimeted",
+      "connectivity_type": "E-LINE",
+      "vdu_reference": [
+        "vdu0"
+      ],
+      "external_access": true,
+      "connection_points_reference": [
+        "cp1"
+      ],
+      "access": false,
+      "alias": "data_in",
+      "root_requirement": "Unlimeted",
+      "dhcp": false,
+      "id": "vl1",
+      "qos": ""
+    },
+    {
+      "leaf_requirement": "Unlimeted",
+      "connectivity_type": "E-LINE",
+      "vdu_reference": [
+        "vdu0"
+      ],
+      "external_access": true,
+      "connection_points_reference": [
+        "cp2"
+      ],
+      "access": false,
+      "alias": "data_out",
+      "root_requirement": "Unlimeted",
+      "dhcp": false,
+      "id": "vl2",
+      "qos": ""
+    },
+    {
+      "leaf_requirement": "Unlimeted",
+      "connectivity_type": "E-LINE",
+      "vdu_reference": [
+        "vdu1"
+      ],
+      "external_access": true,
+      "connection_points_reference": [
+        "cp3"
+      ],
+      "access": true,
+      "alias": "management",
+      "root_requirement": "Unlimeted",
+      "dhcp": true,
+      "id": "vl3",
+      "qos": ""
+    },
+    {
+      "leaf_requirement": "Unlimeted",
+      "connectivity_type": "E-LINE",
+      "vdu_reference": [
+        "vdu1"
+      ],
+      "external_access": true,
+      "connection_points_reference": [
+        "cp4"
+      ],
+      "access": false,
+      "alias": "data_in",
+      "root_requirement": "Unlimeted",
+      "dhcp": false,
+      "id": "vl4",
+      "qos": ""
+    },
+    {
+      "leaf_requirement": "Unlimeted",
+      "connectivity_type": "E-LINE",
+      "vdu_reference": [
+        "vdu1"
+      ],
+      "external_access": true,
+      "connection_points_reference": [
+        "cp5"
+      ],
+      "access": false,
+      "alias": "data_out",
+      "root_requirement": "Unlimeted",
+      "dhcp": false,
+      "id": "vl5",
+      "qos": ""
+    }
+  ],
+  "trade": true,
+  "descriptor_version": "1",
+  "deployment_flavours": [
+    {
+      "vdu_reference": [
+        "vdu0"
+      ],
+      "constraint": "",
+      "flavour_key": "gold",
+      "vlink_reference": [
+        "vl0",
+        "vl1",
+        "vl2"
+      ],
+      "id": 0,
+      "assurance_parameters": [
+        {
+          "violation": [
+            {
+              "interval": 360,
+              "breaches_count": 2
+            }
+          ],
+          "value": 30,
+          "penalty": {
+            "type": "Discount",
+            "expression": 10,
+            "validity": "2PD",
+            "unit": "packets"
+          },
+          "formula": "packets_dropped GT 30",
+          "rel_id": "param0",
+          "id": "packets_dropped",
+          "unit": "packets"
+        }
+      ]
+    },
+    {
+      "vdu_reference": [
+        "vdu1"
+      ],
+      "constraint": "",
+      "flavour_key": "silver",
+      "vlink_reference": [
+        "vl3",
+        "vl4",
+        "vl5"
+      ],
+      "id": 1,
+      "assurance_parameters": [
+        {
+          "violation": [
+            {
+              "interval": 360,
+              "breaches_count": 2
+            }
+          ],
+          "value": 100,
+          "penalty": {
+            "type": "Discount",
+            "expression": 8,
+            "validity": "2PD",
+            "unit": "packets"
+          },
+          "formula": "packets_dropped GT 100",
+          "rel_id": "param0",
+          "id": "packets_dropped",
+          "unit": "packets"
+        }
+      ]
+    }
+  ],
+  "version": "1",
+  "vnf_lifecycle_events": [
+    {
+      "authentication_username": "ubuntu",
+      "driver": "ssh",
+      "authentication_type": "PubKeyAuthentication",
+      "authentication": "<<SSH KEY>>",
+      "events": {
+        "start": {
+          "command": "service xxx start",
+          "template_file": "<< lifecycle event template >>",
+          "template_file_format": "JSON"
+        },
+        "stop": {
+          "command": "service xxx stop",
+          "template_file": "<< lifecycle event template >>",
+          "template_file_format": "JSON"
+        },
+        "restart": {
+        }
+      },
+      "flavor_id_ref": "flavor0"
+    },
+    {
+      "authentication_username": "ubuntu",
+      "driver": "ssh",
+      "authentication_type": "PubKeyAuthentication",
+      "authentication": "<<SSH KEY>>",
+      "events": {
+        "start": {
+          "command": "service xxx start",
+          "template_file": "<< lifecycle event template >>",
+          "template_file_format": "JSON"
+        },
+        "stop": {
+          "command": "service xxx stop",
+          "template_file": "<< lifecycle event template >>",
+          "template_file_format": "JSON"
+        },
+        "restart": {
+        }
+      },
+      "flavor_id_ref": "flavor1"
+    }
+  ],
+  "billing_model": {
+    "model": "PAYG",
+    "price": {
+      "min_per_period": 20,
+      "max_per_period": 60,
+      "setup": 30,
+      "unit": "EUR"
+    }
+  },
+  "provider": "NCSR Demokritos",
+  "release": "T-NOVA",
+  "id": 31,
+  "type": "FW",
+  "description": "pfSense Firewall Description"
+}

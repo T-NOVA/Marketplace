@@ -1,0 +1,1 @@
+curl -u user:password -H "Content-type: application/xml" -d@%1 -X POST localhost:8080/sla-service/enforcements/

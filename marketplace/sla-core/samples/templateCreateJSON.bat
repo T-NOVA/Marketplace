@@ -1,0 +1,1 @@
+curl -u user:password -H "Content-type: application/json" -H "Accept: application/json" -d@%1 http://localhost:8080/sla-service/templates -X POST

@@ -1,0 +1,57 @@
+<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="ImageUploadCtrl.closeModal()" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><i class="fa fa-upload"></i> Image Upload</h4>
+            </div>
+            <div class="modal-body">
+                <div ng-controller="ImageUploadCtrl">
+                  <h4>Upload on file select</h4>
+
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label>Image MD5</label>
+                            <input type="text" ng-model="image_md5sum">
+
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label>Image Type</label>
+
+                            <select ng-model="image_file_type" >
+                                  <option value="ami">AMI</option>
+                                  <option value="ari">ARI</option>
+                                  <option value="aki">AKI</option>
+                                  <option value="vhd">VHD</option>
+                                  <option value="vmdk">VMDK</option>
+                                  <option value="raw">RAW</option>
+                                  <option value="qcow2">QCOW2</option>
+                                  <option value="vdi">VDI</option>
+                                  <option value="iso">ISO</option>
+                                </select>
+                        </div>
+                    </div>
+
+                  <button type="file" ngf-select="upload($file)" accept="*" ngf-max-height="1000">Select File</button>
+                  <br><br>
+
+                  File: [[ image_upload_filename ]]
+                     <div class="progress">
+                      <div class="progress-bar" role="progressbar" aria-valuenow="[[image_upload_progress]]" aria-valuemin="0" aria-valuemax="100" style="width:[[image_upload_progress]]%;">
+                        <span>[[image_upload_progress]]%</span>
+                      </div>
+                    </div>
+                    <div>
+                        <span ng-show="image_upload_completed">Completed!</span>
+                        <span ng-show="image_upload_failed">Failed, [[ image_upload_failed_message ]]</span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" ng-click="ImageUploadCtrl.closeModal()" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

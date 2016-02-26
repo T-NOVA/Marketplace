@@ -1,0 +1,18 @@
+######################## PROVIDE CREDENTIALS ####################
+# Connection to the TimeSeries database
+InfluxDBURL=http://localhost:8086
+InfluxDBPassword=root
+InfluxDBUsername=root
+
+######################## ADVANCED SETTINGS ######################
+# For this case, we are using Cloudstack usecase
+Environment=Cloudstack
+dbName=rc_service
+
+# Cyclops RCB endpoints
+UDRServiceUrl=http://localhost:8080/udr
+RuleEngineUrl=http://localhost:8080/ruleengine/
+RCServiceUrl=http://localhost:8080/rc
+
+# Frequency has to be in seconds
+SchedulerFrequency=300

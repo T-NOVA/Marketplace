@@ -1,0 +1,1 @@
+curl -u user:password -H "Accept: application/xml" -H "Content-type: application/xml" -d@%1 localhost:8080/sla-service/agreements -X POST

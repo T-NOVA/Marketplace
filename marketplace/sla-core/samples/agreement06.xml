@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<wsag:Agreement  xmlns:wsag="http://www.ggf.org/namespaces/ws-agreement" xmlns:sla="http://sla.atos.eu" wsag:AgreementId="agreement06">
+	<wsag:Name>ExampleAgreement</wsag:Name>
+		<wsag:Context>
+			<wsag:AgreementInitiator>client-prueba</wsag:AgreementInitiator>
+			<wsag:AgreementResponder>provider01</wsag:AgreementResponder>
+			<wsag:ServiceProvider>AgreementResponder</wsag:ServiceProvider>
+			<wsag:ExpirationTime>2014-03-07T12:00:00+0100</wsag:ExpirationTime>
+			<wsag:TemplateId>template02</wsag:TemplateId>
+			<sla:Service>service5</sla:Service>
+		</wsag:Context>
+		<wsag:Terms>
+			<wsag:All>
+				<wsag:ServiceProperties wsag:Name="ServiceProperties" wsag:ServiceName="ServiceName">
+					<wsag:VariableSet>
+						<wsag:Variable wsag:Name="metric1" wsag:Metric="xs:double">
+							<wsag:Location>metric1</wsag:Location>
+						</wsag:Variable>
+						<wsag:Variable wsag:Name="metric2" wsag:Metric="xs:double">
+							<wsag:Location>metric2</wsag:Location>
+						</wsag:Variable>
+						<wsag:Variable wsag:Name="metric3" wsag:Metric="xs:double">
+							<wsag:Location>metric3</wsag:Location>
+						</wsag:Variable>
+						<wsag:Variable wsag:Name="metric4" wsag:Metric="xs:double">
+							<wsag:Location>metric4</wsag:Location>
+						</wsag:Variable>
+					</wsag:VariableSet>
+				</wsag:ServiceProperties>
+					<wsag:GuaranteeTerm wsag:Name="GT_Metric1">
+					<wsag:ServiceScope wsag:ServiceName="ServiceName"></wsag:ServiceScope>
+					<wsag:ServiceLevelObjective>
+						<wsag:KPITarget>
+							<wsag:KPIName>metric1</wsag:KPIName>
+							<wsag:CustomServiceLevel>
+							{"constraint" : "metric1 BETWEEN (0.05, 1)"}						
+							</wsag:CustomServiceLevel>
+						</wsag:KPITarget>
+					</wsag:ServiceLevelObjective>
+					</wsag:GuaranteeTerm>
+					<wsag:GuaranteeTerm wsag:Name="GT_Metric2">
+						<wsag:ServiceScope wsag:ServiceName="ServiceName"></wsag:ServiceScope>
+						<wsag:ServiceLevelObjective>
+						<wsag:KPITarget>
+							<wsag:KPIName>metric2</wsag:KPIName>
+							<wsag:CustomServiceLevel>
+								{"constraint" : "metric2 BETWEEN (0.1, 1)"}						
+							</wsag:CustomServiceLevel>
+						</wsag:KPITarget>
+					</wsag:ServiceLevelObjective>
+					</wsag:GuaranteeTerm>
+					<wsag:GuaranteeTerm wsag:Name="GT_Metric3">
+						<wsag:ServiceScope wsag:ServiceName="ServiceName"></wsag:ServiceScope>
+						<wsag:ServiceLevelObjective>
+							<wsag:KPITarget>
+								<wsag:KPIName>metric3</wsag:KPIName>
+								<wsag:CustomServiceLevel>
+								{"constraint" : "metric3 BETWEEN (0.15, 1)"}						
+							</wsag:CustomServiceLevel>
+							</wsag:KPITarget>
+						</wsag:ServiceLevelObjective>
+					</wsag:GuaranteeTerm>
+					<wsag:GuaranteeTerm wsag:Name="GT_Metric4">
+						<wsag:ServiceScope wsag:ServiceName="ServiceName"></wsag:ServiceScope>
+						<wsag:ServiceLevelObjective>
+						<wsag:KPITarget>
+							<wsag:KPIName>metric4</wsag:KPIName>
+							<wsag:CustomServiceLevel>
+								{"constraint" : "metric4 BETWEEN (0.2, 1)"}						
+							</wsag:CustomServiceLevel>
+						</wsag:KPITarget>
+						</wsag:ServiceLevelObjective>
+					</wsag:GuaranteeTerm>
+				</wsag:All>
+			</wsag:Terms>
+		</wsag:Agreement>

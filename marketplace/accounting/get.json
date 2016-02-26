@@ -1,0 +1,26 @@
+
+{
+   "count": 2,
+   "next": null,
+   "previous": null,
+   "results": [
+      {
+         "id": 1
+         "name": "xxxx",
+         "description": "xxxxx",
+         "price": "xx",
+         "provider": "xxxx",
+         "USDL": "XXX",
+         "SLA": "XXXX" 
+      },
+      {
+         "id": 2
+         "name": "yyyy",
+         "description": "yyyyy",
+         "price": "yy",
+         "provider": "yyyy",
+         "USDL": "yyy",
+         "SLA": "yyyy" 
+      } 
+   ] 
+}

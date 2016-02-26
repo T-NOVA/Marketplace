@@ -1,0 +1,22 @@
+# User management, Authentication and Access Control Microservice Perimissions
+umaa:
+ - view_own_profile: "Can view own profile"
+ - edit_own_profile: "Can edit own profile"
+ - list_all_users: "Can list all users"
+ - create_user: "Can create user"
+ - edit_user: "Can edit user"
+ - delete_user: "Can delete user"
+
+# VNFs Management Microservice
+vnfs:
+ - create_own_vnfs: "Can create own vnf"
+ - view_own_vnfs: "Can view own vnfs"
+ - edit_own_vnfs: "Can edit own vnfs"
+ - delete_own_vnfs: "Can delete own vnf"
+ - list_all_vnfs: "Can list all vnfs"
+ - edit_all_vnfs: "Can edit vnf"
+ - delete_all_vnfs: "Can delete vnf"
+
+# Broker Microservice
+broker:
+ - list_all_vnfs: "Can list all vnfs"

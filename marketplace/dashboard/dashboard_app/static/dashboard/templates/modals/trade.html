@@ -1,0 +1,64 @@
+<div class="modal fade">
+    <div class="modal-dialog vnfd-editor">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="close(false)" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">VNF Trade Request</h4>
+            </div>
+            <div class="modal-body">
+
+                            <div class="table-responsive" id="no-more-tables">
+                                <table class="table table-hover table-striped">
+                                    <tbody>
+                                    <tr>
+                                        <th>VNF</th>
+                                        <th>SLA</th>
+                                    </tr>
+                                    <tr ng-repeat="vnfd in vnfds">
+
+                                        <td data-title="Name">
+                                            <div>
+                                                [[vnfd.name]] ([[vnfd.provider]])
+                                            </div>
+                                            <div>
+                                                &euro;[[ vnfd.billing_model.price.max_per_period ]]/Period + &euro;[[ vnfd.billing_model.price.setup ]] Setup
+                                            </div>
+                                        </td>
+                                        <td data-title="SLA">
+                                            <ul>
+                                                <li ng-repeat="flavour in vnfd.deployment_flavours">
+                                                    <span>[[ flavour.flavour_key]]</span>
+                                                    <ul>
+                                                        <li ng-repeat="par in flavour.assurance_parameters">
+                                                            <div>
+                                                                [[ par.formula ]][[ par.unit ]] ([[par.penalty.expression]]% [[par.penalty.type]] [[par.penalty.validity]])
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+
+                                        </td>
+
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                <div class="form-group col-md-4 col-sm-12">
+                    <label>New Price/Period</label>
+                    <input class="form-control" type="number" ng-model="new_price">
+                </div>
+                <div class="form-group col-md-4 col-sm-12">
+                    <label>New Setup Price</label>
+                    <input class="form-control" type="number" ng-model="new_setup_price">
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="sendTradeRequest(10)">Send Request</button>
+                <button type="button" ng-click="close()" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

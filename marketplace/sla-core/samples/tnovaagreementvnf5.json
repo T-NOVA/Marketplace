@@ -1,0 +1,115 @@
+{
+    "context": {
+        "agreementInitiator": "p6", 
+        "agreementResponder": "f5", 
+        "service": "TC / should an ontology be defined or this is free text input?", 
+        "serviceProvider": "AgreementResponder", 
+        "templateId": "vnfvnf5gold"
+    }, 
+    "name": "vnf5gold", 
+    "agreementId": "vnfidf51", 
+    "terms": {
+        "allTerms": {
+            "guaranteeTerms": [
+                {
+                    "businessValueList": {
+                        "customBusinessValue": [
+                            {
+                                "count": 1, 
+                                "penalties": [
+                                    {
+                                        "expression": 5, 
+                                        "type": "discount", 
+                                        "unit": "%", 
+                                        "validity": "P1D"
+                                    }
+                                ]
+                            }
+                        ]
+                    }, 
+                    "name": "pepitovnf5", 
+                    "qualifyingCondition": null, 
+                    "serviceLevelObjetive": {
+                        "kpitarget": {
+                            "customServiceLevel": " { \"policies\": [ { \"count\" : 2, \"interval\": 30 } ], \"constraint\" : \"pepitovnf5 GT 0.5\" }", 
+                            "kpiName": "pepitovnf5"
+                        }
+                    }, 
+                    "serviceScope": null
+                }, 
+                {
+                    "businessValueList": {
+                        "customBusinessValue": [
+                            {
+                                "count": 1, 
+                                "penalties": [
+                                    {
+                                        "expression": 5, 
+                                        "type": "discount", 
+                                        "unit": "%", 
+                                        "validity": "P1D"
+                                    }
+                                ]
+                            }
+                        ]
+                    }, 
+                    "name": "juanitovnf5", 
+                    "qualifyingCondition": null, 
+                    "serviceLevelObjetive": {
+                        "kpitarget": {
+                            "customServiceLevel": " { \"policies\": [ { \"count\" : 2, \"interval\": 30 } ], \"constraint\" : \"juanitovnf5 GT 0.7\" }", 
+                            "kpiName": "juanitovnf5"
+                        }
+                    }, 
+                    "serviceScope": null
+                }
+            ], 
+            "serviceDescriptionTerm": {
+                "name": "requirements", 
+                "requirements": [
+                    {
+                        "name": "virt_mem_res_element",
+                        "value": 6,
+                        "unit": "GB" 
+                    },
+                    {
+                        "name": "CPU",
+                        "value": 6,
+                        "unit": "cores"
+                    },
+                    {
+                        "name": "TLB size",
+                        "value": 1024, 
+                        "unit": ""
+                    },
+                    {   
+                        "name": "storage",
+                        "value": 20,
+                        "unit": "GB"
+                    }
+                ], 
+                "serviceName": "calls5k"
+            }, 
+            "serviceProperties": [
+                {
+                    "name": "MonitoredMetrics", 
+                    "serviceName": "default", 
+                    "variableSet": {
+                        "variables": [
+                            {
+                                "location": "/monitor/pepitovnf5", 
+                                "metric": "xs:double", 
+                                "name": "pepitovnf5"
+                            }, 
+                            {
+                                "location": "/monitor/juanitovnf5", 
+                                "metric": "xs:double", 
+                                "name": "juanitovnf5"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    }
+}

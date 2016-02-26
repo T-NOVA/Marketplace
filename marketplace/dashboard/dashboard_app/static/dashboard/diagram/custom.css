@@ -1,0 +1,112 @@
+#paper{
+    /*border: 1px dotted lightgray;*/
+    font-family: Verdana, Geneva, sans-serif;
+}
+
+
+/*/!* elements *!/*/
+
+.devs text {
+    /*text-transform: uppercase;*/
+    /*font-weight: 700;*/
+}
+
+.devs .body.vnf {
+    fill: #ffffff;
+    stroke: #464646;
+    stroke-width: 2px;
+}
+
+.devs .body.vdu {
+    fill: #ffffff;
+    stroke: #63a3c9;
+    stroke-width: 4px;
+}
+
+/*.devs .ext-net .label {*/
+    /*fill: #31d0c6;*/
+    /*font-size: 30px;*/
+/*}*/
+
+/*.devs .vdu .label {*/
+    /*fill: #31d0c6;*/
+    /*font-size: 16px;*/
+/*}*/
+
+.devs .port-body {
+    stroke: #ffffff;
+    stroke-width: 2px;
+    fill: #fea500;
+}
+
+.devs .body.net {
+    fill: rgba(255, 255, 255, 0);
+    stroke: rgba(255, 255, 255, 0);
+    stroke-width: 0px;
+}
+
+.devs .body.ext-net {
+    stroke-width: 6px;
+}
+
+.devs .vdu text{
+    font-size: 12px;
+}
+
+.devs .vdu text.label{
+    font-size: 14px;
+}
+
+.devs .vdu text.iamge-label{
+    font-size: 11px;
+}
+
+/*.devs .port-body:hover {*/
+    /*opacity: 1;*/
+    /*fill: #ff7e5d;*/
+/*}*/
+
+.devs .port-label {
+    fill: #464646;
+    font-size: 12px;
+}
+
+/*.devs.Atomic .body {*/
+    /*stroke: #feb663;*/
+/*}*/
+
+.devs .label.ext-net {
+    font-size: 12px;
+}
+
+/*/!* links *!/*/
+
+.link .connection {
+    /*stroke: #4B4F6A;*/
+    stroke-width: 6px;
+}
+
+/*.link .marker-arrowhead, .link .marker-vertex {*/
+    /*fill: #31D0C6;*/
+/*}*/
+/*.link .marker-arrowhead:hover {*/
+    /*fill: #F39C12;*/
+/*}*/
+
+/*.link-tools .tool-remove circle {*/
+    /*fill: #fe854f;*/
+/*}*/
+
+/*/!* highlighting *!/*/
+
+/*.devs.highlighted-parent .body {*/
+    /*stroke: #fe854f;*/
+    /*transition: stroke 1s;*/
+/*}*/
+
+/*.devs.highlighted-parent .label {*/
+    /*fill: #fe854f;*/
+    /*transition: fill 1s;*/
+    /*text-decoration: underline;*/
+/*}*/
+

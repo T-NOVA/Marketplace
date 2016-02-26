@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<wsag:Agreement xmlns:wsag="http://www.ggf.org/namespaces/ws-agreement" xmlns:sla="http://sla.atos.eu" wsag:AgreementId="agreement02">
+  <wsag:Name/>
+  <wsag:Context>
+    <wsag:AgreementInitiator>RandomClient</wsag:AgreementInitiator>
+    <wsag:AgreementResponder>provider-prueba</wsag:AgreementResponder>
+    <wsag:ServiceProvider>AgreementResponder</wsag:ServiceProvider>
+    <wsag:ExpirationTime>2015-11-05T12:38:10GMT</wsag:ExpirationTime>
+    <wsag:TemplateId>template-2007-12-04</wsag:TemplateId>
+    <sla:Service>ExampleService</sla:Service>
+  </wsag:Context>
+  <wsag:Terms>
+    <wsag:All>
+      <wsag:ServiceDescriptionTerm/>
+      <wsag:GuaranteeTerm wsag:Name="login">
+        <wsag:ServiceScope wsag:ServiceName="service">eHealth-ws/login</wsag:ServiceScope>
+        <wsag:ServiceLevelObjective>
+          <wsag:KPITarget>
+            <wsag:KPIName>ResponseTime</wsag:KPIName>
+            <wsag:CustomServiceLevel>{"constraint": "v1 NOT_EXISTS", "qos": {"hasMaxValue":10000.0}, "aggregation": {"parameters":[],"aggregateFunction":"Average"}}</wsag:CustomServiceLevel>
+          </wsag:KPITarget>
+        </wsag:ServiceLevelObjective>
+      </wsag:GuaranteeTerm>
+      <wsag:GuaranteeTerm wsag:Name="ListOfPatients">
+        <wsag:ServiceScope wsag:ServiceName="service">eHealth-ws/ListOfPatients</wsag:ServiceScope>
+        <wsag:ServiceLevelObjective>
+          <wsag:KPITarget>
+            <wsag:KPIName>ResponseTime</wsag:KPIName>
+            <wsag:CustomServiceLevel>{"constraint": "v3 NOT_EXISTS", "qos": {"hasMaxValue":20000.0}, "aggregation": {"parameters":[],"aggregateFunction":"Average"}}</wsag:CustomServiceLevel>
+          </wsag:KPITarget>
+        </wsag:ServiceLevelObjective>
+      </wsag:GuaranteeTerm>
+      <wsag:GuaranteeTerm wsag:Name="ListOfClinicians">
+        <wsag:ServiceScope wsag:ServiceName="service">eHealth-ws/ListOfClinicians</wsag:ServiceScope>
+        <wsag:ServiceLevelObjective>
+          <wsag:KPITarget>
+            <wsag:KPIName>ResponseTime</wsag:KPIName>
+            <wsag:CustomServiceLevel>{"constraint": "v2 NOT_EXISTS", "qos": {"hasMaxValue":30000.0}, "aggregation": {"parameters":[],"aggregateFunction":"Average"}}</wsag:CustomServiceLevel>
+          </wsag:KPITarget>
+        </wsag:ServiceLevelObjective>
+      </wsag:GuaranteeTerm>
+    </wsag:All>
+  </wsag:Terms>
+</wsag:Agreement>

@@ -1,0 +1,1 @@
+curl -u user:password -H "Accept: application/xml" "http://localhost:8080/sla-service/agreements/agreementsPerTemplateAndConsumer?consumerId=%1&templateUUID=%2"

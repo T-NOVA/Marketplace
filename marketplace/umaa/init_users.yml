@@ -1,0 +1,34 @@
+- username: admin
+  password: 123456
+  email: g.alexiou@pasiphae.eu
+  company_name: TEIC
+  groups:
+   - Administrator
+
+- username: customer1
+  password: 123456
+  email: customer1@t-nova.eu
+  company_name: TEIC
+  groups:
+   - Customer
+
+- username: sp1
+  password: 123456
+  email: sp1@t-nova.eu
+  company_name: T-NOVA
+  groups:
+   - Service Provider
+
+- username: fp1
+  password: 123456
+  email: fp1@t-nova.eu
+  company_name: TEIC
+  groups:
+   - Function Provider
+
+- username: fp2
+  password: 123456
+  email: fp2@t-nova.eu
+  company_name: NCSR Demokritos
+  groups:
+   - Function Provider

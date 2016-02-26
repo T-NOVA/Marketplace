@@ -1,0 +1,153 @@
+dnsdock:
+ image: tonistiigi/dnsdock
+ hostname: dnsdock
+ restart: always
+ ports:
+#   - 8080:80
+   - 172.17.0.1:53:53/udp
+ volumes:
+   - /var/run/docker.sock:/var/run/docker.sock
+
+mysql:
+  build: mysql/
+  environment:
+    MYSQL_USER: admin
+    MYSQL_PASS: DgGz6fnp
+    STARTUP_SQL: /tmp/init/*.sql
+  ports:
+    - 3306:3306
+#  volumes:
+#    - /data/mysql:/var/lib/mysql
+
+mongodb:
+  build: mongodb/
+#  volumes:
+#    - /data/mongodb:/data/db
+  ports:
+    - 27017:27017
+  command: mongod --smallfiles
+
+dashboard:
+  build: dashboard/
+
+umaa:
+  build: umaa/
+  volumes:
+    - ./umaa/keys:/keys
+  links:
+    - mysql
+  dns:
+    - 172.17.0.1
+  environment:
+    - DNSDOCK_ALIAS=umaa.docker
+
+vnfs:
+  build: vnfs/
+  links:
+    - mongodb
+  volumes_from:
+    - umaa
+  ports:
+    - 5000:5000
+  dns:
+    - 172.17.0.1
+  environment:
+    - DNSDOCK_ALIAS=vnfs.docker
+
+broker:
+  build: broker/
+  links:
+    - mongodb
+  volumes_from:
+    - umaa
+  dns:
+    - 172.17.0.1
+  environment:
+    - DNSDOCK_ALIAS=broker.docker
+
+servicecatalog:
+  build: service-catalog/
+  links:
+    - mongodb
+#  volumes_from:
+#    - umaa
+  dns:
+    - 172.17.0.1
+  ports:
+    - 42050:42050
+  environment:
+    - DNSDOCK_ALIAS=bsc.docker,service-catalog.docker
+
+serviceselection:
+  build: service-selection/
+  links:
+    - mongodb
+#  volumes_from:
+#    - umaa
+  dns:
+    - 172.17.0.1
+  ports:
+    - 42055:42055
+  environment:
+    - DNSDOCK_ALIAS=service-selection.docker
+
+billing:
+  build: cyclops/docker-files/cyclops-aio
+  privileged: true
+  # need to link them because of the dns ipv4 resolve problem
+  links:
+    - accounting
+  cap_add:
+    - SYS_PTRACE
+  dns:
+    - 172.17.0.1
+#  ports:
+#    - 8080:8080
+#    - 8083:8083
+#    - 8086:8086
+  environment:
+    - DNSDOCK_ALIAS=cyclops.docker
+
+accounting:
+  build: accounting/
+  links:
+    - mysql
+ # volumes_from:
+ #   - umaa
+ # ports:
+ #   - 9000:8000
+  dns:
+    - 172.17.0.1
+  environment:
+    - DNSDOCK_ALIAS=accounting.docker
+
+sla:
+  build: sla-core/
+  links:
+    - mysql
+#  volumes_from:
+#    - umaa
+  dns:
+    - 172.17.0.1
+  ports:
+    - 9040:9040
+  environment:
+    - DNSDOCK_ALIAS=sla.docker
+
+proxy:
+  build: proxy/
+  links:
+    - umaa
+    - vnfs
+    - broker
+    - billing
+    - accounting
+    - servicecatalog
+    - serviceselection
+    - dashboard
+  ports:
+    - 80:80
+  dns:
+    - 172.17.0.1
+  environment:
+    - DNSDOCK_ALIAS=proxy.docker,web.docker

@@ -1,0 +1,111 @@
+{
+   "templateId":"VNF3a2971d0-2eae-11e5-a2cb-0800200c9a66calls5k",
+   "context":{
+      "agreementInitiator":"providerajax",
+      "agreementResponder":null,
+      "serviceProvider":"AgreementInitiator",
+      "templateId":"VNF3a2971d0-2eae-11e5-a2cb-0800200c9a66calls5k",
+      "service":"TC"
+   },
+   "name":"Firewall",
+   "terms":{
+      "allTerms":{
+         "serviceDescriptionTerm":{
+            "name":"requirements",
+            "serviceName":"calls5k",
+            "requirements": [         
+                {
+                    "name": "RAM", 
+                    "value": 512, 
+                    "unit": "MB"
+                }, 
+                {
+                    "name": "CPU", 
+                    "value": 1, 
+                    "unit": "CORES"
+                }, 
+                {
+                    "name": "Hard Disk", 
+                    "value": 5, 
+                    "unit": "GB"
+                }
+            ] 			
+         },
+         "serviceProperties":[
+            {
+               "name":"MonitoredMetrics",
+               "serviceName":"default",
+               "variableSet":{
+                    "variables":[
+                        {
+                            "name": "memory-consumption",
+                            "metric": "xs:double",
+                            "location": "/monitor/memory-consumption"
+                        },
+                        {
+                            "name": "CPU-utilization",
+                            "metric": "xs:double",
+                            "location": "/monitor/CPU-utilization"
+                        }
+                    ]
+               }
+            }
+         ],
+         "guaranteeTerms":[
+            {
+                "name":"memory-consumption",
+                "serviceScope":null,
+                "qualifyingCondition":null,
+                "businessValueList":{
+                    "customBusinessValue":[
+                        {
+                            "count":1,
+                            "penalties":[
+                                {
+                                    "type":"discount",
+                                    "expression":"5",
+                                    "unit":"%",
+                                    "validity":"P1D"
+                                }
+                            ]
+                        }
+                    ]
+                },
+               "serviceLevelObjetive":{
+                    "kpitarget":{
+                        "kpiName":"memory-consumption",
+                        "customServiceLevel":"{\"constraint\" : \"memory-consumption LT 1\"}"
+                    }
+                }
+            },
+            {
+                "name":"CPU-utilization",
+                "serviceScope":null,
+                "qualifyingCondition":null,
+                "businessValueList":{
+                    "customBusinessValue":[
+                        {
+                            "count":1,
+                            "penalties":[
+                                {
+                                    "type":"discount",
+                                    "expression":"5",
+                                    "unit":"%",
+                                    "validity":"P1D"
+                                }
+                            ]
+                        }
+                    ]
+                },
+               "serviceLevelObjetive":{
+                    "kpitarget":{
+                        "kpiName":"CPU-utilization",
+                        "customServiceLevel":"{\"constraint\" : \"CPU-utilization GT 0.7\"}"
+                    }
+                }
+            }
+         ]
+      }
+   }
+}
+

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsag:Agreement xmlns:wsag="http://www.ggf.org/namespaces/ws-agreement" wsag:AgreementId="agreementorion4">
+
+	<wsag:Name>ExampleAgreement</wsag:Name>
+	<wsag:Context>
+		<wsag:AgreementInitiator>client-prueba</wsag:AgreementInitiator>
+		<wsag:AgreementResponder>f4c993580-03fe-41eb-8a21-a56709f9370f</wsag:AgreementResponder>
+		<wsag:ServiceProvider>AgreementResponder</wsag:ServiceProvider>
+		<wsag:ExpirationTime>2014-03-07T12:00:00</wsag:ExpirationTime>
+		<wsag:TemplateId>template02</wsag:TemplateId>
+		<sla:Service xmlns:sla="http://sla.atos.eu">service3</sla:Service>
+	</wsag:Context>
+	<wsag:Terms>
+		<wsag:All>
+			<!--
+			<wsag:ServiceDescriptionTerm Name="SDTName1" ServiceName="ServiceName">
+				{ "servicename": "service-prueba" }
+			</wsag:ServiceDescriptionTerm>
+name: %CPULoad value: 0.27
+name: NrUSERS value: 1
+name: %SWAPfree value: 100
+name: %RAMUsed value: 18
+name: NrProcs value: 76
+name: %DiskUsed value: 91
+name: NrZOMBIEprocs value: 0
+			-->
+			<wsag:ServiceProperties wsag:Name="ServiceProperties" wsag:ServiceName="vm-Trento:193.205.211.85">
+				<wsag:VariableSet>
+					<wsag:Variable wsag:Name="CPULoad" wsag:Metric="xs:double">
+						<wsag:Location>service-prueba/CPULoad</wsag:Location>
+					</wsag:Variable>
+					<wsag:Variable wsag:Name="NrUSERS" wsag:Metric="xs:decimal">
+						<wsag:Location>service-prueba/NrUSERS</wsag:Location>
+					</wsag:Variable>
+					<wsag:Variable wsag:Name="SWAPfree" wsag:Metric="xs:double">
+						<wsag:Location>service-prueba/SWAPfree</wsag:Location>
+					</wsag:Variable>
+					<wsag:Variable wsag:Name="RAMUsed" wsag:Metric="xs:double">
+						<wsag:Location>service-prueba/RAMUsed</wsag:Location>
+					</wsag:Variable>
+					<wsag:Variable wsag:Name="NrProcs" wsag:Metric="xs:decimal">
+						<wsag:Location>service-prueba/NrProcs</wsag:Location>
+					</wsag:Variable>
+					<wsag:Variable wsag:Name="DiskUsed" wsag:Metric="xs:double">
+						<wsag:Location>service-prueba/DiskUsed</wsag:Location>
+					</wsag:Variable>
+					<wsag:Variable wsag:Name="NrZOMBIEprocs" wsag:Metric="xs:decimal">
+						<wsag:Location>service-prueba/NrZOMBIEprocs</wsag:Location>
+					</wsag:Variable>
+				</wsag:VariableSet>
+			</wsag:ServiceProperties>
+			<wsag:GuaranteeTerm wsag:Name="GT_CPUTime">
+				<wsag:ServiceScope wsag:ServiceName="vm-Trento:193.205.211.85"/>
+				<wsag:ServiceLevelObjective>
+					<wsag:KPITarget>
+						<wsag:KPIName>CPULoad</wsag:KPIName>
+						<wsag:CustomServiceLevel>
+							{"constraint" : "CPULoad LT 75"}
+						</wsag:CustomServiceLevel>
+					</wsag:KPITarget>
+				</wsag:ServiceLevelObjective>
+			</wsag:GuaranteeTerm>
+			<wsag:GuaranteeTerm wsag:Name="GT_NrUSERS">
+				<wsag:ServiceScope wsag:ServiceName="vm-Trento:193.205.211.85"/>
+				<wsag:ServiceLevelObjective>
+					<wsag:KPITarget>
+						<wsag:KPIName>NrUSERS</wsag:KPIName>
+						<wsag:CustomServiceLevel>
+							{"constraint" : "NrUSERS LE 50"}
+						</wsag:CustomServiceLevel>
+					</wsag:KPITarget>
+				</wsag:ServiceLevelObjective>
+			</wsag:GuaranteeTerm>
+			<wsag:GuaranteeTerm wsag:Name="GT_SWAPfree">
+				<wsag:ServiceScope wsag:ServiceName="vm-Trento:193.205.211.85"/>
+				<wsag:ServiceLevelObjective>
+					<wsag:KPITarget>
+						<wsag:KPIName>SWAPfree</wsag:KPIName>
+						<wsag:CustomServiceLevel>
+							{"constraint" : "SWAPfree GE 20"}
+						</wsag:CustomServiceLevel>
+					</wsag:KPITarget>
+				</wsag:ServiceLevelObjective>
+			</wsag:GuaranteeTerm>
+			<wsag:GuaranteeTerm wsag:Name="GT_RAMUsed">
+				<wsag:ServiceScope wsag:ServiceName="vm-Trento:193.205.211.85"/>
+				<wsag:ServiceLevelObjective>
+					<wsag:KPITarget>
+						<wsag:KPIName>RAMUsed</wsag:KPIName>
+						<wsag:CustomServiceLevel>
+							{"constraint" : "RAMUsed LT 90"}
+						</wsag:CustomServiceLevel>
+					</wsag:KPITarget>
+				</wsag:ServiceLevelObjective>
+			</wsag:GuaranteeTerm>
+			<wsag:GuaranteeTerm wsag:Name="GT_NrProcs">
+				<wsag:ServiceScope wsag:ServiceName="vm-Trento:193.205.211.85"/>
+				<wsag:ServiceLevelObjective>
+					<wsag:KPITarget>
+						<wsag:KPIName>NrProcs</wsag:KPIName>
+						<wsag:CustomServiceLevel>
+							{"constraint" : "NrProcs LT 10"}
+						</wsag:CustomServiceLevel>
+					</wsag:KPITarget>
+				</wsag:ServiceLevelObjective>
+			</wsag:GuaranteeTerm>
+			<wsag:GuaranteeTerm wsag:Name="GT_DiskUsed">
+				<wsag:ServiceScope wsag:ServiceName="vm-Trento:193.205.211.85"/>
+				<wsag:ServiceLevelObjective>
+					<wsag:KPITarget>
+						<wsag:KPIName>DiskUsed</wsag:KPIName>
+						<wsag:CustomServiceLevel>
+							{"constraint" : "DiskUsed BETWEEN (0,85)"}
+						</wsag:CustomServiceLevel>
+					</wsag:KPITarget>
+				</wsag:ServiceLevelObjective>
+			</wsag:GuaranteeTerm>
+			<wsag:GuaranteeTerm wsag:Name="GT_NrZOMBIEprocs">
+				<wsag:ServiceScope wsag:ServiceName="vm-Trento:193.205.211.85"/>
+				<wsag:ServiceLevelObjective>
+					<wsag:KPITarget>
+						<wsag:KPIName>NrZOMBIEprocs</wsag:KPIName>
+						<wsag:CustomServiceLevel>
+							{"constraint" : "NrZOMBIEprocs LT 5"}
+						</wsag:CustomServiceLevel>
+					</wsag:KPITarget>
+				</wsag:ServiceLevelObjective>
+			</wsag:GuaranteeTerm>
+		</wsag:All>
+	</wsag:Terms>
+</wsag:Agreement>

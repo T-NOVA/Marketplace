@@ -1,0 +1,1 @@
+curl -u user:password  -H "Accept: application/json" -X DELETE localhost:8080/sla-service/templates/%1

@@ -1,0 +1,64 @@
+{
+   "templateId":"template05",
+   "context":{
+      "agreementInitiator":"fp01",
+      "agreementResponder":null,
+      "serviceProvider":"AgreementInitiator",
+      "templateId":"template01jsontest",
+      "service":"service3",
+      "expirationTime":"2014-03-07T12:00:00CET"
+   },
+   "name":"ExampleTemplate",
+   "terms":{
+      "allTerms":{
+         "serviceDescriptionTerm":{
+            "name":null,
+            "serviceName":null,
+            "requirements": [         
+                {
+                    "name": "RAM", 
+                    "value": 512, 
+                    "unit": "MB"
+                }, 
+                {
+                    "name": "CPU", 
+                    "value": 1, 
+                    "unit": "CORES"
+                }, 
+                {
+                    "name": "Hard Disk", 
+                    "value": 5, 
+                    "unit": "GB"
+                }
+            ] 			
+         },
+         "serviceProperties":[
+            {
+               "name":null,
+               "serviceName":null,
+               "variableSet":null
+            },
+            {
+               "name":null,
+               "serviceName":null,
+               "variableSet":null
+            }
+         ],
+         "guaranteeTerms":[
+            {
+               "name":"FastReaction",
+               "serviceScope":{
+                  "serviceName":"GPS0001",
+                  "value":"               http://www.gps.com/coordsservice/getcoords            "
+               },
+               "serviceLevelObjetive":{
+                  "kpitarget":{
+                     "kpiName":"FastResponseTime",
+                     "customServiceLevel":null
+                  }
+               }
+            }
+         ]
+      }
+   }
+}
