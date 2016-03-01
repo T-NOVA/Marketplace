@@ -46,7 +46,7 @@ public class MyEmbeddedServletContainerCustomizer implements EmbeddedServletCont
             @Override
             public void customize( Connector connector )
             {
-                connector.setAsyncTimeout( 120000 );
+                connector.setAsyncTimeout( 300000 );
 //                                Object defaultMaxThreads = connector.getAttribute("maxThreads");
 //                                connector.setAttribute("maxThreads", MAX_THREADS);
 //                                LOG.info("Changed Tomcat connector maxThreads from " + defaultMaxThreads + " to " + MAX_THREADS);

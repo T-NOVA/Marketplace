@@ -52,7 +52,7 @@ public class TNovaMetricsRetriever implements IMetricsRetriever {
 	private static Logger logger = LoggerFactory.getLogger(TNovaMetricsRetriever.class);
         private static final String NETWORK_SERVICE = "ns";
         private static final String VNF = "vnf";
-        private static final String ORCHESTRATOR_URL = "http://apis.t-nova.eu/orchestrator/instances/";
+        private static final String ORCHESTRATOR_URL = "http://10.10.1.61:4000/instances/";
 
 	
         private static Long DateToUnixtime(Date time) {

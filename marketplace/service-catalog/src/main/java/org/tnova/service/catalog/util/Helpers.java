@@ -153,7 +153,7 @@ public class Helpers
     {
         List<NetworkForwardingPath> paths = new ArrayList<>();
         NetworkForwardingPath path = new NetworkForwardingPath( "nfp1", Arrays.asList( "vld1", "vld2" ),
-            Arrays.asList( "data0", "data1" ), Arrays.asList( new ConstituentVnf( 103, "gold" ) ) );
+            Arrays.asList( "data0", "data1" ), Arrays.asList( new ConstituentVnf( "103", "gold" ) ) );
 
         paths.add( path );
 

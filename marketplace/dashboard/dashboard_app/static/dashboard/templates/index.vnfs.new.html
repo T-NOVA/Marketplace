@@ -239,7 +239,7 @@
                                                             <label>Monitoring Parameters (Generic)</label>
                                                             <ui-select multiple class="form-group" ng-model="vdu.monitoring_parameters" ng-disabled="disabled">
                                                                 <ui-select-match placeholder="">[[$item.desc]] ([[$item.unit]])</ui-select-match>
-                                                                <ui-select-choices repeat="mon_par.metric as mon_par in generic_monitoring_parameters">
+                                                                <ui-select-choices repeat="mon_par in generic_monitoring_parameters">
                                                                     <span ng-bind-html="mon_par.desc"></span> (<span ng-bind-html="mon_par.unit"></span>)
                                                                 </ui-select-choices>
                                                             </ui-select>
@@ -249,7 +249,7 @@
                                                             <label>Monitoring Parameters (VNF Specific)</label>
                                                             <ui-select multiple class="form-group" ng-model="vdu.monitoring_parameters_specific" ng-disabled="disabled">
                                                                 <ui-select-match placeholder="">[[$item.desc]] ([[$item.unit]])</ui-select-match>
-                                                                <ui-select-choices repeat="mon_par.metric as mon_par in specific_monitoring_parameters[vnfd.type]">
+                                                                <ui-select-choices repeat="mon_par in specific_monitoring_parameters[vnfd.type]">
                                                                     <span ng-bind-html="mon_par.desc"></span> (<span ng-bind-html="mon_par.unit"></span>)
                                                                 </ui-select-choices>
                                                             </ui-select>
@@ -409,14 +409,19 @@
                                                             </ui-select>
                                                         </div>
 
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <label>Authentication Username</label>
+                                                            <input class="form-control" type="text" ng-model="flavor.data.lifecycle_events.authentication_username">
+                                                        </div>
+
                                                         <div class="form-group col-md-12">
                                                             <label>Authentication</label>
                                                             <textarea class="form-control" rows="3" ng-model="flavor.data.lifecycle_events.authentication"></textarea>
                                                         </div>
 
-                                                        <div class="form-group col-md-12 col-sm-12">
-                                                            <label>Authentication Username</label>
-                                                            <input class="form-control" type="text" ng-model="flavor.data.lifecycle_events.authentication_username">
+                                                        <div class="form-group col-md-12" ng-show="lavor.data.lifecycle_events.driver=='http'">
+                                                            <label>Authentication Port</label>
+                                                            <input class="form-control" type="number" ng-model="flavor.data.lifecycle_events.authentication_port">
                                                         </div>
 
                                                         <div class="form-group col-md-12 col-sm-12">
@@ -426,7 +431,7 @@
 
                                                         <div class="form-group col-md-12 col-sm-12">
                                                             <label>Start Event Template Format</label>
-                                                            <ui-select class="form-group" ng-model="vdu.vdu_lifecycle_events.events.start.template_file_format" ng-disabled="disabled">
+                                                            <ui-select class="form-group" ng-model="flavor.data.lifecycle_events.events.start.template_file_format" ng-disabled="disabled">
                                                                 <ui-select-match placeholder="">[[$select.selected.format]]</ui-select-match>
                                                                 <ui-select-choices repeat="format.format as format in event_template_formats">
                                                                     <span ng-bind-html="format.format"></span>
@@ -655,7 +660,7 @@
                                     </ui-select>
                                 </div>
 
-                                <div ng-show="vnfd.billing_model.model=='RS'">
+                                <div ng-show="vnfd.billing_model.model=='PAYG'">
                                     <div class="form-group col-md-6">
                                         <label>Period Value</label>
                                         <input class="form-control" type="number" ng-model="vnfd.billing_model.period.value">

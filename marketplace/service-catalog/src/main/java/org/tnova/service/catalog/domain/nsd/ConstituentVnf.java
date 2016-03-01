@@ -38,7 +38,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class ConstituentVnf {
 
     @JsonProperty("vnf_ref_id")
-    private long vnfRefId;
+    private String vnfRefId;
     @JsonProperty("vnf_flavor_key_ref")
     private String vnfFlavorKeyRef;
     @JsonIgnore
@@ -51,7 +51,7 @@ public class ConstituentVnf {
     public ConstituentVnf() {
     }
 
-    public ConstituentVnf(long vnfRefId, String vnfFlavorKeyRef) {
+    public ConstituentVnf(String vnfRefId, String vnfFlavorKeyRef) {
         this.vnfRefId = vnfRefId;
         this.vnfFlavorKeyRef = vnfFlavorKeyRef;
     }
@@ -62,7 +62,7 @@ public class ConstituentVnf {
      *     The vnfRefId
      */
     @JsonProperty("vnf_ref_id")
-    public long getVnfRefId() {
+    public String getVnfRefId() {
         return vnfRefId;
     }
 
@@ -72,11 +72,11 @@ public class ConstituentVnf {
      *     The vnf_ref_id
      */
     @JsonProperty("vnf_ref_id")
-    public void setVnfRefId(long vnfRefId) {
+    public void setVnfRefId(String vnfRefId) {
         this.vnfRefId = vnfRefId;
     }
 
-    public ConstituentVnf withVnfRefId(long vnfRefId) {
+    public ConstituentVnf withVnfRefId(String vnfRefId) {
         this.vnfRefId = vnfRefId;
         return this;
     }

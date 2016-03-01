@@ -166,11 +166,24 @@ public class ServiceSelectionServiceImpl
             String mrkPlaceCallbackUri = marketplaceCallbackUrl + "/" + requestId;
             logger.debug( "Constructing the callback uri={}", mrkPlaceCallbackUri );
             NetworkServiceActivationRequest requestToOrch = new NetworkServiceActivationRequest();
+
+            for( Sla sla : networkService.getNsd().getSla() )
+            {
+                if( sla.getId().equalsIgnoreCase( request.getFlavorId() ) )
+                {
+                    requestToOrch.setAdditionalProperty( "flavour", sla.getSlaKey() );
+                }
+                else
+                {
+                    logger.info( "Sla Key not found for flavorID = {}. Using flavorId...", request.getFlavorId() );
+                    requestToOrch.setAdditionalProperty( "flavour", request.getFlavorId() );
+                }
+            }
+
             requestToOrch.setCallbackUrl( mrkPlaceCallbackUri );
             requestToOrch.setCustomerId( request.getCustomerId() );
             requestToOrch.setNsId( request.getNsId() );
             requestToOrch.setNapId( request.getNapId() );
-            requestToOrch.setAdditionalProperty( "flavour", request.getFlavorId() );
 
             ObjectMapper mapper = new ObjectMapper();
             HttpEntity<String> entity = new HttpEntity<>( mapper.writeValueAsString( requestToOrch ), headers );
@@ -441,6 +454,7 @@ public class ServiceSelectionServiceImpl
         }
 
         logger.info( "Network Service found in BSc with nsd_id = {}", networkService.getNsd().getId() );
+
 
         reply = new NetworkServiceActivationReply( new Integer( 1 ), networkService.getNsd().getId(), "ACTIVATED",
             LocalDateTime.now().toString(), LocalDateTime.now().toString(), Arrays.asList( new Vnf( 1, "2", "47" ) ) );

@@ -117,8 +117,13 @@ public class ServiceSelectionRestController
             }
 
 
-            if ( response.getStatus().equalsIgnoreCase( "INSTANTIATED" ))
+            if ( response.getStatus() != null && response.getStatus().equalsIgnoreCase( "INSTANTIATED" ))
+            {
+                logger.info( "NS instantiated successfully with id = {}", response.getId() );
                 success = serviceSelection.publishingToAccountingAsync( networkService, response, request );
+
+            }
+
 
             if ( success )
             {
@@ -175,7 +180,7 @@ public class ServiceSelectionRestController
 
 
         // Schedule the task for a-synch completion in the future
-        timer.schedule(task, 60000);
+        timer.schedule(task, 270000);
 
         logger.debug("{}: Processing of non-blocking request #{} leave the request thread", concReqs, reqId);
 

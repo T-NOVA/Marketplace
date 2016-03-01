@@ -3,12 +3,9 @@ package org.tnova.service.selection.tasks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.async.DeferredResult;
-import org.tnova.service.selection.domain.NetworkServiceActivationReply;
-import org.tnova.service.selection.domain.Vnf;
+
 import org.tnova.service.selection.domain.instantiate.NetworkServiceInstantiateReply;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicLong;
 

@@ -96,80 +96,11 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService){
 		{metric: "processes_zombie", desc: "Zombie Processes", unit: 'INT'}
     ];
 
-
-    $scope.specific_monitoring_parameters = {
-        'vTC':[],
-        'vSBC': [
-            {metric: "total_sip_sessions", desc: "Total SIP Sessions", unit: 'INT'},
-            {metric: "rtp_pack_in", desc: "RTP pack IN", unit: 'INT'},
-            {metric: "rtp_pack_out", desc: "RTP pack OUT", unit: 'INT'},
-            {metric: "rtp_pack_in_byte", desc: "RTP pack in byte IN", unit: 'Byte'},
-            {metric: "rtp_pack_out_byte", desc: "RTP pack in byte OUT", unit: 'Byte'},
-            {metric: "rtp_frame_loss", desc: "RTP frame loss", unit: 'INT'},
-            {metric: "average_latency", desc: "Average Latency (RTP delay)", unit: 'Msec'},
-            {metric: "max_latency", desc: "Max Latency (RTP delay)", unit: 'Msec'},
-            {metric: "average_interarrival_jitter", desc: "Average Interarrival Jitter", unit: 'Msec'},
-            {metric: "max_interarrival_jitter", desc: "Max Interarrival Jitter", unit: 'Msec'},
-            {metric: "number_of_in_transcoding", desc: "Number of IN Transcoding", unit: 'INT'},
-            {metric: "number_of_out_transcoding", desc: "Number of OUT Transcoding", unit: 'INT'},
-            {metric: "number_of_in_transrating", desc: "Number of OUT Transrating", unit: 'INT'},
-            {metric: "number_of_out_transrating", desc: "Number of OUT Transrating", unit: 'INT'}
-        ],
-        'vTU':[],
-        'vHG':[],
-        'vSA':[],
-        'vPXAAS':[
-            {
-                "metric": "httpnum",
-                "desc": "Number of HTTP requests received by Squid",
-                "unit": "INT"
-            },
-            {
-                "metric": "hits",
-                "desc": "Cache hits percentage of all requests for the last 5 minutes",
-                "unit": "%"
-            },
-            {
-                "metric": "hits_bytes",
-                "desc": "Cache hits percentage of bytes sent for the last 5 minutes",
-                "unit": "%"
-            },
-            {
-                "metric": "memoryhits",
-                "desc": "Memory hits percentage for the last 5 minutes (hits that are logged as TCP_MEM_HIT)",
-                "unit": "%"
-            },
-            {
-                "metric": "diskhits",
-                "desc": "Disk hits percentage for the last 5 minutes (hits that are logged as TCP_HIT)",
-                "unit": "%"
-            },
-            {
-                "metric": "cachediskutilization",
-                "desc": "Cache disk utilization",
-                "unit": "%"
-            },
-            {
-                "metric": "cachememkutilization",
-                "desc": "Cache memory utilization",
-                "unit": "%"
-            },
-            {
-                "metric": "usernum",
-                "desc": "Number of users accessing the proxy",
-                "unit": "INT"
-            },
-            {
-                "metric": "cpuusage",
-                "desc": "CPU consumed by Squid for the last 5 minutes",
-                "unit": "%"
-            }
-        ]
-    };
+    $scope.specific_monitoring_parameters = glob_vnf_metrics;
 
     $scope.lifecycle_events_drivers = [
         {driver:"ssh", authentication_type: "PubKeyAuthentication"},
-        {driver:"http", authentication_type: "Digest"}
+        {driver:"http", authentication_type: "BasicAuth"}
     ];
 
     $scope.sla_expressions = [
@@ -840,7 +771,7 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService){
                     assurance_param.penalty.expression = aparam.penalty.value;
                     assurance_param.penalty.type = aparam.penalty.type.type;
                     assurance_param.penalty.unit = aparam.monitoring_parameter.unit;
-                    assurance_param.penalty.validity = aparam.penalty.validity.value + 'P' + aparam.penalty.validity.period;
+                    assurance_param.penalty.validity = 'P'+ aparam.penalty.validity.value + aparam.penalty.validity.period;
 
                     assurance_params.push(assurance_param);
 
@@ -862,6 +793,11 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService){
                     assurance_parameters: assurance_params
                 };
 
+                if (vnfd.billing_model.model=="PAYG"){
+                    vnfd.billing_model.period = 'P' + vnfd.billing_model.period.value + vnfd.billing_model.period.period;
+                } else{
+                     vnfd.billing_model.period = '';
+                }
 
                 vnfd.deployment_flavours.push(flavor);
                 vnfd.vdus.push.apply(vnfd.vdus, flavor_vdus);
