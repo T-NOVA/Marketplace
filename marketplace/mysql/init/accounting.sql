@@ -55,16 +55,6 @@ CREATE TABLE `account_account` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `account_account`
---
-
-LOCK TABLES `account_account` WRITE;
-/*!40000 ALTER TABLE `account_account` DISABLE KEYS */;
-INSERT INTO `account_account` VALUES (1,'vnf1','id01','s1vnf2_4','id02','vnf','2015-06-10 00:00:00','2015-06-10 00:00:00','f1','p1','stopped','PAYG','P1D','EUR',1.5,2,1,'2015-06-11 13:29:16','2015-11-03 10:53:40',NULL),(2,'s1','id02','s1vnf2_4','id01, id03','ns','2015-06-11 00:00:00','2015-06-11 00:00:00','p1','c1','running','PAYG','P1D','EUR',1,1,1,'2015-06-11 13:29:16','2015-12-10 09:29:41',NULL),(3,'vnf2','id03','slaf1s1','id02','vnf','2015-06-16 00:00:00','2015-06-25 00:00:00','f1','p1','stopped','PAYG','P1D','EUR',1,1,1,'2015-06-11 14:55:42','2015-11-03 10:53:40',NULL),(4,'vnf3','id04','s1vnf2_4','id19','vnf','2015-06-10 00:00:00','2015-06-10 00:00:00','f2','p1','running','PAYG','P1D','EUR',2,1,1,'2015-07-20 10:54:45','2015-10-08 09:19:44',NULL),(11,'s2','id19','vnf3a2971d0-2eae-11e5-a2cb-0800200c9a66calls5k','id04','ns','2015-06-10 00:00:00','2015-06-10 00:00:00','p1','c1','running','PAYG','P1D','EUR',1.5,2,0,'2015-07-28 14:36:14','2015-11-11 11:50:03','gold'),(24,'vnf5','idf50','s1vnf2_4','ids100','vnf','2015-10-08 07:07:43','2015-10-08 07:07:43','f5','p5','running','PAYG','P1D','EUR',1,2,0,'2015-10-08 07:07:43','2015-10-08 07:07:43',NULL),(25,'s5','ids100','s1vnf2_4','idf50','ns','2015-10-08 07:09:19','2015-10-08 07:09:19','p5','c5','running','PAYG','P1D','EUR',1,2,0,'2015-10-08 07:09:19','2015-10-08 07:09:19',NULL),(26,'vnf5','idf51','vnfidf51','ids101','vnf','2015-10-08 07:29:44','2015-10-08 07:29:44','f5','p6','stopped','PAYG','P1D','EUR',1,2,0,'2015-10-08 07:29:44','2015-12-10 09:43:50','gold'),(27,'vnf6','idf52','vnfidf52','ids101','vnf','2015-10-08 07:30:13','2015-10-08 07:30:13','f6','p6','stopped','PAYG','P1D','EUR',1,2,0,'2015-10-08 07:30:13','2015-12-10 09:43:52','gold'),(28,'service6','ids101','serviceids101','idf51, idf52','ns','2015-10-08 07:31:37','2015-10-08 07:31:37','p6','c1','stopped','PAYG','P1D','EUR',1,2,0,'2015-10-08 07:31:37','2015-12-10 09:43:49','gold'),(29,'vnf5','idf61','vnfidf61','ids161','vnf','2015-11-03 14:04:05','2015-11-03 14:04:05','f5','providerajax','running','PAYG','P1D','EUR',1,2,0,'2015-11-03 14:04:05','2015-11-03 15:22:49','gold'),(34,'service100','ids161','serviceids161','idf61','ns','2015-11-11 12:21:30','2015-11-11 12:21:30','providerajax','c1','running','PAYG','P1M','EUR',10,2,0,'2015-11-11 12:21:30','2015-11-11 12:21:30','silver');
-/*!40000 ALTER TABLE `account_account` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `account_billingevent`
 --
 
@@ -85,15 +75,6 @@ CREATE TABLE `account_billingevent` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `account_billingevent`
---
-
-LOCK TABLES `account_billingevent` WRITE;
-/*!40000 ALTER TABLE `account_billingevent` DISABLE KEYS */;
-/*!40000 ALTER TABLE `account_billingevent` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `account_monitor`
 --
 
@@ -111,15 +92,6 @@ CREATE TABLE `account_monitor` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `account_monitor`
---
-
-LOCK TABLES `account_monitor` WRITE;
-/*!40000 ALTER TABLE `account_monitor` DISABLE KEYS */;
-/*!40000 ALTER TABLE `account_monitor` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `account_slapenalty`
 --
 
@@ -135,15 +107,6 @@ CREATE TABLE `account_slapenalty` (
   CONSTRAINT `violation_id_refs_id_b1787d1d` FOREIGN KEY (`violation_id`) REFERENCES `account_slaviolation` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `account_slapenalty`
---
-
-LOCK TABLES `account_slapenalty` WRITE;
-/*!40000 ALTER TABLE `account_slapenalty` DISABLE KEYS */;
-/*!40000 ALTER TABLE `account_slapenalty` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `account_slaviolation`
@@ -164,15 +127,6 @@ CREATE TABLE `account_slaviolation` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `account_slaviolation`
---
-
-LOCK TABLES `account_slaviolation` WRITE;
-/*!40000 ALTER TABLE `account_slaviolation` DISABLE KEYS */;
-/*!40000 ALTER TABLE `account_slaviolation` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `auth_group`
 --
 
@@ -187,14 +141,6 @@ CREATE TABLE `auth_group` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `auth_group`
---
-
-LOCK TABLES `auth_group` WRITE;
-/*!40000 ALTER TABLE `auth_group` DISABLE KEYS */;
-/*!40000 ALTER TABLE `auth_group` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `auth_group_permissions`
@@ -216,14 +162,6 @@ CREATE TABLE `auth_group_permissions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `auth_group_permissions`
---
-
-LOCK TABLES `auth_group_permissions` WRITE;
-/*!40000 ALTER TABLE `auth_group_permissions` DISABLE KEYS */;
-/*!40000 ALTER TABLE `auth_group_permissions` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `auth_permission`
@@ -278,14 +216,6 @@ CREATE TABLE `auth_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `auth_user`
---
-
-LOCK TABLES `auth_user` WRITE;
-/*!40000 ALTER TABLE `auth_user` DISABLE KEYS */;
-/*!40000 ALTER TABLE `auth_user` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `auth_user_groups`
@@ -306,15 +236,6 @@ CREATE TABLE `auth_user_groups` (
   CONSTRAINT `auth_user_groups_user_id_4b5ed4ffdb8fd9b0_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `auth_user_groups`
---
-
-LOCK TABLES `auth_user_groups` WRITE;
-/*!40000 ALTER TABLE `auth_user_groups` DISABLE KEYS */;
-/*!40000 ALTER TABLE `auth_user_groups` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `auth_user_user_permissions`
