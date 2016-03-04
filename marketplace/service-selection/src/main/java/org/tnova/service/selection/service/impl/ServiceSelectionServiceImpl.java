@@ -127,7 +127,9 @@ public class ServiceSelectionServiceImpl
                         return false;
                     }
 
+                    logger.info( "Json Request is published to accounting. Printing request" );
                     success = true;
+
                 }
 
                 catch( Exception ex )

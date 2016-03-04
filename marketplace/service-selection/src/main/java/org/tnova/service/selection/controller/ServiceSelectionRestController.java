@@ -180,7 +180,7 @@ public class ServiceSelectionRestController
 
 
         // Schedule the task for a-synch completion in the future
-        timer.schedule(task, 270000);
+        timer.schedule(task, 5000);
 
         logger.debug("{}: Processing of non-blocking request #{} leave the request thread", concReqs, reqId);
 
