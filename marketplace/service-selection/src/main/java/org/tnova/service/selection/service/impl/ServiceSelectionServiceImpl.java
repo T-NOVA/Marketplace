@@ -127,7 +127,7 @@ public class ServiceSelectionServiceImpl
                         return false;
                     }
 
-                    logger.info( "Json Request is published to accounting. Printing request" );
+                    logger.info( "Successful publishing to Accounting Request" );
                     success = true;
 
                 }
