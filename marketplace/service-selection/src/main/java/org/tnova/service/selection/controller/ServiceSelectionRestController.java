@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.context.request.async.DeferredResult;
+import org.tnova.service.selection.domain.AccountingRequest;
 import org.tnova.service.selection.domain.NetworkServiceActivationReply;
 import org.tnova.service.selection.domain.NetworkServiceActivationRequest;
 import org.tnova.service.selection.domain.instantiate.NetworkServiceInstantiateReply;
@@ -100,9 +101,7 @@ public class ServiceSelectionRestController
                 ex.printStackTrace();
             }
 
-
             ServiceSelectionMsgTable.getInstance().add( Integer.parseInt( id  ), response );
-
 
             NetworkService networkService = networkCatalogService.getNetworkServiceByNsdId( response.getNsdId() );
             if( networkService != null )
@@ -202,7 +201,7 @@ public class ServiceSelectionRestController
         ObjectMapper mapper = new ObjectMapper();
         try
         {
-            mapper.writerWithDefaultPrettyPrinter().writeValue( new File( "/home/pliakas/ns_instances_reply.json"), nsInstances );
+            mapper.writerWithDefaultPrettyPrinter().writeValueAsString( nsInstances );
         } catch( Exception ex )
         {
             ex.printStackTrace();
@@ -211,7 +210,6 @@ public class ServiceSelectionRestController
 
         return nsInstances;
     }
-
 
     @RequestMapping( method = RequestMethod.GET, value = "/{id}/status" )
     public String getNetworkServiceInstanceStatus( @PathVariable String id )
@@ -250,7 +248,22 @@ public class ServiceSelectionRestController
         HttpStatus httpStatus = serviceSelection.stopNetworkService( id );
 
         return httpStatus;
+    }
 
+    @RequestMapping( method = RequestMethod.GET, value = "/accounting")
+    public List<AccountingRequest> getAccountingRequests()
+    {
+        logger.info( "Retrieve all accounting requests" );
+
+        return serviceSelection.getAccountingRequests();
+    }
+
+    @RequestMapping( method = RequestMethod.GET, value = "/accounting/{id}")
+    public List<AccountingRequest> getAccountingRequestsByInstanceId( @PathVariable( "id" ) String id)
+    {
+        logger.info( "Retrieve all accounting requests" );
+
+        return serviceSelection.getAccountingRequestByNetworkInstance( id );
     }
 
     @ExceptionHandler

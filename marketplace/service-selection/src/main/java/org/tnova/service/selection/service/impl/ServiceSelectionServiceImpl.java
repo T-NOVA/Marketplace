@@ -21,6 +21,7 @@ import org.tnova.service.selection.exceptions.*;
 import org.tnova.service.selection.service.NetworkCatalogService;
 import org.tnova.service.selection.service.ServiceSelectionService;
 import org.tnova.service.selection.service.VnfService;
+import org.tnova.service.selection.tasks.AccountingRequestMsgTable;
 import org.tnova.service.selection.util.Helpers;
 
 import java.time.LocalDateTime;
@@ -72,6 +73,7 @@ public class ServiceSelectionServiceImpl
         boolean success = false;
 
         List<AccountingRequest> accountingRequests = new ArrayList<>();
+        List<AccountingRequest> updatedRequests = new ArrayList<>();
 
         logger.info( "Creating an accounting request for network service with id={}", networkService.getNsd().getId() );
 
@@ -85,6 +87,7 @@ public class ServiceSelectionServiceImpl
 
         logger.info( "{} found in order to be published in Accounting module. Start sending.... ",
             accountingRequests.size() );
+
         for( AccountingRequest accountingRequest : accountingRequests )
         {
             if( isAccountingModuleEnabled.equalsIgnoreCase( "disabled" ) )
@@ -99,6 +102,10 @@ public class ServiceSelectionServiceImpl
                 {
                     ex.printStackTrace();
                 }
+
+                accountingRequest.setPublished( true );
+                accountingRequest.setAdditionalProperty( "is_published", true );
+                updatedRequests.add( accountingRequest );
 
                 success = true;
 
@@ -117,6 +124,7 @@ public class ServiceSelectionServiceImpl
 
                     ResponseEntity<String> response = restTemplate
                         .exchange( accountingUrl, HttpMethod.POST, entity, String.class );
+
                     if( response.getStatusCode() != HttpStatus.CREATED )
                     {
 
@@ -124,10 +132,14 @@ public class ServiceSelectionServiceImpl
                                 + "with http code = {}, body={}, for request = {}",
                             response.getStatusCode().getReasonPhrase(), response.getBody(),
                             mapper.writerWithDefaultPrettyPrinter().writeValueAsString( accountingRequest ) );
+
                         return false;
                     }
 
                     logger.info( "Successful publishing to Accounting Request" );
+                    accountingRequest.setPublished( true );
+                    accountingRequest.setAdditionalProperty( "is_published", true );
+
                     success = true;
 
                 }
@@ -139,6 +151,7 @@ public class ServiceSelectionServiceImpl
             }
         }
 
+        AccountingRequestMsgTable.getInstance().add( reply.getId(), updatedRequests );
         return success;
     }
 
@@ -436,6 +449,41 @@ public class ServiceSelectionServiceImpl
             throw new NsInstancesEmptyListException();
 
         return instances;
+    }
+
+    @Override
+    public List<AccountingRequest> getAccountingRequests()
+    {
+        logger.info( "Get all accounting requests for all instantiated services" );
+
+        List<AccountingRequest> requests = AccountingRequestMsgTable.getInstance().getAllAccountingRequests();
+
+        if( requests == null || requests.isEmpty() )
+        {
+            logger.error( "No accounting requests. Return Empty List" );
+            return new ArrayList<AccountingRequest>();
+        }
+
+
+        logger.info( "{} accounting request found", requests.size() );
+        return requests;
+    }
+
+    @Override
+    public List<AccountingRequest> getAccountingRequestByNetworkInstance( String instanceId )
+    {
+        logger.info( "Retrieve all accounting requests based on network instance id = {}", instanceId );
+
+                List<AccountingRequest> requests = AccountingRequestMsgTable.getInstance().getAllAccountingRequests();
+
+        if( requests == null || requests.isEmpty() )
+        {
+            logger.error( "No accounting requests. Return Empty List" );
+            return new ArrayList<AccountingRequest>();
+        }
+
+        logger.info( "{} accounting request found", requests.size() );
+        return requests;
     }
 
     @Override

@@ -23,10 +23,10 @@ import org.tnova.service.selection.domain.NetworkServiceActivationRequest;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-public class ServiceSelectionRequestMsgTable
-    implements MsgTable<Integer, NetworkServiceActivationRequest>
+public class ServiceSelectionRequestMsgTable implements MsgTable<Integer, NetworkServiceActivationRequest>
 {
     private final static Logger logger = LoggerFactory.getLogger( ServiceSelectionRequestMsgTable.class );
+
     private static ServiceSelectionRequestMsgTable instance = null;
     private static ConcurrentMap<Integer, NetworkServiceActivationRequest> requestMsgMap = null;
 

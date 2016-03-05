@@ -90,6 +90,9 @@ public class Helpers
         }
 
 
+        //add default value
+        accountingRequest.setPublished( false );
+
         return accountingRequest;
     }
 }
