@@ -61,9 +61,6 @@ public class AccountingRequest
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonIgnore
-    private boolean isPublished;
-
     public AccountingRequest() {}
 
     public AccountingRequest( String instanceId, String productId, String agreementId, String relatives,
@@ -437,16 +434,6 @@ public class AccountingRequest
     {
         this.additionalProperties.put( name, value );
         return this;
-    }
-
-    public boolean isPublished()
-    {
-        return isPublished;
-    }
-
-    public void setPublished( boolean published )
-    {
-        isPublished = published;
     }
 
     @Override
