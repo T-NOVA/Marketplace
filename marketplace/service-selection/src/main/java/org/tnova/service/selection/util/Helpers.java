@@ -51,6 +51,7 @@ public class Helpers
         logger.info( "Creating an accounting request for NetworkService={} and NsInstance={}",
             service.getNsd().getId(), reply.getId() );
 
+
         AccountingRequest accountingRequest = new AccountingRequest();
         for( Sla sla : service.getNsd().getSla() )
         {
