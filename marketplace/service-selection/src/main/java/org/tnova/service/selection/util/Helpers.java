@@ -62,13 +62,17 @@ public class Helpers
                 accountingRequest.setSetupCost( sla.getBilling().getPrice().getSetup() );
                 accountingRequest.setFlavour( sla.getSlaKey() );
             }
-        }  
+        }
+        accountingRequest.setProviderId( request.getCustomerId() );
         accountingRequest.setInstanceId( reply.getId() );
         accountingRequest.setProductId( service.getNsd().getId() );
         accountingRequest.setAgreementId( "ns" + reply.getId() );
         accountingRequest.setProductType( "ns" );
         accountingRequest.setClientId( request.getCustomerId() );
-        accountingRequest.setStatus( reply.getStatus() );
+        if ( reply.getStatus().equalsIgnoreCase( "INSTANTIATED" ) )
+        {
+            accountingRequest.setStatus( "running" );
+        }
         accountingRequest.setPeriod( "P1D" );
         accountingRequest.setRenew( true );
 
