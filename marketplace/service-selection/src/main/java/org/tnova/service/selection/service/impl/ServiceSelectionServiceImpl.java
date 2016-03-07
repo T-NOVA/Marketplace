@@ -102,8 +102,6 @@ public class ServiceSelectionServiceImpl
                 {
                     ex.printStackTrace();
                 }
-
-                accountingRequest.setPublished( true );
                 accountingRequest.setAdditionalProperty( "is_published", true );
                 updatedRequests.add( accountingRequest );
 
@@ -137,7 +135,6 @@ public class ServiceSelectionServiceImpl
                     }
 
                     logger.info( "Successful publishing to Accounting Request" );
-                    accountingRequest.setPublished( true );
                     accountingRequest.setAdditionalProperty( "is_published", true );
 
                     success = true;

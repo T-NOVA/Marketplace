@@ -89,10 +89,6 @@ public class Helpers
             ex.printStackTrace();
         }
 
-
-        //add default value
-        accountingRequest.setPublished( false );
-
         return accountingRequest;
     }
 }
