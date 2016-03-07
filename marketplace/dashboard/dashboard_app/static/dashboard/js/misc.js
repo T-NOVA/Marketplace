@@ -1,63 +1,146 @@
-angular.module('dashboard').controller('BillingCtrl', ['Restangular', 'NoSuffixRestangular', '$scope', '$rootScope', BillingCtrl]);
-angular.module('dashboard').controller('BillingRevCtrl', ['Restangular', 'NoSuffixRestangular', '$scope', '$rootScope', BillingRevCtrl]);
+angular.module('dashboard').controller('BillingCtrl', ['Restangular', 'NoSuffixRestangular', '$scope', '$rootScope', 'alertService', BillingCtrl]);
+angular.module('dashboard').controller('BillingRevCtrl', ['Restangular', 'NoSuffixRestangular', '$scope', '$rootScope', 'alertService', BillingRevCtrl]);
 
 angular.module('dashboard').controller('SLACtrl', ['Restangular', 'NoSuffixRestangular', '$scope', '$rootScope', SLACtrl]);
 angular.module('dashboard').controller('SLAChartsCtrl', ['Restangular', 'NoSuffixRestangular', '$scope', '$rootScope', '$state', '$stateParams', SLAChartsCtrl]);
 angular.module('dashboard').controller('MonitoringCtrl', ['Restangular','$scope', '$rootScope', MonitoringCtrl]);
 
 
-function BillingCtrl(Restangular, NoSuffixRestangular, $scope, $rootScope) {
+function BillingCtrl(Restangular, NoSuffixRestangular, $scope, $rootScope, alertService) {
 
-    $scope.loading_billing = false;
     $scope.billing = {};
 
     $scope.loadBill = function () {
-        $scope.loading_billing = true;
-        NoSuffixRestangular.one("/billing/bill?userId=c1&from=2015-12-09%2000:00:00&to=2016-12-09%2023:59:59").get().then(
+
+        var from_date = moment($scope.from_dt).format('YYYY-MM-DD%2000:00:00');
+        var to_date = moment($scope.to_dt).format('YYYY-MM-DD%2023:59:59');
+
+        var username = $scope.user_profile.username;
+        var user_id = $scope.user_profile.id;
+
+        $rootScope.root_loading = true;
+        NoSuffixRestangular.one("/billing/bill?userId="+username+"&from="+from_date+"&to="+to_date).get().then(
             function (response) {
                 $scope.billing = response;
-                $scope.loading_billing = false;
+                $rootScope.root_loading = false;
                 console.log("Billing has been successfully loaded");
             }, function (response) {
                 console.log("Billing error with status code " + response.status);
                 console.log("Billing error message: " + response.data);
-                $scope.loading_billing = false;
+                $rootScope.root_loading = false;
+                alertService.add('danger', 'Failed to retrieve billing information.');
             });
     };
 
     $scope.init = function () {
-        $scope.loadBill();
+        //$scope.loadBill();
     };
 
     $scope.init();
 
+    $scope.from_dt = new Date();
+    $scope.to_dt = new Date();
+
+    $scope.dateOptions = {
+        formatYear: 'yy',
+        maxDate: new Date(),
+        startingDay: 1
+    };
+
+    $scope.open1 = function () {
+        $scope.popup1.opened = true;
+    };
+
+    $scope.open2 = function () {
+        $scope.popup2.opened = true;
+    };
+
+    $scope.popup1 = {
+        opened: false
+    };
+
+    $scope.popup2 = {
+        opened: false
+    };
+
+    $scope.format = 'yyyy-MM-dd';
+
+    $scope.$watch("from_dt", function(newValue, oldValue) {
+        $scope.loadBill();
+    });
+
+    $scope.$watch("to_dt", function(newValue, oldValue) {
+        $scope.loadBill();
+    });
+
 }
 
-function BillingRevCtrl(Restangular, NoSuffixRestangular, $scope, $rootScope) {
+function BillingRevCtrl(Restangular, NoSuffixRestangular, $scope, $rootScope, alertService) {
 
-    $scope.loading_billing= false;
     $scope.billing = {};
 
     $scope.loadBillRevenue = function () {
-        $scope.loading_billing = true;
-        NoSuffixRestangular.one("/billing/revenue?provider=f1&from=2015-12-09%2000:00:00&to=2016-12-09%2023:59:59").get().then(
+
+        var from_date = moment($scope.from_dt).format('YYYY-MM-DD%2000:00:00');
+        var to_date = moment($scope.to_dt).format('YYYY-MM-DD%2023:59:59');
+
+        var username = $scope.user_profile.username;
+        var user_id = $scope.user_profile.id;
+
+        $rootScope.root_loading = true;
+        NoSuffixRestangular.one("/billing/revenue?provider="+username+"&from="+from_date+"&to="+to_date).get().then(
             function (response) {
                 $scope.billing = response;
-                $scope.loading_billing = false;
+                $rootScope.root_loading = false;
                 console.log("BillingRevenue has been successfully loaded");
             }, function (response) {
                 console.log("BillingRevenue error with status code " + response.status);
                 console.log("BillingRevenue error message: " + response.data);
-                $scope.loading_billing = false;
+                alertService.add('danger', 'Failed to retrieve billing information.');
+                $rootScope.root_loading = false;
             });
     };
 
     $scope.init = function () {
-        $scope.loadBillRevenue();
+        //$scope.loadBillRevenue();
     };
 
     $scope.init();
 
+    $scope.from_dt = new Date();
+    $scope.to_dt = new Date();
+
+    $scope.dateOptions = {
+        formatYear: 'yy',
+        maxDate: new Date(),
+        startingDay: 1
+    };
+
+    $scope.open1 = function () {
+        $scope.popup1.opened = true;
+    };
+
+    $scope.open2 = function () {
+        $scope.popup2.opened = true;
+    };
+
+    $scope.popup1 = {
+        opened: false
+    };
+
+    $scope.popup2 = {
+        opened: false
+    };
+
+    $scope.format = 'yyyy-MM-dd';
+
+    $scope.$watch("from_dt", function(newValue, oldValue) {
+        $scope.loadBillRevenue();
+    });
+
+    $scope.$watch("to_dt", function(newValue, oldValue) {
+        $scope.loadBillRevenue();
+    });
 }
 
 

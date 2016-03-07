@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="{% static 'ui-select/dist/select.css' %}">
     <link rel="stylesheet" href="{% static 'angular-rangeslider/angular.rangeSlider.css' %}">
 
+    <link rel="stylesheet" href="{% static 'dashboard/css/loader.css' %}">
+
     <link rel="stylesheet" href="{% static 'dashboard/css/login.css' %}">
 
     <link rel="stylesheet" href="{% static 'dashboard/css/base.css' %}">
@@ -29,8 +31,7 @@
 
 </head>
 
-<body ng-app="dashboard" ng-controller="AlertCtrl">
-<!-- <alert  type="{{alert.type}}" close="alert.close()">{{ alert.msg }}</alert> -->
+<body ng-app="dashboard">
 
 <div ng-repeat="alert in alerts" class="alert alert-[[ alert.type ]] [[ alert.position ]]" ng-bind-html="[[ alert.msg ]]">
 
@@ -79,6 +80,9 @@
 <script src="{% static 'lodash/lodash.js' %}"></script>
 <script src="{% static 'restangular/dist/restangular.js' %}"></script>
 
+<script src="{% static 'dashboard/js/libs/moment.min.js' %}"></script>
+<script src="{% static 'dashboard/js/libs/angular-moment.min.js' %}"></script>
+
 <script src="{% static 'dashboard/js/dashboard.js' %}"></script>
 <script src="{% static 'dashboard/js/routes.js' %}"></script>
 
@@ -89,7 +93,6 @@
 <script src="{% static 'dashboard/js/misc.js' %}"></script>
 
 <script src="{% static 'dashboard/js/services/alertService.js' %}"></script>
-
 
 </body>
 

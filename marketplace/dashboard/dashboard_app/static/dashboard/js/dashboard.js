@@ -1,8 +1,10 @@
 angular.module('dashboard', ['ui.bootstrap', 'ngSanitize', 'angularModalService', 'ui.select', 'ui.checkbox', 'ui-rangeSlider', 'ngCookies', 'ui.router', 'restangular', 'ngFileUpload', 'ui.codemirror', 'highcharts-ng']);
 
-angular.module('dashboard').run(['$state', '$rootScope', '$timeout', '$cookies', 'Restangular', function ($state, $rootScope, $timeout, $cookies, Restangular) {
+angular.module('dashboard').run(['$state', '$rootScope', '$timeout', '$cookies', 'Restangular', 'alertService', function ($state, $rootScope, $timeout, $cookies, Restangular, alertService) {
     $rootScope.isAuthorized = false;
     $rootScope.$state = $state;
+    $rootScope.alerts = alertService.get();
+    $rootScope.root_loading = false;
 
     var appStarted = 0; // flag to redirect only once when app is started
     $rootScope.$on('$stateChangeStart',
@@ -34,7 +36,8 @@ angular.module('dashboard').config(function ($interpolateProvider) {
 
 // setup restangular base url
 angular.module('dashboard').config(function (RestangularProvider) {
-    RestangularProvider.setBaseUrl('http://10.10.1.90');
+    //RestangularProvider.setBaseUrl('http://10.10.1.90');
+    RestangularProvider.setBaseUrl('http://localhost:8080');
     RestangularProvider.setRequestSuffix('\/');
 });
 
@@ -45,19 +48,20 @@ angular.module('dashboard').factory('NoSuffixRestangular', function(Restangular)
 });
 
 // Main Controllers
-angular.module('dashboard').controller('AlertCtrl', ['$scope', 'alertService', AlertCtrl]);
+//angular.module('dashboard').controller('AlertCtrl', ['$scope', 'alertService', AlertCtrl]);
 angular.module('dashboard').controller('RootCtrl', ['Restangular', '$scope', '$rootScope', '$cookies', '$state', '$interval', RootCtrl]);
 angular.module('dashboard').controller('LoginCtrl', ['Restangular', '$scope', '$rootScope', '$cookies', 'alertService', LoginCtrl]);
 angular.module('dashboard').controller('RegisterCtrl', ['Restangular', '$scope', '$rootScope', 'alertService', RegisterCtrl]);
 
 
-function AlertCtrl($scope, alertService){
-    $scope.alerts = alertService.get();
-}
+//function AlertCtrl($scope, alertService){
+//    $scope.alerts = alertService.get();
+//}
 
 function RootCtrl(Restangular, $scope, $rootScope, $cookies, $state, $interval) {
 
 
+    //$scope.root_loading = false;
 
     // check if is not authorized
     if (!$rootScope.isAuthorized) {

@@ -2,40 +2,42 @@ function generateUIDNotMoreThan1million() {
     return ("0000" + (Math.random()*Math.pow(36,4) << 0).toString(36)).slice(-4)
 }
 
-angular.module('dashboard').controller('ImageListCtrl', ['Restangular', '$scope', '$rootScope', 'ModalService', ImageListCtrl]);
+angular.module('dashboard').controller('ImageListCtrl', ['Restangular', '$scope', '$rootScope', 'ModalService','alertService', ImageListCtrl]);
 angular.module('dashboard').controller('ImageUploadCtrl', ['$scope', '$cookies', 'Upload', ImageUploadCtrl]);
 
 function ImageListCtrl(Restangular, $scope, $rootScope, ModalService) {
 
-    $scope.loading_images = false;
     $scope.images = {};
 
     $scope.loadImages = function () {
-        $scope.loading_images = true;
+        $rootScope.root_loading = true;
         Restangular.all('vnfs/images').getList().then(
             function (response) {
                 $scope.images = response;
                 console.log("GetImageList " + response.length + " Images found");
-                $scope.loading_images = false;
+                $rootScope.root_loading = false;
             }, function (response) {
                 console.log("GetImageList error with status code " + response.status);
                 console.log("GetImageList error message: " + response.data.detail);
-                $scope.loading_images = false;
+                $rootScope.root_loading = false;
             });
     };
 
     $scope.deleteImage = function (image_name) {
-        $scope.loading_images = true;
+        $rootScope.root_loading = true;
         Restangular.one("vnfs/images", image_name).remove().then(
             function () {
-                $scope.loading_images = false;
+                $rootScope.root_loading = false;
                 console.log("Image  " + image_name + " has been successfully deleted");
                 $scope.loadImages();
 
+                alertService.add('success', "Image  " + image_name + " has been successfully deleted");
             }, function (response) {
                 console.log("DeleteImage error with status code " + response.status);
-                console.log("DeleteImage error message: " + response.data.detail);
-                $scope.loading_images = false;
+                console.log("DeleteImage error message: " + response.data);
+                $rootScope.root_loading = false;
+
+                alertService.add('danger', "Delete Image Error, " + response.data);
 
             });
     };

@@ -8,24 +8,22 @@
                 <table class="table table-hover table-striped">
                     <tbody>
                     <tr>
-                        <th style="width: 10px">#</th>
+                        <th style="width: 10px">#Instance ID</th>
                         <th>Service Name</th>
                         <th>Status</th>
                         <th></th>
                     </tr>
                     <tr ng-repeat="service in services">
-                        <td data-title="ID">#[[service.nsd.id]]</td>
+                        <td data-title="ID">#[[service.id]]</td>
                         <td data-title="Name">[[service.nsd.name]]</td>
                         <td data-title="Status">
-
-                           Running...
+                            <span class="label label-[[service.status | lowercase]]" >[[service.status]]</span>
                         </td>
                         <td data-title="Action">
                             <div class="box-tools pull-right">
                                 <!-- <a target="_blank" href="/services/[[service.id]]/nsd" class="btn btn-info btn-sm" role="button"><i class="fa fa-file-text-o"></i> NSD</a> -->
                                 <!-- <button class="btn btn-default btn-sm" ng-click="showAModal(service.id)"><i class="fa fa-tv"></i></button> -->
-                                <button class="btn btn-info btn-sm"><i class="fa fa-refresh"></i> Restart</button>
-                                <button class="btn btn-danger btn-sm"><i class="fa fa-stop"></i> Stop</button>
+                                <button class="btn btn-danger btn-sm" ng-click="terminateService(service.id);"><i class="fa fa-stop"></i> Terminate</button>
                             </div>
                         </td>
                     </tr>

@@ -1,4 +1,4 @@
-<div ng-controller="RootCtrl">
+<div ng-controller="RootCtrl" ng-class="{loading: root_loading}">
 
     <div id="page-wrapper" ng-class="{'open': toggle}" ng-cloak>
 
@@ -38,10 +38,10 @@
                        ng-class="{active: $state.includes('index.trade-requests')}"> Trade Requests <span class="label label-danger" ng-show="getPendingRequests()>0">[[ getPendingRequests() ]]</span> <span class="menu-icon fa fa-exchange"></span></a>
                 </li>
 
-                <li class="sidebar-list" ng-show="hasRole('Customer')||hasRole('Service Provider')">
-                    <a href="javascript:void(0)" ng-click="$state.go('index.monitoring')"
-                       ng-class="{active: $state.includes('index.monitoring')}"> Monitoring <span class="menu-icon fa fa-eye"></span></a>
-                </li>
+                <!--<li class="sidebar-list" ng-show="hasRole('Customer')||hasRole('Service Provider')">                                        -->
+                <!--    <a href="javascript:void(0)" ng-click="$state.go('index.monitoring')"                                                   -->
+                <!--       ng-class="{active: $state.includes('index.monitoring')}"> Monitoring <span class="menu-icon fa fa-eye"></span></a>   -->
+                <!--</li>                                                                                                                       -->
 
                 <li class="sidebar-list" ng-show="hasRole('Customer')||hasRole('Service Provider')">
                     <a href="javascript:void(0)" ng-click="$state.go('index.sla.list')"
@@ -56,6 +56,11 @@
                 <li class="sidebar-list" ng-show="hasRole('Function Provider')">
                     <a href="javascript:void(0)" ng-click="$state.go('index.billingrev')"
                        ng-class="{active: $state.includes('index.billingrev')}"> Billing <span class="menu-icon fa fa-money"></span></a>
+                </li>
+
+                <li class="sidebar-list" ng-show="hasRole('Service Provider')">
+                    <a href="javascript:void(0)" ng-click="$state.go('index.sp_billing')"
+                       ng-class="{active: $state.includes('index.sp_billing')}"> Billing <span class="menu-icon fa fa-money"></span></a>
                 </li>
 
                 <li class="sidebar-list" ng-show="hasRole('Customer')">
@@ -121,7 +126,7 @@
                 <!-- Main Content -->
                 <div class="row main-content">
                     <!-- <div class="col-xs-12">  </div>-->
-                    <div ui-view></div>
+                    <div ui-view ></div>
                 </div>
                 <!-- End Page Content -->
 

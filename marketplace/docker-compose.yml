@@ -101,12 +101,12 @@ billing:
     - SYS_PTRACE
   dns:
     - 172.17.0.1
-#  ports:
-#    - 8080:8080
-#    - 8083:8083
-#    - 8086:8086
+  ports:
+    - 8080:8080
+    - 8083:8083
+    - 8086:8086
   environment:
-    - DNSDOCK_ALIAS=cyclops.docker
+    - DNSDOCK_ALIAS=cyclops.docker,billing.docker
 
 accounting:
   build: accounting/
