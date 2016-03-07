@@ -101,6 +101,10 @@ angular.module('dashboard').config(function ($stateProvider, $urlRouterProvider)
             url: "/trade-requests",
             templateUrl: "/static/dashboard/templates/index.trade-requests.html"
         })
+        .state('index.sp_billing', {
+            url: "/sp_billing",
+            templateUrl: "/static/dashboard/templates/index.billing.all.html"
+        })
         .state('index.billing', {
             url: "/billing",
             templateUrl: "/static/dashboard/templates/index.billing.html"

@@ -103,8 +103,14 @@
                                         </td>
 
                                         <td data-title="Available SLAs">
-                                            <span ng-repeat="flavor in vnf.deployment_flavours" class="label label-[[flavor.flavour_key]]">
+                                            <span ng-repeat="flavor in vnf.deployment_flavours" class="label label-[[flavor.flavour_key]]" uib-popover-template="dynamicPopover.templateUrl" popover-title="[[flavor.flavour_key | uppercase]] Flavor Info" popover-trigger="mouseenter">
                                                 [[flavor.flavour_key]] &euro;[[ getDeploymentCost(vnf,flavor.flavour_key) ]]/hour
+                                                <script type="text/ng-template" id="myPopoverTemplate.html">
+                                                    <h5><strong>Assurance Parameters</strong></h5>
+                                                    <div ng-repeat="par in flavor.assurance_parameters">
+                                                        <span> - [[ par.formula ]][[ par.unit ]] ([[par.penalty.expression]]% [[par.penalty.type]] [[par.penalty.validity]])</span>
+                                                    </div>
+                                                </script>
                                             </span>
                                         </td>
 
@@ -496,7 +502,7 @@
                                                             <label>Monitoring Parameter</label>
                                                             <ui-select class="form-group" ng-model="assurance_param.monitoring_parameter" ng-disabled="disabled">
                                                                 <ui-select-match placeholder="">[[$select.selected.desc]] ([[$select.selected.unit]])</ui-select-match>
-                                                                <ui-select-choices repeat="mon_par in generic_monitoring_parameters">
+                                                                <ui-select-choices repeat="mon_par in getMonitoringParamaters(flavor)">
                                                                     <span ng-bind-html="mon_par.desc"></span> (<span ng-bind-html="mon_par.unit"></span>)
                                                                 </ui-select-choices>
                                                             </ui-select>

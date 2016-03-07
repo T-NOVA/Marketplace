@@ -400,7 +400,7 @@
 
                                                         <div class="form-group col-md-12 col-sm-12">
                                                             <label>Driver</label>
-                                                            <ui-select class="form-group" ng-model="flavor.data.lifecycle_events.driver" ng-disabled="disabled">
+                                                            <ui-select class="form-group" ng-model="flavor.data.lifecycle_events.driver" ng-disabled="disabled" on-select="onDriverSelectCallback($item, $model, flavor)">
                                                                 <ui-select-match placeholder="">[[$select.selected.driver | uppercase]] <small>[[$select.selected.authentication_type]]</small></ui-select-match>
                                                                 <ui-select-choices repeat="driver in lifecycle_events_drivers">
                                                                     <span ng-bind-html="driver.driver | uppercase"></span>
@@ -416,10 +416,10 @@
 
                                                         <div class="form-group col-md-12">
                                                             <label>Authentication</label>
-                                                            <textarea class="form-control" rows="3" ng-model="flavor.data.lifecycle_events.authentication"></textarea>
+                                                            <textarea class="form-control" rows="2" ng-model="flavor.data.lifecycle_events.authentication"></textarea>
                                                         </div>
 
-                                                        <div class="form-group col-md-12" ng-show="lavor.data.lifecycle_events.driver=='http'">
+                                                        <div class="form-group col-md-12">
                                                             <label>Authentication Port</label>
                                                             <input class="form-control" type="number" ng-model="flavor.data.lifecycle_events.authentication_port">
                                                         </div>
@@ -546,7 +546,7 @@
                                                             <label>Monitoring Parameter</label>
                                                             <ui-select class="form-group" ng-model="assurance_param.monitoring_parameter" ng-disabled="disabled">
                                                                 <ui-select-match placeholder="">[[$select.selected.desc]] ([[$select.selected.unit]])</ui-select-match>
-                                                                <ui-select-choices repeat="mon_par in generic_monitoring_parameters">
+                                                                <ui-select-choices repeat="mon_par in getAllParameters(flavor_name)">
                                                                     <span ng-bind-html="mon_par.desc"></span> (<span ng-bind-html="mon_par.unit"></span>)
                                                                 </ui-select-choices>
                                                             </ui-select>

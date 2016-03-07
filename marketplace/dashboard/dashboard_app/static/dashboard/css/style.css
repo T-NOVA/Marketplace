@@ -14,7 +14,12 @@ body {
 
 }
 
+.btn-sm, .btn-group-sm > .btn {
+    font-size: 13px !important;
+}
+
 .alert {
+
     border: none;
     border-radius: 0;
     text-shadow: 0 1px 0 rgba(255, 255, 255, .2);
@@ -48,22 +53,22 @@ body {
     position: fixed;
     top: 0;
     right: 0;
-    z-index: 999;
+    z-index: 99999999999;
 }
 
 .alert.bot-right{
     position: fixed;
     bottom: 0;
     right: 0;
-    z-index: 999;
+    z-index: 99999999999;
 }
 
 
 .label.administrator {
     width: 10px;
     height: 10px;
-  color: rgba(255,255,255,0.87);
-  background-color: rgb(114, 114, 114) !important;
+    color: rgba(255,255,255,0.87);
+    background-color: rgb(114, 114, 114) !important;
 }
 
 .label.administrator:before{
@@ -243,5 +248,18 @@ input.formula{
     margin-right: 2px;
 }
 .label-rejected {
+    background-color: #cd4a2a;
+}
+
+
+.label-init {
+    background-color: #a0a0a0;
+    margin-right: 2px;
+}
+.label-instantiated {
+    background-color: #019f18;
+    margin-right: 2px;
+}
+.label-failed {
     background-color: #cd4a2a;
 }
