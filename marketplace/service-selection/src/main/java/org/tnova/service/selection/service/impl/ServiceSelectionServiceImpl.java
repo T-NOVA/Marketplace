@@ -117,7 +117,7 @@ public class ServiceSelectionServiceImpl
                     HttpEntity<String> entity = new HttpEntity<>( mapper.writeValueAsString( accountingRequest ),
                         headers );
 
-                    logger.info( "Json Request is published to accounting. Printing request" );
+                    logger.info( "Json Request is published to accounting. Printing< request" );
                     logger.info( mapper.writerWithDefaultPrettyPrinter().writeValueAsString( accountingRequest ) );
 
                     ResponseEntity<String> response = restTemplate

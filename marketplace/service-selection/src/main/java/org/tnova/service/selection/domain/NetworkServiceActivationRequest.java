@@ -1,7 +1,6 @@
 package org.tnova.service.selection.domain;
 
 import com.fasterxml.jackson.annotation.*;
-import org.springframework.aop.interceptor.SimpleTraceInterceptor;
 
 import java.util.HashMap;
 import java.util.Map;
