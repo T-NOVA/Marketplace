@@ -23,9 +23,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class Violation {
 
     @JsonProperty("interval")
-    private long interval;
+    private Integer interval;
     @JsonProperty("breaches_count")
-    private long breachesCount;
+    private Integer breachesCount;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -41,7 +41,7 @@ public class Violation {
      * @param interval
      * @param breachesCount
      */
-    public Violation(long interval, long breachesCount) {
+    public Violation(Integer interval, Integer breachesCount) {
         this.interval = interval;
         this.breachesCount = breachesCount;
     }
@@ -52,7 +52,7 @@ public class Violation {
      *     The interval
      */
     @JsonProperty("interval")
-    public long getInterval() {
+    public Integer getInterval() {
         return interval;
     }
 
@@ -62,11 +62,11 @@ public class Violation {
      *     The interval
      */
     @JsonProperty("interval")
-    public void setInterval(long interval) {
+    public void setInterval(Integer interval) {
         this.interval = interval;
     }
 
-    public Violation withInterval(long interval) {
+    public Violation withInterval(Integer interval) {
         this.interval = interval;
         return this;
     }
@@ -77,7 +77,7 @@ public class Violation {
      *     The breachesCount
      */
     @JsonProperty("breaches_count")
-    public long getBreachesCount() {
+    public Integer getBreachesCount() {
         return breachesCount;
     }
 
@@ -87,11 +87,11 @@ public class Violation {
      *     The breaches_count
      */
     @JsonProperty("breaches_count")
-    public void setBreachesCount(long breachesCount) {
+    public void setBreachesCount(Integer breachesCount) {
         this.breachesCount = breachesCount;
     }
 
-    public Violation withBreachesCount(long breachesCount) {
+    public Violation withBreachesCount(Integer breachesCount) {
         this.breachesCount = breachesCount;
         return this;
     }

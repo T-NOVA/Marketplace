@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Generated;
-import javax.validation.Valid;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -39,21 +38,19 @@ public class Vlink {
     @JsonProperty("connectivity_type")
     private String connectivityType;
     @JsonProperty("vdu_reference")
-    @Valid
     private List<String> vduReference = new ArrayList<String>();
     @JsonProperty("external_access")
-    private boolean externalAccess;
+    private Boolean externalAccess;
     @JsonProperty("connection_points_reference")
-    @Valid
     private List<String> connectionPointsReference = new ArrayList<String>();
     @JsonProperty("access")
-    private boolean access;
+    private Boolean access;
     @JsonProperty("alias")
     private String alias;
     @JsonProperty("root_requirement")
     private String rootRequirement;
     @JsonProperty("dhcp")
-    private boolean dhcp;
+    private Boolean dhcp;
     @JsonProperty("id")
     private String id;
     @JsonProperty("qos")
@@ -82,7 +79,7 @@ public class Vlink {
      * @param connectivityType
      * @param vduReference
      */
-    public Vlink(String leafRequirement, String connectivityType, List<String> vduReference, boolean externalAccess, List<String> connectionPointsReference, boolean access, String alias, String rootRequirement, boolean dhcp, String id, String qos) {
+    public Vlink(String leafRequirement, String connectivityType, List<String> vduReference, Boolean externalAccess, List<String> connectionPointsReference, Boolean access, String alias, String rootRequirement, Boolean dhcp, String id, String qos) {
         this.leafRequirement = leafRequirement;
         this.connectivityType = connectivityType;
         this.vduReference = vduReference;
@@ -177,7 +174,7 @@ public class Vlink {
      *     The externalAccess
      */
     @JsonProperty("external_access")
-    public boolean isExternalAccess() {
+    public Boolean getExternalAccess() {
         return externalAccess;
     }
 
@@ -187,11 +184,11 @@ public class Vlink {
      *     The external_access
      */
     @JsonProperty("external_access")
-    public void setExternalAccess(boolean externalAccess) {
+    public void setExternalAccess(Boolean externalAccess) {
         this.externalAccess = externalAccess;
     }
 
-    public Vlink withExternalAccess(boolean externalAccess) {
+    public Vlink withExternalAccess(Boolean externalAccess) {
         this.externalAccess = externalAccess;
         return this;
     }
@@ -227,7 +224,7 @@ public class Vlink {
      *     The access
      */
     @JsonProperty("access")
-    public boolean isAccess() {
+    public Boolean getAccess() {
         return access;
     }
 
@@ -237,11 +234,11 @@ public class Vlink {
      *     The access
      */
     @JsonProperty("access")
-    public void setAccess(boolean access) {
+    public void setAccess(Boolean access) {
         this.access = access;
     }
 
-    public Vlink withAccess(boolean access) {
+    public Vlink withAccess(Boolean access) {
         this.access = access;
         return this;
     }
@@ -302,7 +299,7 @@ public class Vlink {
      *     The dhcp
      */
     @JsonProperty("dhcp")
-    public boolean isDhcp() {
+    public Boolean getDhcp() {
         return dhcp;
     }
 
@@ -312,11 +309,11 @@ public class Vlink {
      *     The dhcp
      */
     @JsonProperty("dhcp")
-    public void setDhcp(boolean dhcp) {
+    public void setDhcp(Boolean dhcp) {
         this.dhcp = dhcp;
     }
 
-    public Vlink withDhcp(boolean dhcp) {
+    public Vlink withDhcp(Boolean dhcp) {
         this.dhcp = dhcp;
         return this;
     }

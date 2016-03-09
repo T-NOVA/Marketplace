@@ -23,7 +23,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class MemoryParameters {
 
     @JsonProperty("large_pages_required")
-    private boolean largePagesRequired;
+    private Boolean largePagesRequired;
     @JsonProperty("numa_allocation_policy")
     private String numaAllocationPolicy;
     @JsonIgnore
@@ -41,7 +41,7 @@ public class MemoryParameters {
      * @param largePagesRequired
      * @param numaAllocationPolicy
      */
-    public MemoryParameters(boolean largePagesRequired, String numaAllocationPolicy) {
+    public MemoryParameters(Boolean largePagesRequired, String numaAllocationPolicy) {
         this.largePagesRequired = largePagesRequired;
         this.numaAllocationPolicy = numaAllocationPolicy;
     }
@@ -52,7 +52,7 @@ public class MemoryParameters {
      *     The largePagesRequired
      */
     @JsonProperty("large_pages_required")
-    public boolean isLargePagesRequired() {
+    public Boolean getLargePagesRequired() {
         return largePagesRequired;
     }
 
@@ -62,11 +62,11 @@ public class MemoryParameters {
      *     The large_pages_required
      */
     @JsonProperty("large_pages_required")
-    public void setLargePagesRequired(boolean largePagesRequired) {
+    public void setLargePagesRequired(Boolean largePagesRequired) {
         this.largePagesRequired = largePagesRequired;
     }
 
-    public MemoryParameters withLargePagesRequired(boolean largePagesRequired) {
+    public MemoryParameters withLargePagesRequired(Boolean largePagesRequired) {
         this.largePagesRequired = largePagesRequired;
         return this;
     }

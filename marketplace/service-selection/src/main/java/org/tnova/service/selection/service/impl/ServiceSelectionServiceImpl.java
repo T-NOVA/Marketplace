@@ -14,6 +14,7 @@ import org.tnova.service.selection.domain.NetworkServiceActivationReply;
 import org.tnova.service.selection.domain.NetworkServiceActivationRequest;
 import org.tnova.service.selection.domain.Vnf;
 import org.tnova.service.selection.domain.instantiate.NetworkServiceInstantiateReply;
+import org.tnova.service.selection.domain.instantiate.Vnfr;
 import org.tnova.service.selection.domain.nsd.NetworkService;
 import org.tnova.service.selection.domain.nsd.Sla;
 import org.tnova.service.selection.domain.vnf.VnfDescriptor;
@@ -84,6 +85,22 @@ public class ServiceSelectionServiceImpl
         {
             accountingRequests.add( serviceReq );
         }
+
+        for( Vnfr vnfr : reply.getVnfrs() )
+        {
+            VnfDescriptor vnfDescriptor = vnfService.getVnfById( vnfr.getVnfdId() );
+
+
+            for( String vnfdid : vnfr.getVnfiId() )
+            {
+                AccountingRequest vnfRequest = Helpers.creatingAccountingRequestForVnf(
+                    networkService, reply, request, vnfDescriptor, vnfdid );
+
+                accountingRequests.add( vnfRequest );
+
+            }
+        }
+
 
         logger.info( "{} found in order to be published in Accounting module. Start sending.... ",
             accountingRequests.size() );

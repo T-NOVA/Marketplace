@@ -23,9 +23,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class ScaleInOut {
 
     @JsonProperty("minimum")
-    private long minimum;
+    private Integer minimum;
     @JsonProperty("maximum")
-    private long maximum;
+    private Integer maximum;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -41,7 +41,7 @@ public class ScaleInOut {
      * @param minimum
      * @param maximum
      */
-    public ScaleInOut(long minimum, long maximum) {
+    public ScaleInOut(Integer minimum, Integer maximum) {
         this.minimum = minimum;
         this.maximum = maximum;
     }
@@ -52,7 +52,7 @@ public class ScaleInOut {
      *     The minimum
      */
     @JsonProperty("minimum")
-    public long getMinimum() {
+    public Integer getMinimum() {
         return minimum;
     }
 
@@ -62,11 +62,11 @@ public class ScaleInOut {
      *     The minimum
      */
     @JsonProperty("minimum")
-    public void setMinimum(long minimum) {
+    public void setMinimum(Integer minimum) {
         this.minimum = minimum;
     }
 
-    public ScaleInOut withMinimum(long minimum) {
+    public ScaleInOut withMinimum(Integer minimum) {
         this.minimum = minimum;
         return this;
     }
@@ -77,7 +77,7 @@ public class ScaleInOut {
      *     The maximum
      */
     @JsonProperty("maximum")
-    public long getMaximum() {
+    public Integer getMaximum() {
         return maximum;
     }
 
@@ -87,11 +87,11 @@ public class ScaleInOut {
      *     The maximum
      */
     @JsonProperty("maximum")
-    public void setMaximum(long maximum) {
+    public void setMaximum(Integer maximum) {
         this.maximum = maximum;
     }
 
-    public ScaleInOut withMaximum(long maximum) {
+    public ScaleInOut withMaximum(Integer maximum) {
         this.maximum = maximum;
         return this;
     }

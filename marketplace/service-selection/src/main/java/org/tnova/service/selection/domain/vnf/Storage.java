@@ -26,9 +26,9 @@ public class Storage {
     @JsonProperty("size_unit")
     private String sizeUnit;
     @JsonProperty("persistence")
-    private boolean persistence;
+    private Boolean persistence;
     @JsonProperty("size")
-    private long size;
+    private Integer size;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -45,7 +45,7 @@ public class Storage {
      * @param sizeUnit
      * @param size
      */
-    public Storage(String sizeUnit, boolean persistence, long size) {
+    public Storage(String sizeUnit, Boolean persistence, Integer size) {
         this.sizeUnit = sizeUnit;
         this.persistence = persistence;
         this.size = size;
@@ -82,7 +82,7 @@ public class Storage {
      *     The persistence
      */
     @JsonProperty("persistence")
-    public boolean isPersistence() {
+    public Boolean getPersistence() {
         return persistence;
     }
 
@@ -92,11 +92,11 @@ public class Storage {
      *     The persistence
      */
     @JsonProperty("persistence")
-    public void setPersistence(boolean persistence) {
+    public void setPersistence(Boolean persistence) {
         this.persistence = persistence;
     }
 
-    public Storage withPersistence(boolean persistence) {
+    public Storage withPersistence(Boolean persistence) {
         this.persistence = persistence;
         return this;
     }
@@ -107,7 +107,7 @@ public class Storage {
      *     The size
      */
     @JsonProperty("size")
-    public long getSize() {
+    public Integer getSize() {
         return size;
     }
 
@@ -117,11 +117,11 @@ public class Storage {
      *     The size
      */
     @JsonProperty("size")
-    public void setSize(long size) {
+    public void setSize(Integer size) {
         this.size = size;
     }
 
-    public Storage withSize(long size) {
+    public Storage withSize(Integer size) {
         this.size = size;
         return this;
     }

@@ -25,11 +25,11 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class Price {
 
     @JsonProperty("min_per_period")
-    private long minPerPeriod;
+    private Integer minPerPeriod;
     @JsonProperty("max_per_period")
-    private long maxPerPeriod;
+    private Integer maxPerPeriod;
     @JsonProperty("setup")
-    private long setup;
+    private Integer setup;
     @JsonProperty("unit")
     private String unit;
     @JsonIgnore
@@ -49,7 +49,7 @@ public class Price {
      * @param setup
      * @param minPerPeriod
      */
-    public Price(long minPerPeriod, long maxPerPeriod, long setup, String unit) {
+    public Price(Integer minPerPeriod, Integer maxPerPeriod, Integer setup, String unit) {
         this.minPerPeriod = minPerPeriod;
         this.maxPerPeriod = maxPerPeriod;
         this.setup = setup;
@@ -62,7 +62,7 @@ public class Price {
      *     The minPerPeriod
      */
     @JsonProperty("min_per_period")
-    public long getMinPerPeriod() {
+    public Integer getMinPerPeriod() {
         return minPerPeriod;
     }
 
@@ -72,11 +72,11 @@ public class Price {
      *     The min_per_period
      */
     @JsonProperty("min_per_period")
-    public void setMinPerPeriod(long minPerPeriod) {
+    public void setMinPerPeriod(Integer minPerPeriod) {
         this.minPerPeriod = minPerPeriod;
     }
 
-    public Price withMinPerPeriod(long minPerPeriod) {
+    public Price withMinPerPeriod(Integer minPerPeriod) {
         this.minPerPeriod = minPerPeriod;
         return this;
     }
@@ -87,7 +87,7 @@ public class Price {
      *     The maxPerPeriod
      */
     @JsonProperty("max_per_period")
-    public long getMaxPerPeriod() {
+    public Integer getMaxPerPeriod() {
         return maxPerPeriod;
     }
 
@@ -97,11 +97,11 @@ public class Price {
      *     The max_per_period
      */
     @JsonProperty("max_per_period")
-    public void setMaxPerPeriod(long maxPerPeriod) {
+    public void setMaxPerPeriod(Integer maxPerPeriod) {
         this.maxPerPeriod = maxPerPeriod;
     }
 
-    public Price withMaxPerPeriod(long maxPerPeriod) {
+    public Price withMaxPerPeriod(Integer maxPerPeriod) {
         this.maxPerPeriod = maxPerPeriod;
         return this;
     }
@@ -112,7 +112,7 @@ public class Price {
      *     The setup
      */
     @JsonProperty("setup")
-    public long getSetup() {
+    public Integer getSetup() {
         return setup;
     }
 
@@ -122,11 +122,11 @@ public class Price {
      *     The setup
      */
     @JsonProperty("setup")
-    public void setSetup(long setup) {
+    public void setSetup(Integer setup) {
         this.setup = setup;
     }
 
-    public Price withSetup(long setup) {
+    public Price withSetup(Integer setup) {
         this.setup = setup;
         return this;
     }

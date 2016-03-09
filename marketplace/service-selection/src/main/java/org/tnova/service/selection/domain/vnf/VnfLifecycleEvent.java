@@ -4,7 +4,6 @@ package org.tnova.service.selection.domain.vnf;
 import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.Generated;
-import javax.validation.Valid;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -22,8 +21,10 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
     "driver",
     "authentication_type",
     "authentication",
+    "authentication_port",
+    "flavor_id_ref",
     "events",
-    "flavor_id_ref"
+    "vnf_container"
 })
 public class VnfLifecycleEvent {
 
@@ -35,11 +36,14 @@ public class VnfLifecycleEvent {
     private String authenticationType;
     @JsonProperty("authentication")
     private String authentication;
-    @JsonProperty("events")
-    @Valid
-    private Events events;
+    @JsonProperty("authentication_port")
+    private Integer authenticationPort;
     @JsonProperty("flavor_id_ref")
     private String flavorIdRef;
+    @JsonProperty("events")
+    private Events events;
+    @JsonProperty("vnf_container")
+    private String vnfContainer;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -52,20 +56,24 @@ public class VnfLifecycleEvent {
 
     /**
      * 
+     * @param authenticationPort
      * @param events
      * @param authentication
      * @param authenticationUsername
      * @param driver
+     * @param vnfContainer
      * @param authenticationType
      * @param flavorIdRef
      */
-    public VnfLifecycleEvent(String authenticationUsername, String driver, String authenticationType, String authentication, Events events, String flavorIdRef) {
+    public VnfLifecycleEvent(String authenticationUsername, String driver, String authenticationType, String authentication, Integer authenticationPort, String flavorIdRef, Events events, String vnfContainer) {
         this.authenticationUsername = authenticationUsername;
         this.driver = driver;
         this.authenticationType = authenticationType;
         this.authentication = authentication;
-        this.events = events;
+        this.authenticationPort = authenticationPort;
         this.flavorIdRef = flavorIdRef;
+        this.events = events;
+        this.vnfContainer = vnfContainer;
     }
 
     /**
@@ -171,25 +179,25 @@ public class VnfLifecycleEvent {
     /**
      * 
      * @return
-     *     The events
+     *     The authenticationPort
      */
-    @JsonProperty("events")
-    public Events getEvents() {
-        return events;
+    @JsonProperty("authentication_port")
+    public Integer getAuthenticationPort() {
+        return authenticationPort;
     }
 
     /**
      * 
-     * @param events
-     *     The events
+     * @param authenticationPort
+     *     The authentication_port
      */
-    @JsonProperty("events")
-    public void setEvents(Events events) {
-        this.events = events;
+    @JsonProperty("authentication_port")
+    public void setAuthenticationPort(Integer authenticationPort) {
+        this.authenticationPort = authenticationPort;
     }
 
-    public VnfLifecycleEvent withEvents(Events events) {
-        this.events = events;
+    public VnfLifecycleEvent withAuthenticationPort(Integer authenticationPort) {
+        this.authenticationPort = authenticationPort;
         return this;
     }
 
@@ -218,6 +226,56 @@ public class VnfLifecycleEvent {
         return this;
     }
 
+    /**
+     * 
+     * @return
+     *     The events
+     */
+    @JsonProperty("events")
+    public Events getEvents() {
+        return events;
+    }
+
+    /**
+     * 
+     * @param events
+     *     The events
+     */
+    @JsonProperty("events")
+    public void setEvents(Events events) {
+        this.events = events;
+    }
+
+    public VnfLifecycleEvent withEvents(Events events) {
+        this.events = events;
+        return this;
+    }
+
+    /**
+     * 
+     * @return
+     *     The vnfContainer
+     */
+    @JsonProperty("vnf_container")
+    public String getVnfContainer() {
+        return vnfContainer;
+    }
+
+    /**
+     * 
+     * @param vnfContainer
+     *     The vnf_container
+     */
+    @JsonProperty("vnf_container")
+    public void setVnfContainer(String vnfContainer) {
+        this.vnfContainer = vnfContainer;
+    }
+
+    public VnfLifecycleEvent withVnfContainer(String vnfContainer) {
+        this.vnfContainer = vnfContainer;
+        return this;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -240,7 +298,7 @@ public class VnfLifecycleEvent {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(authenticationUsername).append(driver).append(authenticationType).append(authentication).append(events).append(flavorIdRef).append(additionalProperties).toHashCode();
+        return new HashCodeBuilder().append(authenticationUsername).append(driver).append(authenticationType).append(authentication).append(authenticationPort).append(flavorIdRef).append(events).append(vnfContainer).append(additionalProperties).toHashCode();
     }
 
     @Override
@@ -252,7 +310,7 @@ public class VnfLifecycleEvent {
             return false;
         }
         VnfLifecycleEvent rhs = ((VnfLifecycleEvent) other);
-        return new EqualsBuilder().append(authenticationUsername, rhs.authenticationUsername).append(driver, rhs.driver).append(authenticationType, rhs.authenticationType).append(authentication, rhs.authentication).append(events, rhs.events).append(flavorIdRef, rhs.flavorIdRef).append(additionalProperties, rhs.additionalProperties).isEquals();
+        return new EqualsBuilder().append(authenticationUsername, rhs.authenticationUsername).append(driver, rhs.driver).append(authenticationType, rhs.authenticationType).append(authentication, rhs.authentication).append(authenticationPort, rhs.authenticationPort).append(flavorIdRef, rhs.flavorIdRef).append(events, rhs.events).append(vnfContainer, rhs.vnfContainer).append(additionalProperties, rhs.additionalProperties).isEquals();
     }
 
 }

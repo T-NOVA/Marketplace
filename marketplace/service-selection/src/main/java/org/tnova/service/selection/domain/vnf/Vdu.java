@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Generated;
-import javax.validation.Valid;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -24,8 +23,10 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
     "vm_image",
     "vm_image_format",
     "networking_resources",
+    "monitoring_parameters_specific",
     "id",
     "alias",
+    "controller",
     "connection_points",
     "monitoring_parameters",
     "vm_image_md5",
@@ -34,7 +35,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class Vdu {
 
     @JsonProperty("resource_requirements")
-    @Valid
     private ResourceRequirements resourceRequirements;
     @JsonProperty("vm_image")
     private String vmImage;
@@ -42,20 +42,21 @@ public class Vdu {
     private String vmImageFormat;
     @JsonProperty("networking_resources")
     private String networkingResources;
+    @JsonProperty("monitoring_parameters_specific")
+    private List<MonitoringParametersSpecific> monitoringParametersSpecific = new ArrayList<MonitoringParametersSpecific>();
     @JsonProperty("id")
     private String id;
     @JsonProperty("alias")
     private String alias;
+    @JsonProperty("controller")
+    private Boolean controller;
     @JsonProperty("connection_points")
-    @Valid
     private List<ConnectionPoint> connectionPoints = new ArrayList<ConnectionPoint>();
     @JsonProperty("monitoring_parameters")
-    @Valid
     private List<MonitoringParameter> monitoringParameters = new ArrayList<MonitoringParameter>();
     @JsonProperty("vm_image_md5")
     private String vmImageMd5;
     @JsonProperty("scale_in_out")
-    @Valid
     private ScaleInOut scaleInOut;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -76,17 +77,21 @@ public class Vdu {
      * @param monitoringParameters
      * @param connectionPoints
      * @param scaleInOut
+     * @param controller
      * @param vmImage
      * @param resourceRequirements
+     * @param monitoringParametersSpecific
      * @param vmImageFormat
      */
-    public Vdu(ResourceRequirements resourceRequirements, String vmImage, String vmImageFormat, String networkingResources, String id, String alias, List<ConnectionPoint> connectionPoints, List<MonitoringParameter> monitoringParameters, String vmImageMd5, ScaleInOut scaleInOut) {
+    public Vdu(ResourceRequirements resourceRequirements, String vmImage, String vmImageFormat, String networkingResources, List<MonitoringParametersSpecific> monitoringParametersSpecific, String id, String alias, Boolean controller, List<ConnectionPoint> connectionPoints, List<MonitoringParameter> monitoringParameters, String vmImageMd5, ScaleInOut scaleInOut) {
         this.resourceRequirements = resourceRequirements;
         this.vmImage = vmImage;
         this.vmImageFormat = vmImageFormat;
         this.networkingResources = networkingResources;
+        this.monitoringParametersSpecific = monitoringParametersSpecific;
         this.id = id;
         this.alias = alias;
+        this.controller = controller;
         this.connectionPoints = connectionPoints;
         this.monitoringParameters = monitoringParameters;
         this.vmImageMd5 = vmImageMd5;
@@ -196,6 +201,31 @@ public class Vdu {
     /**
      * 
      * @return
+     *     The monitoringParametersSpecific
+     */
+    @JsonProperty("monitoring_parameters_specific")
+    public List<MonitoringParametersSpecific> getMonitoringParametersSpecific() {
+        return monitoringParametersSpecific;
+    }
+
+    /**
+     * 
+     * @param monitoringParametersSpecific
+     *     The monitoring_parameters_specific
+     */
+    @JsonProperty("monitoring_parameters_specific")
+    public void setMonitoringParametersSpecific(List<MonitoringParametersSpecific> monitoringParametersSpecific) {
+        this.monitoringParametersSpecific = monitoringParametersSpecific;
+    }
+
+    public Vdu withMonitoringParametersSpecific(List<MonitoringParametersSpecific> monitoringParametersSpecific) {
+        this.monitoringParametersSpecific = monitoringParametersSpecific;
+        return this;
+    }
+
+    /**
+     * 
+     * @return
      *     The id
      */
     @JsonProperty("id")
@@ -240,6 +270,31 @@ public class Vdu {
 
     public Vdu withAlias(String alias) {
         this.alias = alias;
+        return this;
+    }
+
+    /**
+     * 
+     * @return
+     *     The controller
+     */
+    @JsonProperty("controller")
+    public Boolean getController() {
+        return controller;
+    }
+
+    /**
+     * 
+     * @param controller
+     *     The controller
+     */
+    @JsonProperty("controller")
+    public void setController(Boolean controller) {
+        this.controller = controller;
+    }
+
+    public Vdu withController(Boolean controller) {
+        this.controller = controller;
         return this;
     }
 
@@ -365,7 +420,7 @@ public class Vdu {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(resourceRequirements).append(vmImage).append(vmImageFormat).append(networkingResources).append(id).append(alias).append(connectionPoints).append(monitoringParameters).append(vmImageMd5).append(scaleInOut).append(additionalProperties).toHashCode();
+        return new HashCodeBuilder().append(resourceRequirements).append(vmImage).append(vmImageFormat).append(networkingResources).append(monitoringParametersSpecific).append(id).append(alias).append(controller).append(connectionPoints).append(monitoringParameters).append(vmImageMd5).append(scaleInOut).append(additionalProperties).toHashCode();
     }
 
     @Override
@@ -377,7 +432,7 @@ public class Vdu {
             return false;
         }
         Vdu rhs = ((Vdu) other);
-        return new EqualsBuilder().append(resourceRequirements, rhs.resourceRequirements).append(vmImage, rhs.vmImage).append(vmImageFormat, rhs.vmImageFormat).append(networkingResources, rhs.networkingResources).append(id, rhs.id).append(alias, rhs.alias).append(connectionPoints, rhs.connectionPoints).append(monitoringParameters, rhs.monitoringParameters).append(vmImageMd5, rhs.vmImageMd5).append(scaleInOut, rhs.scaleInOut).append(additionalProperties, rhs.additionalProperties).isEquals();
+        return new EqualsBuilder().append(resourceRequirements, rhs.resourceRequirements).append(vmImage, rhs.vmImage).append(vmImageFormat, rhs.vmImageFormat).append(networkingResources, rhs.networkingResources).append(monitoringParametersSpecific, rhs.monitoringParametersSpecific).append(id, rhs.id).append(alias, rhs.alias).append(controller, rhs.controller).append(connectionPoints, rhs.connectionPoints).append(monitoringParameters, rhs.monitoringParameters).append(vmImageMd5, rhs.vmImageMd5).append(scaleInOut, rhs.scaleInOut).append(additionalProperties, rhs.additionalProperties).isEquals();
     }
 
 }

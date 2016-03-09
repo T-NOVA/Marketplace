@@ -4,7 +4,6 @@ package org.tnova.service.selection.domain.vnf;
 import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.Generated;
-import javax.validation.Valid;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -37,32 +36,26 @@ public class ResourceRequirements {
     @JsonProperty("network_interface_bandwidth_unit")
     private String networkInterfaceBandwidthUnit;
     @JsonProperty("hypervisor_parameters")
-    @Valid
     private HypervisorParameters hypervisorParameters;
     @JsonProperty("memory_unit")
     private String memoryUnit;
     @JsonProperty("network_interface_card_capabilities")
-    @Valid
     private NetworkInterfaceCardCapabilities networkInterfaceCardCapabilities;
     @JsonProperty("storage")
-    @Valid
     private Storage storage;
     @JsonProperty("network_interface_bandwidth")
     private String networkInterfaceBandwidth;
     @JsonProperty("platform_pcie_parameters")
-    @Valid
     private PlatformPcieParameters platformPcieParameters;
     @JsonProperty("vcpus")
-    private long vcpus;
+    private Integer vcpus;
     @JsonProperty("vswitch_capabilities")
-    @Valid
     private VswitchCapabilities vswitchCapabilities;
     @JsonProperty("data_processing_acceleration_library")
     private String dataProcessingAccelerationLibrary;
     @JsonProperty("memory")
-    private long memory;
+    private Integer memory;
     @JsonProperty("memory_parameters")
-    @Valid
     private MemoryParameters memoryParameters;
     @JsonProperty("cpu_support_accelerator")
     private String cpuSupportAccelerator;
@@ -92,7 +85,7 @@ public class ResourceRequirements {
      * @param storage
      * @param memoryParameters
      */
-    public ResourceRequirements(String networkInterfaceBandwidthUnit, HypervisorParameters hypervisorParameters, String memoryUnit, NetworkInterfaceCardCapabilities networkInterfaceCardCapabilities, Storage storage, String networkInterfaceBandwidth, PlatformPcieParameters platformPcieParameters, long vcpus, VswitchCapabilities vswitchCapabilities, String dataProcessingAccelerationLibrary, long memory, MemoryParameters memoryParameters, String cpuSupportAccelerator) {
+    public ResourceRequirements(String networkInterfaceBandwidthUnit, HypervisorParameters hypervisorParameters, String memoryUnit, NetworkInterfaceCardCapabilities networkInterfaceCardCapabilities, Storage storage, String networkInterfaceBandwidth, PlatformPcieParameters platformPcieParameters, Integer vcpus, VswitchCapabilities vswitchCapabilities, String dataProcessingAccelerationLibrary, Integer memory, MemoryParameters memoryParameters, String cpuSupportAccelerator) {
         this.networkInterfaceBandwidthUnit = networkInterfaceBandwidthUnit;
         this.hypervisorParameters = hypervisorParameters;
         this.memoryUnit = memoryUnit;
@@ -289,7 +282,7 @@ public class ResourceRequirements {
      *     The vcpus
      */
     @JsonProperty("vcpus")
-    public long getVcpus() {
+    public Integer getVcpus() {
         return vcpus;
     }
 
@@ -299,11 +292,11 @@ public class ResourceRequirements {
      *     The vcpus
      */
     @JsonProperty("vcpus")
-    public void setVcpus(long vcpus) {
+    public void setVcpus(Integer vcpus) {
         this.vcpus = vcpus;
     }
 
-    public ResourceRequirements withVcpus(long vcpus) {
+    public ResourceRequirements withVcpus(Integer vcpus) {
         this.vcpus = vcpus;
         return this;
     }
@@ -364,7 +357,7 @@ public class ResourceRequirements {
      *     The memory
      */
     @JsonProperty("memory")
-    public long getMemory() {
+    public Integer getMemory() {
         return memory;
     }
 
@@ -374,11 +367,11 @@ public class ResourceRequirements {
      *     The memory
      */
     @JsonProperty("memory")
-    public void setMemory(long memory) {
+    public void setMemory(Integer memory) {
         this.memory = memory;
     }
 
-    public ResourceRequirements withMemory(long memory) {
+    public ResourceRequirements withMemory(Integer memory) {
         this.memory = memory;
         return this;
     }

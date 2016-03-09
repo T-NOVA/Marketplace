@@ -23,9 +23,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class PlatformPcieParameters {
 
     @JsonProperty("SR-IOV")
-    private boolean SRIOV;
+    private Boolean SRIOV;
     @JsonProperty("device_pass_through")
-    private boolean devicePassThrough;
+    private Boolean devicePassThrough;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -41,7 +41,7 @@ public class PlatformPcieParameters {
      * @param devicePassThrough
      * @param SRIOV
      */
-    public PlatformPcieParameters(boolean SRIOV, boolean devicePassThrough) {
+    public PlatformPcieParameters(Boolean SRIOV, Boolean devicePassThrough) {
         this.SRIOV = SRIOV;
         this.devicePassThrough = devicePassThrough;
     }
@@ -52,7 +52,7 @@ public class PlatformPcieParameters {
      *     The SRIOV
      */
     @JsonProperty("SR-IOV")
-    public boolean isSRIOV() {
+    public Boolean getSRIOV() {
         return SRIOV;
     }
 
@@ -62,11 +62,11 @@ public class PlatformPcieParameters {
      *     The SR-IOV
      */
     @JsonProperty("SR-IOV")
-    public void setSRIOV(boolean SRIOV) {
+    public void setSRIOV(Boolean SRIOV) {
         this.SRIOV = SRIOV;
     }
 
-    public PlatformPcieParameters withSRIOV(boolean SRIOV) {
+    public PlatformPcieParameters withSRIOV(Boolean SRIOV) {
         this.SRIOV = SRIOV;
         return this;
     }
@@ -77,7 +77,7 @@ public class PlatformPcieParameters {
      *     The devicePassThrough
      */
     @JsonProperty("device_pass_through")
-    public boolean isDevicePassThrough() {
+    public Boolean getDevicePassThrough() {
         return devicePassThrough;
     }
 
@@ -87,11 +87,11 @@ public class PlatformPcieParameters {
      *     The device_pass_through
      */
     @JsonProperty("device_pass_through")
-    public void setDevicePassThrough(boolean devicePassThrough) {
+    public void setDevicePassThrough(Boolean devicePassThrough) {
         this.devicePassThrough = devicePassThrough;
     }
 
-    public PlatformPcieParameters withDevicePassThrough(boolean devicePassThrough) {
+    public PlatformPcieParameters withDevicePassThrough(Boolean devicePassThrough) {
         this.devicePassThrough = devicePassThrough;
         return this;
     }

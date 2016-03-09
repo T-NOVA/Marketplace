@@ -27,7 +27,7 @@ public class Penalty {
     @JsonProperty("type")
     private String type;
     @JsonProperty("expression")
-    private long expression;
+    private Integer expression;
     @JsonProperty("validity")
     private String validity;
     @JsonProperty("unit")
@@ -49,7 +49,7 @@ public class Penalty {
      * @param validity
      * @param type
      */
-    public Penalty(String type, long expression, String validity, String unit) {
+    public Penalty(String type, Integer expression, String validity, String unit) {
         this.type = type;
         this.expression = expression;
         this.validity = validity;
@@ -87,7 +87,7 @@ public class Penalty {
      *     The expression
      */
     @JsonProperty("expression")
-    public long getExpression() {
+    public Integer getExpression() {
         return expression;
     }
 
@@ -97,11 +97,11 @@ public class Penalty {
      *     The expression
      */
     @JsonProperty("expression")
-    public void setExpression(long expression) {
+    public void setExpression(Integer expression) {
         this.expression = expression;
     }
 
-    public Penalty withExpression(long expression) {
+    public Penalty withExpression(Integer expression) {
         this.expression = expression;
         return this;
     }

@@ -23,9 +23,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class NetworkInterfaceCardCapabilities {
 
     @JsonProperty("SR-IOV")
-    private boolean SRIOV;
+    private Boolean SRIOV;
     @JsonProperty("mirroring")
-    private boolean mirroring;
+    private Boolean mirroring;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -41,7 +41,7 @@ public class NetworkInterfaceCardCapabilities {
      * @param SRIOV
      * @param mirroring
      */
-    public NetworkInterfaceCardCapabilities(boolean SRIOV, boolean mirroring) {
+    public NetworkInterfaceCardCapabilities(Boolean SRIOV, Boolean mirroring) {
         this.SRIOV = SRIOV;
         this.mirroring = mirroring;
     }
@@ -52,7 +52,7 @@ public class NetworkInterfaceCardCapabilities {
      *     The SRIOV
      */
     @JsonProperty("SR-IOV")
-    public boolean isSRIOV() {
+    public Boolean getSRIOV() {
         return SRIOV;
     }
 
@@ -62,11 +62,11 @@ public class NetworkInterfaceCardCapabilities {
      *     The SR-IOV
      */
     @JsonProperty("SR-IOV")
-    public void setSRIOV(boolean SRIOV) {
+    public void setSRIOV(Boolean SRIOV) {
         this.SRIOV = SRIOV;
     }
 
-    public NetworkInterfaceCardCapabilities withSRIOV(boolean SRIOV) {
+    public NetworkInterfaceCardCapabilities withSRIOV(Boolean SRIOV) {
         this.SRIOV = SRIOV;
         return this;
     }
@@ -77,7 +77,7 @@ public class NetworkInterfaceCardCapabilities {
      *     The mirroring
      */
     @JsonProperty("mirroring")
-    public boolean isMirroring() {
+    public Boolean getMirroring() {
         return mirroring;
     }
 
@@ -87,11 +87,11 @@ public class NetworkInterfaceCardCapabilities {
      *     The mirroring
      */
     @JsonProperty("mirroring")
-    public void setMirroring(boolean mirroring) {
+    public void setMirroring(Boolean mirroring) {
         this.mirroring = mirroring;
     }
 
-    public NetworkInterfaceCardCapabilities withMirroring(boolean mirroring) {
+    public NetworkInterfaceCardCapabilities withMirroring(Boolean mirroring) {
         this.mirroring = mirroring;
         return this;
     }

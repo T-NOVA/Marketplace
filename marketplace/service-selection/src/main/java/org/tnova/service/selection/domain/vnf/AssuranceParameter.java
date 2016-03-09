@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Generated;
-import javax.validation.Valid;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -31,12 +30,10 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class AssuranceParameter {
 
     @JsonProperty("violation")
-    @Valid
     private List<Violation> violation = new ArrayList<Violation>();
     @JsonProperty("value")
-    private long value;
+    private Integer value;
     @JsonProperty("penalty")
-    @Valid
     private Penalty penalty;
     @JsonProperty("formula")
     private String formula;
@@ -66,7 +63,7 @@ public class AssuranceParameter {
      * @param penalty
      * @param formula
      */
-    public AssuranceParameter(List<Violation> violation, long value, Penalty penalty, String formula, String relId, String id, String unit) {
+    public AssuranceParameter(List<Violation> violation, Integer value, Penalty penalty, String formula, String relId, String id, String unit) {
         this.violation = violation;
         this.value = value;
         this.penalty = penalty;
@@ -107,7 +104,7 @@ public class AssuranceParameter {
      *     The value
      */
     @JsonProperty("value")
-    public long getValue() {
+    public Integer getValue() {
         return value;
     }
 
@@ -117,11 +114,11 @@ public class AssuranceParameter {
      *     The value
      */
     @JsonProperty("value")
-    public void setValue(long value) {
+    public void setValue(Integer value) {
         this.value = value;
     }
 
-    public AssuranceParameter withValue(long value) {
+    public AssuranceParameter withValue(Integer value) {
         this.value = value;
         return this;
     }

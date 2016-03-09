@@ -4,7 +4,6 @@ package org.tnova.service.selection.domain.vnf;
 import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.Generated;
-import javax.validation.Valid;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -18,16 +17,18 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
+    "price",
     "model",
-    "price"
+    "period"
 })
 public class BillingModel {
 
+    @JsonProperty("price")
+    private Price price;
     @JsonProperty("model")
     private String model;
-    @JsonProperty("price")
-    @Valid
-    private Price price;
+    @JsonProperty("period")
+    private String period;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -42,10 +43,37 @@ public class BillingModel {
      * 
      * @param model
      * @param price
+     * @param period
      */
-    public BillingModel(String model, Price price) {
-        this.model = model;
+    public BillingModel(Price price, String model, String period) {
         this.price = price;
+        this.model = model;
+        this.period = period;
+    }
+
+    /**
+     * 
+     * @return
+     *     The price
+     */
+    @JsonProperty("price")
+    public Price getPrice() {
+        return price;
+    }
+
+    /**
+     * 
+     * @param price
+     *     The price
+     */
+    @JsonProperty("price")
+    public void setPrice(Price price) {
+        this.price = price;
+    }
+
+    public BillingModel withPrice(Price price) {
+        this.price = price;
+        return this;
     }
 
     /**
@@ -76,25 +104,25 @@ public class BillingModel {
     /**
      * 
      * @return
-     *     The price
+     *     The period
      */
-    @JsonProperty("price")
-    public Price getPrice() {
-        return price;
+    @JsonProperty("period")
+    public String getPeriod() {
+        return period;
     }
 
     /**
      * 
-     * @param price
-     *     The price
+     * @param period
+     *     The period
      */
-    @JsonProperty("price")
-    public void setPrice(Price price) {
-        this.price = price;
+    @JsonProperty("period")
+    public void setPeriod(String period) {
+        this.period = period;
     }
 
-    public BillingModel withPrice(Price price) {
-        this.price = price;
+    public BillingModel withPeriod(String period) {
+        this.period = period;
         return this;
     }
 
@@ -120,7 +148,7 @@ public class BillingModel {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(model).append(price).append(additionalProperties).toHashCode();
+        return new HashCodeBuilder().append(price).append(model).append(period).append(additionalProperties).toHashCode();
     }
 
     @Override
@@ -132,7 +160,7 @@ public class BillingModel {
             return false;
         }
         BillingModel rhs = ((BillingModel) other);
-        return new EqualsBuilder().append(model, rhs.model).append(price, rhs.price).append(additionalProperties, rhs.additionalProperties).isEquals();
+        return new EqualsBuilder().append(price, rhs.price).append(model, rhs.model).append(period, rhs.period).append(additionalProperties, rhs.additionalProperties).isEquals();
     }
 
 }

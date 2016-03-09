@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Generated;
-import javax.validation.Valid;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -34,17 +33,15 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
     "billing_model",
     "provider",
     "release",
-    "id",
     "type",
+    "id",
     "description"
 })
-public class VnfDescriptor
-{
+public class VnfDescriptor {
 
     @JsonProperty("provider_id")
-    private long providerId;
+    private Integer providerId;
     @JsonProperty("vdu")
-    @Valid
     private List<Vdu> vdu = new ArrayList<Vdu>();
     @JsonProperty("name")
     private String name;
@@ -53,31 +50,27 @@ public class VnfDescriptor
     @JsonProperty("modified_at")
     private String modifiedAt;
     @JsonProperty("vlinks")
-    @Valid
     private List<Vlink> vlinks = new ArrayList<Vlink>();
     @JsonProperty("trade")
-    private boolean trade;
+    private Boolean trade;
     @JsonProperty("descriptor_version")
     private String descriptorVersion;
     @JsonProperty("deployment_flavours")
-    @Valid
     private List<DeploymentFlavour> deploymentFlavours = new ArrayList<DeploymentFlavour>();
     @JsonProperty("version")
     private String version;
     @JsonProperty("vnf_lifecycle_events")
-    @Valid
     private List<VnfLifecycleEvent> vnfLifecycleEvents = new ArrayList<VnfLifecycleEvent>();
     @JsonProperty("billing_model")
-    @Valid
     private BillingModel billingModel;
     @JsonProperty("provider")
     private String provider;
     @JsonProperty("release")
     private String release;
-    @JsonProperty("id")
-    private long id;
     @JsonProperty("type")
     private String type;
+    @JsonProperty("id")
+    private Integer id;
     @JsonProperty("description")
     private String description;
     @JsonIgnore
@@ -110,10 +103,7 @@ public class VnfDescriptor
      * @param release
      * @param billingModel
      */
-    public VnfDescriptor( long providerId, List<Vdu> vdu, String name, String createdAt, String modifiedAt,
-        List<Vlink> vlinks, boolean trade, String descriptorVersion, List<DeploymentFlavour> deploymentFlavours,
-        String version, List<VnfLifecycleEvent> vnfLifecycleEvents, BillingModel billingModel, String provider,
-        String release, long id, String type, String description ) {
+    public VnfDescriptor(Integer providerId, List<Vdu> vdu, String name, String createdAt, String modifiedAt, List<Vlink> vlinks, Boolean trade, String descriptorVersion, List<DeploymentFlavour> deploymentFlavours, String version, List<VnfLifecycleEvent> vnfLifecycleEvents, BillingModel billingModel, String provider, String release, String type, Integer id, String description) {
         this.providerId = providerId;
         this.vdu = vdu;
         this.name = name;
@@ -128,8 +118,8 @@ public class VnfDescriptor
         this.billingModel = billingModel;
         this.provider = provider;
         this.release = release;
-        this.id = id;
         this.type = type;
+        this.id = id;
         this.description = description;
     }
 
@@ -139,7 +129,7 @@ public class VnfDescriptor
      *     The providerId
      */
     @JsonProperty("provider_id")
-    public long getProviderId() {
+    public Integer getProviderId() {
         return providerId;
     }
 
@@ -149,11 +139,11 @@ public class VnfDescriptor
      *     The provider_id
      */
     @JsonProperty("provider_id")
-    public void setProviderId(long providerId) {
+    public void setProviderId(Integer providerId) {
         this.providerId = providerId;
     }
 
-    public VnfDescriptor withProviderId(long providerId) {
+    public VnfDescriptor withProviderId(Integer providerId) {
         this.providerId = providerId;
         return this;
     }
@@ -289,7 +279,7 @@ public class VnfDescriptor
      *     The trade
      */
     @JsonProperty("trade")
-    public boolean isTrade() {
+    public Boolean getTrade() {
         return trade;
     }
 
@@ -299,11 +289,11 @@ public class VnfDescriptor
      *     The trade
      */
     @JsonProperty("trade")
-    public void setTrade(boolean trade) {
+    public void setTrade(Boolean trade) {
         this.trade = trade;
     }
 
-    public VnfDescriptor withTrade(boolean trade) {
+    public VnfDescriptor withTrade(Boolean trade) {
         this.trade = trade;
         return this;
     }
@@ -486,31 +476,6 @@ public class VnfDescriptor
     /**
      * 
      * @return
-     *     The id
-     */
-    @JsonProperty("id")
-    public long getId() {
-        return id;
-    }
-
-    /**
-     * 
-     * @param id
-     *     The id
-     */
-    @JsonProperty("id")
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public VnfDescriptor withId(long id) {
-        this.id = id;
-        return this;
-    }
-
-    /**
-     * 
-     * @return
      *     The type
      */
     @JsonProperty("type")
@@ -530,6 +495,31 @@ public class VnfDescriptor
 
     public VnfDescriptor withType(String type) {
         this.type = type;
+        return this;
+    }
+
+    /**
+     * 
+     * @return
+     *     The id
+     */
+    @JsonProperty("id")
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * 
+     * @param id
+     *     The id
+     */
+    @JsonProperty("id")
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public VnfDescriptor withId(Integer id) {
+        this.id = id;
         return this;
     }
 
@@ -580,7 +570,7 @@ public class VnfDescriptor
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(providerId).append(vdu).append(name).append(createdAt).append(modifiedAt).append(vlinks).append(trade).append(descriptorVersion).append(deploymentFlavours).append(version).append(vnfLifecycleEvents).append(billingModel).append(provider).append(release).append(id).append(type).append(description).append(additionalProperties).toHashCode();
+        return new HashCodeBuilder().append(providerId).append(vdu).append(name).append(createdAt).append(modifiedAt).append(vlinks).append(trade).append(descriptorVersion).append(deploymentFlavours).append(version).append(vnfLifecycleEvents).append(billingModel).append(provider).append(release).append(type).append(id).append(description).append(additionalProperties).toHashCode();
     }
 
     @Override
@@ -588,11 +578,11 @@ public class VnfDescriptor
         if (other == this) {
             return true;
         }
-        if ((other instanceof VnfDescriptor ) == false) {
+        if ((other instanceof VnfDescriptor) == false) {
             return false;
         }
         VnfDescriptor rhs = ((VnfDescriptor) other);
-        return new EqualsBuilder().append(providerId, rhs.providerId).append(vdu, rhs.vdu).append(name, rhs.name).append(createdAt, rhs.createdAt).append(modifiedAt, rhs.modifiedAt).append(vlinks, rhs.vlinks).append(trade, rhs.trade).append(descriptorVersion, rhs.descriptorVersion).append(deploymentFlavours, rhs.deploymentFlavours).append(version, rhs.version).append(vnfLifecycleEvents, rhs.vnfLifecycleEvents).append(billingModel, rhs.billingModel).append(provider, rhs.provider).append(release, rhs.release).append(id, rhs.id).append(type, rhs.type).append(description, rhs.description).append(additionalProperties, rhs.additionalProperties).isEquals();
+        return new EqualsBuilder().append(providerId, rhs.providerId).append(vdu, rhs.vdu).append(name, rhs.name).append(createdAt, rhs.createdAt).append(modifiedAt, rhs.modifiedAt).append(vlinks, rhs.vlinks).append(trade, rhs.trade).append(descriptorVersion, rhs.descriptorVersion).append(deploymentFlavours, rhs.deploymentFlavours).append(version, rhs.version).append(vnfLifecycleEvents, rhs.vnfLifecycleEvents).append(billingModel, rhs.billingModel).append(provider, rhs.provider).append(release, rhs.release).append(type, rhs.type).append(id, rhs.id).append(description, rhs.description).append(additionalProperties, rhs.additionalProperties).isEquals();
     }
 
 }

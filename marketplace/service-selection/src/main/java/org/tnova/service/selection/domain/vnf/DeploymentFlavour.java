@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Generated;
-import javax.validation.Valid;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -18,6 +17,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "vdu_reference",
     "constraint",
@@ -29,21 +29,16 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class DeploymentFlavour {
 
     @JsonProperty("vdu_reference")
-    @Valid
     private List<String> vduReference = new ArrayList<String>();
     @JsonProperty("constraint")
     private String constraint;
     @JsonProperty("flavour_key")
     private String flavourKey;
     @JsonProperty("vlink_reference")
-    @Valid
     private List<String> vlinkReference = new ArrayList<String>();
-
     @JsonProperty("id")
     private String id;
-
     @JsonProperty("assurance_parameters")
-    @Valid
     private List<AssuranceParameter> assuranceParameters = new ArrayList<AssuranceParameter>();
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
