@@ -121,7 +121,7 @@ class AccountList(APIView):
         if serializer.is_valid():
             try:
                 if Account.objects.filter(productType=request.data['productType'], instanceId=request.data['instanceId']):
-                    print ("  [ERROR] There is an entry already with that InstanceId (%s) for the same ProductType (%s)" % (request.data['instanceId'], request.data['productId']))
+                    print ("  [ERROR] There is an entry already with that InstanceId (%s) for the same ProductType (%s)" % (request.data['instanceId'], request.data['productType']))
                     return Response(status=status.HTTP_400_BAD_REQUEST)
                 serializer.save()
                 #prepares and sends the message to the queue
