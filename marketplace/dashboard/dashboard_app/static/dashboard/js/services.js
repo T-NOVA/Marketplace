@@ -108,14 +108,14 @@ function CustomerBuyService(Restangular, $scope, $rootScope, $state, $stateParam
         var service = {
             customer_id: 2,
             nap_id: $scope.nap_id,
-            nsd_id: nsd_id,
+            ns_id: nsd_id,
             flavor_id: 'sla0'
         };
 
         console.log(service);
 
         $rootScope.root_loading = true;
-        Restangular.all('service-selection/service/selection/').post(service).then(
+        Restangular.all('service-selection/service/selection').post(service).then(
             function (response) {
                 console.log("CreateService " + response.id + " has been successfully completed");
                 console.log(response);
