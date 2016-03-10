@@ -104,6 +104,9 @@ public class TNovaMetricsRetriever implements IMetricsRetriever {
 		
                 JSONArray results = jParser.getJSONArrayFromUrl(url);
 
+		logger.debug("TNOVA: Metrics- {}",  results);
+		logger.debug("TNOVA: URL- {}",  url);
+
 		List<IMonitoringMetric> values = new ArrayList<IMonitoringMetric>();
 		try 
 		{

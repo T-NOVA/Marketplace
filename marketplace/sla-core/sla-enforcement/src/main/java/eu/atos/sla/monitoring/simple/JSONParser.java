@@ -115,7 +115,7 @@ public JSONArray getJSONArrayFromUrl(String url) {
         }
         is.close();
         json = sb.toString();
-        //logger.debug("RRRRRRRRRRRRRRRRR: {}", json);
+        logger.debug("RRRRRRRRRRRRRRRRR: {}", json);
 
     } catch (Exception e) {
         logger.debug("TNOVA: JSONParser Buffer error. Error converting result- {}", e.toString());
