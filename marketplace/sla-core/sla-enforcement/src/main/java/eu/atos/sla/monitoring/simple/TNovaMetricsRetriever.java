@@ -76,8 +76,8 @@ public class TNovaMetricsRetriever implements IMetricsRetriever {
 
 		//Change the format of the dates to unix timestamp
                 //DateFormat formatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
-                Long dateBegin = DateToUnixtime(begin);
-                Long dateEnd = DateToUnixtime(end);
+                Long dateBegin = DateToUnixtime(begin)-120; //move the monitoring requests 120secs back
+                Long dateEnd = DateToUnixtime(end)-120;
                 
                 //extract the instanceId and the instanceType from the variable serviceId
                 if (serviceId.contains(VNF)) {
