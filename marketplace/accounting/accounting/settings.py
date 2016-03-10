@@ -122,10 +122,10 @@ CRONJOBS = [
 CORS_ORIGIN_ALLOW_ALL = True
 
 #RabbitMQ connection params
-AMQP_HOST = 'messaging.demonstrator.info'
+AMQP_HOST = '10.10.1.185'
 AMQP_PORT = 5672
-AMQP_USER = 'code'
-AMQP_PASSWORD = 'pass1234'
+AMQP_USER = 'guest'
+AMQP_PASSWORD = 'guest'
 AMQP_EXCHANGE_NAME = 'tnova'
 AMQP_ROUTING_KEY = 'event'
 AMQP_VHOST = '/'

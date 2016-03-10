@@ -9,7 +9,7 @@ RuleEngineUrl=http://localhost:8080/ruleengine/
 RCServiceUrl=http://localhost:8080/rc
 
 #Tnova variables
-AccountingServiceUrl=http://localhost
+AccountingServiceUrl=http://localhost:8000
 
 #Scheduler variables
 SchedulerFrequency=300

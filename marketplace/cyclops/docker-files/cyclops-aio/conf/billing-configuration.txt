@@ -3,6 +3,6 @@ InfluxDBUsername==root
 InfluxDBPassword==root
 InfluxDBDatabaseName==billing_service
 RcServiceUrl==http://localhost:8080/rc
-AccountingUrl==http://localhost
+AccountingUrl==http://localhost:8000
 dbName==billing
 RevenueSharingTableName==revenue_sharing_report
