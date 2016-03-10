@@ -54,7 +54,7 @@ public class Helpers
         String vnfInstanceId
     )
     {
-        logger.info( "Creating an accounnting request for vnf with id={}", vnfDescriptor.getId() );
+        logger.info( "Creating an accounting request for vnf with id={}", vnfDescriptor.getId() );
         ObjectMapper mapper = new ObjectMapper();
         AccountingRequest accountingRequest = new AccountingRequest();
         accountingRequest.setInstanceId( vnfInstanceId );

@@ -90,15 +90,24 @@ public class ServiceSelectionServiceImpl
         {
             VnfDescriptor vnfDescriptor = vnfService.getVnfById( vnfr.getVnfdId() );
 
+            AccountingRequest vnfRequest = Helpers.creatingAccountingRequestForVnf(
+                networkService,
+                reply,
+                request, vnfDescriptor,
+                vnfr.getVnfrId()
+            );
 
-            for( String vnfdid : vnfr.getVnfiId() )
-            {
-                AccountingRequest vnfRequest = Helpers.creatingAccountingRequestForVnf(
-                    networkService, reply, request, vnfDescriptor, vnfdid );
+            accountingRequests.add( vnfRequest );
 
-                accountingRequests.add( vnfRequest );
-
-            }
+//
+//            for( String vnfdid : vnfr.getVnfiId() )
+//            {
+//                AccountingRequest vnfRequest = Helpers.creatingAccountingRequestForVnf(
+//                    networkService, reply, request, vnfDescriptor, vnfdid );
+//
+//                accountingRequests.add( vnfRequest );
+//
+//            }
         }
 
 
