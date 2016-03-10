@@ -19,9 +19,7 @@ import org.tnova.service.selection.service.ServiceSelectionService;
 import org.tnova.service.selection.tasks.NetworkServiceActivationTask;
 import org.tnova.service.selection.tasks.ServiceSelectionMsgTable;
 import org.tnova.service.selection.tasks.ServiceSelectionRequestMsgTable;
-import sun.nio.ch.Net;
 
-import java.io.File;
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
 import java.util.List;
