@@ -21,14 +21,14 @@
                     </tr>
                     <tr ng-repeat="s in sla">
                         <td data-title="Agreement ID">[[ s.agreementId ]]</td>
-                        <td data-title="Product"> [[ s.productType | uppercase ]] Firewall Service #[[s.productId]]</td>
+                        <td data-title="Product"> [[ s.productType | uppercase ]] #[[s.productId]]</td>
                         <td data-title="Assigned To">[[ s.providerId ]] -> [[ s.clientId ]]</td>
                         <td data-title="Date Created">[[ s.dateCreated ]]</td>
                         <td data-title="Date Terminated">[[ s.dateTerminated ]]</td>
                         <td data-title="Penalties"><strong style="color: red;">[[ s.SLAPenalties ]]</strong></td>
                         <td data-title="Action">
                             <div class="box-tools pull-right">
-                                <button class="btn btn-primary btn-sm" ui-sref="index.sla.charts({agreementID:s.agreementId})"><i class="fa fa-bar-chart"></i></button>
+                                <button class="btn btn-primary btn-sm" ui-sref="index.sla.charts({productID:'[[s.productId]]', agreementID:'[[s.agreementId]]'})"><i class="fa fa-bar-chart"></i></button>
                             </div>
                         </td>
                     </tr>

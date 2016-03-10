@@ -210,9 +210,6 @@ function RootCtrl(Restangular, $scope, $rootScope, $cookies, $state, $interval) 
 
     };
 
-
-
-
     $scope.init();
 
     // logout
@@ -253,21 +250,6 @@ function RootCtrl(Restangular, $scope, $rootScope, $cookies, $state, $interval) 
     window.onresize = function () {
         $scope.$apply();
     };
-
-    //$scope.userdropdownmenu = [
-    //    {
-    //        "text": "<i class=\"fa fa-download\"></i> &nbsp;Another action",
-    //        "href": "#/index/dashboard"
-    //    },
-    //    {
-    //        "divider": true
-    //    },
-    //    {
-    //        "text": "<i class=\"fa fa-sign-out\"></i> &nbsp;Logout",
-    //        "click": "logout()"
-    //    }
-    //];
-
 
 }
 

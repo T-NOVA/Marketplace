@@ -182,47 +182,131 @@ function SLACtrl(Restangular, NoSuffixRestangular, $scope, $rootScope) {
 
 function SLAChartsCtrl(Restangular, NoSuffixRestangular, $scope, $rootScope, $state, $stateParams) {
     $scope.agreementID = $stateParams.agreementID;
-    $scope.mon_data= [];
+    $scope.productID =  $stateParams.productID;
+    $scope.vnfd = {};
+    $scope.mon_parameters = [
+        {
+          "metric": "processes_running",
+          "unit": "INT",
+          "desc": "Running Processes"
+        },
+        {
+          "metric": "processes_sleeping",
+          "unit": "INT",
+          "desc": "Sleeping Processes"
+        }
+    ];
 
-        NoSuffixRestangular.all('orchestrator/instances/10/monitoring-data/?instance_type=ns&metric=cpu').getList().then(
-            function (response) {
-                $scope.mon_data = response;
-                //$.each($scope.mon_data, function(key, value) {
-                //    $scope.data.data.push([value.date, parseInt(value.value)]);
-                //    $scope.sla.data.push([value.date, 100]);
-                //});
+    $scope.graphs = [];
 
-                console.log("Monitoring Data found size:" + response.length);
-            }, function (response) {
-                console.log("Monitoring Data error with status code " + response.status);
-                console.log("Monitoring Data error message: " + response.data);
+    Restangular.one('broker/vnfs').getList().then(
+    //Restangular.one('vnfs', $scope.productID).get().then(
+        function (response) {
+            $scope.vnfd = response;
+            console.log("GetVNF " + $scope.productID);
+
+            $.each($scope.mon_parameters, function (key, value) {
+
+                NoSuffixRestangular.all('/orchestrator/instances/56e049b6b18cfb7a51000000/monitoring-data/?instance_type=vnf&metric='+value.metric).getList().then(
+                    function (response) {
+
+                        var highchart = {
+                            options: {
+                                chart: {
+                                    type: 'spline'
+                                },
+                                xAxis: {
+                                    type: 'datetime'
+                                },
+                                yAxis: {
+                                    max:100,
+                                    title: {
+                                        text: value.metric
+                                    }
+                                }
+                            },
+                            series: [{
+                                type: 'area',
+                                name: value.desc,
+                                data: []
+                            },
+                            {
+                                name: 'SLA Threshold',
+                                color: 'red',
+                                data: []
+                            }],
+                            title: {
+                                text: 'SLA '+ value.desc +'('+value.unit+')'
+                            },
+                            loading: false,
+                            size: {
+                                height: 240
+                            }
+                        };
+
+                        //$scope.mon_data = response;
+                        $.each(response, function(key, value) {
+                            highchart.series[0].data.push([value.date, parseInt(value.value)]);
+                            highchart.series[1].data.push([value.date, 100]);
+                        });
+
+                        $scope.graphs.push(highchart);
+
+                        console.log("Monitoring Data found metric:"+value.metric+" size:" + response.length);
+                    }, function (response) {
+                        console.log("Monitoring Data error with status code " + response.status);
+                        console.log("Monitoring Data error message: " + response.data);
+                    });
+
+
             });
 
-    $scope.addPoints = function () {
-        var seriesArray = $scope.highchartsNG.series;
-        var rndIdx = Math.floor(Math.random() * seriesArray.length);
-        seriesArray[rndIdx].data = seriesArray[rndIdx].data.concat([1, 10, 20])
-    };
 
-    $scope.addSeries = function () {
-        var rnd = [];
-        for (var i = 0; i < 10; i++) {
-            rnd.push(Math.floor(Math.random() * 20) + 1)
-        }
-        $scope.highchartsNG.series.push({
-            data: rnd
-        })
-    };
+        }, function (response) {
+            console.log("GetVNF error with status code " + response.status);
+            console.log("GetVNF error message: " + response.data);
+        });
 
-    $scope.removeRandomSeries = function () {
-        var seriesArray = $scope.highchartsNG.series;
-        var rndIdx = Math.floor(Math.random() * seriesArray.length);
-        seriesArray.splice(rndIdx, 1)
-    };
+        //NoSuffixRestangular.all('/orchestrator/instances/56e049b6b18cfb7a51000000/monitoring-data/?instance_type=vnf&metric=processes_sleeping').getList().then(
+        //    function (response) {
+        //
+        //        $scope.mon_data = response;
+        //        $.each($scope.mon_data, function(key, value) {
+        //            $scope.highchartsNG.series[0].data.push([value.date, parseInt(value.value)]);
+        //            $scope.highchartsNG.series[1].data.push([value.date, 100]);
+        //        });
+        //
+        //        console.log("Monitoring Data found size:" + response.length);
+        //    }, function (response) {
+        //        console.log("Monitoring Data error with status code " + response.status);
+        //        console.log("Monitoring Data error message: " + response.data);
+        //    });
 
-    $scope.options = {
-        type: 'line'
-    };
+    //$scope.addPoints = function () {
+    //    var seriesArray = $scope.highchartsNG.series;
+    //    var rndIdx = Math.floor(Math.random() * seriesArray.length);
+    //    seriesArray[rndIdx].data = seriesArray[rndIdx].data.concat([1, 10, 20])
+    //};
+    //
+    //$scope.addSeries = function () {
+    //    var rnd = [];
+    //    for (var i = 0; i < 10; i++) {
+    //        rnd.push(Math.floor(Math.random() * 20) + 1)
+    //    }
+    //    $scope.highchartsNG.series.push({
+    //        data: rnd
+    //    })
+    //};
+    //
+    //$scope.removeRandomSeries = function () {
+    //    var seriesArray = $scope.highchartsNG.series;
+    //    var rndIdx = Math.floor(Math.random() * seriesArray.length);
+    //    seriesArray.splice(rndIdx, 1)
+    //};
+    //
+    //$scope.options = {
+    //    type: 'line'
+    //};
 
     //$scope.data = {
     //    name: 'data',
@@ -238,30 +322,30 @@ function SLAChartsCtrl(Restangular, NoSuffixRestangular, $scope, $rootScope, $st
     //    $scope.sla.data.push([value.date, 100]);
     //});
 
-    $scope.highchartsNG = {
-        options: {
-            chart: {
-                type: 'line'
-            },
-            xAxis: {
-                type: 'datetime'
-            }
-        },
-        series: [{
-            type: 'area',
-            name: '%CPU Utiliazation',
-            data: [50, 40, 33, 45, 66]
-        },
-        {
-            name: 'SLA Threshold',
-            color: 'red',
-            data: [100, 100, 100, 100, 100]
-        }],
-        title: {
-            text: 'SLA %CPU Utiliazation'
-        },
-        loading: false
-    };
+    //$scope.highchartsNG = {
+    //    options: {
+    //        chart: {
+    //            type: 'line'
+    //        },
+    //        xAxis: {
+    //            type: 'datetime'
+    //        }
+    //    },
+    //    series: [{
+    //        type: 'area',
+    //        name: '%CPU Utiliazation',
+    //        data: []
+    //    },
+    //    {
+    //        name: 'SLA Threshold',
+    //        color: 'red',
+    //        data: []
+    //    }],
+    //    title: {
+    //        text: 'SLA %CPU Utiliazation'
+    //    },
+    //    loading: false
+    //};
 
     $scope.init = function () {
 

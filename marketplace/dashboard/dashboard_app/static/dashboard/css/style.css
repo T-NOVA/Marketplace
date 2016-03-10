@@ -260,6 +260,6 @@ input.formula{
     background-color: #019f18;
     margin-right: 2px;
 }
-.label-failed {
+.label-error_creating {
     background-color: #cd4a2a;
 }

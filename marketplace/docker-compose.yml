@@ -91,22 +91,22 @@ serviceselection:
   environment:
     - DNSDOCK_ALIAS=service-selection.docker
 
-billing:
-  build: cyclops/docker-files/cyclops-aio
-  privileged: true
-  # need to link them because of the dns ipv4 resolve problem
-  links:
-    - accounting
-  cap_add:
-    - SYS_PTRACE
-  dns:
-    - 172.17.0.1
-  ports:
-    - 8080:8080
-    - 8083:8083
-    - 8086:8086
-  environment:
-    - DNSDOCK_ALIAS=cyclops.docker
+#billing:
+#  build: cyclops/docker-files/cyclops-aio
+#  privileged: true
+#  # need to link them because of the dns ipv4 resolve problem
+#  links:
+#    - accounting
+#  cap_add:
+#    - SYS_PTRACE
+#  dns:
+#    - 172.17.0.1
+#  ports:
+#    - 8080:8080
+#    - 8083:8083
+#    - 8086:8086
+#  environment:
+#    - DNSDOCK_ALIAS=cyclops.docker
 
 accounting:
   build: accounting/
@@ -140,7 +140,7 @@ proxy:
     - umaa
     - vnfs
     - broker
-    - billing
+#    - billing
     - accounting
     - servicecatalog
     - serviceselection

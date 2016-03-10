@@ -7,7 +7,7 @@
             </div>
         </div>
         <div class="box-body no-padding">
-            <highchart id="chart1" config="highchartsNG"></highchart>
+            <highchart ng-repeat="g in graphs" config="g"></highchart>
         </div>
         <div class="box-footer">
             <div class="pull-right">

@@ -122,10 +122,12 @@ angular.module('dashboard').config(function ($stateProvider, $urlRouterProvider)
             templateUrl: "/static/dashboard/templates/index.sla.list.html"
         })
         .state('index.sla.charts', {
-            url: "/charts/{agreementID}",
+            url: "/charts/{agreementID}/{productID}",
             templateUrl: "/static/dashboard/templates/index.sla.charts.html",
             controller: function ($scope, $stateParams) {
-                $scope.agreementID = $stateParams.agreementID;
+                //alert($stateParams.vnfdID);
+                //$scope.agreementID = $stateParams.agreementID;
+                //$scope.vnfdID = $stateParams.vnfdID;
             }
         })
         .state('index.monitoring', {
