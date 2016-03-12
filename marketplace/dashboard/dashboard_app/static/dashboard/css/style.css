@@ -263,3 +263,6 @@ input.formula{
 .label-error_creating {
     background-color: #cd4a2a;
 }
+.label-stopped {
+    background-color: #F39C12;
+}
