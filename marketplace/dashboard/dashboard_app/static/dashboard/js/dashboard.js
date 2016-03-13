@@ -37,7 +37,7 @@ angular.module('dashboard').config(function ($interpolateProvider) {
 // setup restangular base url
 angular.module('dashboard').config(function (RestangularProvider) {
     //RestangularProvider.setBaseUrl('http://10.10.1.90');
-    RestangularProvider.setBaseUrl('http://localhost:8080');
+    //RestangularProvider.setBaseUrl('http://localhost:8080');
     RestangularProvider.setRequestSuffix('\/');
 });
 
