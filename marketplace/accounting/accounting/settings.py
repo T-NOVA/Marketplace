@@ -122,7 +122,7 @@ CRONJOBS = [
 CORS_ORIGIN_ALLOW_ALL = True
 
 #RabbitMQ connection params
-AMQP_HOST = '10.10.1.185'
+AMQP_HOST = 'cyclops.sisyphus.mnl'
 AMQP_PORT = 5672
 AMQP_USER = 'guest'
 AMQP_PASSWORD = 'guest'
