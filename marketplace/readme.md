@@ -15,11 +15,10 @@ $ sudo pip install docker-compose
 ```sh
 $ cd ~
 $ git clone https://github.com/T-NOVA/Marketplace.git
-$ cd marketplace
-$ sudo echo "127.0.0.1 marketplace.t-nova.eu" >> /etc/hosts
+$ cd Marketplace/marketplace
 # build cyclops base image
 $ sudo docker build -t cyclops-base cyclops/docker-files/cyclops-base/.
 $ sudo docker-compose up
 ```
 
-Visit http://marketplace.t-nova.eu
+Visit http://localhost/
