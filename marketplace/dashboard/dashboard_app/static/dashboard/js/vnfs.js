@@ -23,7 +23,7 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, al
         "100Mbps",
         "1Gbps",
         "10Gbps",
-        "Unlimeted"
+        "Unlimited"
     ];
 
     $scope.billing_model_types = [
@@ -222,7 +222,7 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, al
             connection_points_reference:[],
             vdu_reference:[],
             connection_points:[],
-            bandwidth: "Unlimeted",
+            bandwidth: "Unlimited",
             type: {type:'E-LINE', description:'Point-2-Point (E-LINE)'}
         });
     };
