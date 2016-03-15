@@ -1,0 +1,218 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NS Diagram</title>
+
+
+    <link rel="stylesheet" href="{% static 'dashboard/diagram/joint.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/diagram/custom.css' %}">
+
+    <script src="{% static 'dashboard/diagram/jquery.min.js' %}"></script>
+    <script src="{% static 'dashboard/diagram/lodash.min.js' %}"></script>
+    <script src="{% static 'dashboard/diagram/backbone-min.js' %}"></script>
+    <script src="{% static 'dashboard/diagram/joint.js' %}"></script>
+    <script src="{% static 'dashboard/diagram/models.js' %}"></script>
+
+
+    <script>
+
+        $(document).ready(function () {
+
+            var selected_flavor = 'gold';
+
+            var hashValue = location.hash;
+            hashValue = hashValue.replace(/^#/, '');
+            if (hashValue == 'gold' || hashValue == 'silver' || hashValue == 'bronze'){
+                selected_flavor = hashValue;
+            }
+
+            //var vnfd = {};
+            var nsd_id = $("#paperCanvas").data('id');
+            var nsd_id = '56e1bf25e4b073a61862cf75';
+
+
+            $.getJSON("/service-catalog/service/catalog/" + nsd_id, function (nsd) {
+
+                var constituent_vnf_ids = [];
+                var vlinks = [];
+                var ext_vlinks = [];
+
+                $.each(nsd.nsd.sla[0].constituent_vnf, function (constituent_vnf_index, constituent_vnf) {
+
+                    constituent_vnf_ids.push(constituent_vnf.vnf_reference);
+
+
+                });
+
+
+                var network_colors = ['#1843a5', '#ec7639', '#2aa54d', '#cb1022', '#a5b9ce', '#f3d086', '#7367b1'];
+
+                var connect = function (source, sourcePort, target, targetPort, color) {
+                    var link = new joint.shapes.devs.Link({
+                        source: {id: source.id, selector: source.getPortSelector(sourcePort)},
+                        target: {id: target.id, selector: target.getPortSelector(targetPort)}
+                    });
+                    link.attr({'.connection': {stroke: color}});
+                    link.addTo(graph).reparent();
+                };
+
+
+                var graph = new joint.dia.Graph();
+
+                var paper_canvas_div = $('#paperCanvas');
+                var paper_canvas_width = paper_canvas_div.width();
+                var paper_canvas_height = paper_canvas_div.height();
+                var paper_div = $('#paper');
+
+                var paper = new joint.dia.Paper({
+                    el: paper_div,
+                    width: paper_canvas_width,
+                    height: paper_canvas_height,
+                    gridSize: 1,
+                    model: graph,
+                    //snapLinks: true,
+                    //linkPinning: false,
+                    embeddingMode: true,
+                    interactive: false
+                });
+
+
+                var vnfmodel = new joint.shapes.devs.VNFModel({
+                    position: {x: 20, y: 20},
+                    size: {width: paper_canvas_width - 40, height: paper_canvas_height - 40},
+                    outPorts: ext_vlinks,
+                    attrs: {
+                        '.label': {text: 'VNF ' + vnfd.name}
+                    }
+
+                });
+
+                graph.addCell(vnfmodel);
+
+
+                $.each(vlinks, function (vlink_index, vlink) {
+
+                    var networkmodel = new joint.shapes.devs.ExtNetworkModel({
+                        position: {x: 50, y: 300 + (vlink_index + 1) * 50},
+                        size: {width: paper_canvas_width - 100, height: 25},
+                        attrs: {
+                            '.label': {text: vlink.alias+'('+vlink.id+')'}
+                        }
+                        //outPorts: ['external']
+                    });
+
+                    //networkmodel.toBack();
+                    networkmodel.attr({'.body': {stroke: network_colors[vlink_index]}});
+                    networkmodel.attr({'.body': {fill: network_colors[vlink_index]}});
+
+                    graph.addCell(networkmodel);
+                    vnfmodel.embed(networkmodel);
+
+                });
+
+                var number_of_vdus = vdus.length;
+                var number_of_vlinks = vlinks.length;
+
+                var vdu_width = (paper_canvas_width - 90) / number_of_vdus;
+
+                $.each(vdus, function (vdu_index, vdu) {
+
+                    var connection_points = [];
+                    //var vlink_connection_points = [];
+
+                    $.each(vdu.connection_points, function (cp_index, cp) {
+                        connection_points.push(cp.id);
+                    });
+
+                    var vdumodel = new joint.shapes.devs.VDUModel({
+                        position: {x: (vdu_index * vdu_width) + 50, y: 80},
+                        size: {width: vdu_width - 10, height: 200},
+                        outPorts: connection_points,
+                        attrs: {
+                            '.label': {text: vdu.alias+'('+vdu.id+')'},
+                            '.cpu-label': {text: vdu.cpu},
+                            '.ram-label': {text: vdu.ram},
+                            '.storage-label': {text: vdu.storage}
+                        }
+                    });
+
+                    graph.addCell(vdumodel);
+                    vnfmodel.embed(vdumodel);
+
+                    $.each(vlinks, function (vlink_index, vlink) {
+
+                        var vlink_connection_points = [];
+
+
+                        $.each(connection_points, function (vdu_cp_index, vdu_cp) {
+                            vlink_connection_points.push(vdu_cp + vlink.id);
+                        });
+
+                        var vlinknetworkmodel = new joint.shapes.devs.NetworkModel({
+                            position: {x: (vdu_index * vdu_width) + 50, y: 300 + (vlink_index + 1) * 50},
+                            size: {width: vdu_width - 10, height: 20},
+                            inPorts: vlink_connection_points,
+                        });
+
+                        graph.addCell(vlinknetworkmodel);
+                        vnfmodel.embed(vlinknetworkmodel);
+
+                        $.each(vdu.connection_points, function (cp_index, cp) {
+                            if (cp.vlink_ref == vlink.id) {
+                                connect(vdumodel, cp.id, vlinknetworkmodel, cp.id + vlink.id, network_colors[vlink_index]);
+                            }
+                        });
+
+//                        if (vlink.external){
+//                            connect(vnfmodel, 'ext_'+vlink.alias, vlinknetworkmodel, 'cp2' + vlink.id, network_colors[vlink_index]);
+//                        }
+
+
+                    });
+
+                });
+
+
+            });
+
+
+        });
+
+    </script>
+
+
+</head>
+<body>
+
+<div id="paperCanvas" style="width:790px;height:600px" data-id="{{  vnfd_id }}">
+    <div id="paper"></div>
+</div>
+
+<script type="text/javascript">
+
+
+</script>
+
+<!--<div id="canvas" data-id="{{  vnfd_id }}">-->
+<!--<div class="vnf">-->
+<!--<div class="vnf-header">VNF #{{ vnfd_id }}</div>-->
+<!--<div class="vdus">-->
+<!--&lt;!&ndash;<div class="vdu" id="vdu0">vdu0</div>&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="vdu" id="vdu1">vdu1</div>&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="vdu" id="vdu2">vdu2</div>&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="vdu" id="vdu3">vdu3</div>&ndash;&gt;-->
+<!--</div>-->
+<!--<div class="networks">-->
+<!--&lt;!&ndash;<div class="network net0" id="net0">Management</div>&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="network net1" id="net1">Data</div>&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="network net2" id="net2">Storage</div>&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="network net3" id="net3">Storage</div>&ndash;&gt;-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<script src="{% static 'dashboard/js/vnfdiagram.js' %}"></script>-->
+</body>
+</html>

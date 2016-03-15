@@ -76,8 +76,8 @@ public class TNovaMetricsRetriever implements IMetricsRetriever {
 
 		//Change the format of the dates to unix timestamp
                 //DateFormat formatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
-                Long dateBegin = DateToUnixtime(begin);
-                Long dateEnd = DateToUnixtime(end);
+                Long dateBegin = DateToUnixtime(begin)-120; //move the monitoring requests 120secs back
+                Long dateEnd = DateToUnixtime(end)-120;
                 
                 //extract the instanceId and the instanceType from the variable serviceId
                 if (serviceId.contains(VNF)) {
@@ -103,6 +103,9 @@ public class TNovaMetricsRetriever implements IMetricsRetriever {
 		logger.debug("TNOVA: serviceId: {}, metric: {}, begin: {}:{}, end: {}:{}",  serviceId, variable, dateBegin, begin, dateEnd, end);
 		
                 JSONArray results = jParser.getJSONArrayFromUrl(url);
+
+		logger.debug("TNOVA: Metrics- {}",  results);
+		logger.debug("TNOVA: URL- {}",  url);
 
 		List<IMonitoringMetric> values = new ArrayList<IMonitoringMetric>();
 		try 

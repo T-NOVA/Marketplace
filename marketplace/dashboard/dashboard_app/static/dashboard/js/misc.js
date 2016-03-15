@@ -2,7 +2,7 @@ angular.module('dashboard').controller('BillingCtrl', ['Restangular', 'NoSuffixR
 angular.module('dashboard').controller('BillingRevCtrl', ['Restangular', 'NoSuffixRestangular', '$scope', '$rootScope', 'alertService', BillingRevCtrl]);
 
 angular.module('dashboard').controller('SLACtrl', ['Restangular', 'NoSuffixRestangular', '$scope', '$rootScope', SLACtrl]);
-angular.module('dashboard').controller('SLAChartsCtrl', ['Restangular', 'NoSuffixRestangular', '$scope', '$rootScope', '$state', '$stateParams', SLAChartsCtrl]);
+angular.module('dashboard').controller('SLAChartsCtrl', ['Restangular', 'NoSuffixRestangular', '$scope', '$rootScope', '$state', '$stateParams', '$interval', SLAChartsCtrl]);
 angular.module('dashboard').controller('MonitoringCtrl', ['Restangular','$scope', '$rootScope', MonitoringCtrl]);
 
 
@@ -19,7 +19,7 @@ function BillingCtrl(Restangular, NoSuffixRestangular, $scope, $rootScope, alert
         var user_id = $scope.user_profile.id;
 
         $rootScope.root_loading = true;
-        NoSuffixRestangular.one("/billing/bill?userId="+username+"&from="+from_date+"&to="+to_date).get().then(
+        NoSuffixRestangular.one("/billing/bill?userId="+user_id+"&from="+from_date+"&to="+to_date).get().then(
             function (response) {
                 $scope.billing = response;
                 $rootScope.root_loading = false;
@@ -88,7 +88,7 @@ function BillingRevCtrl(Restangular, NoSuffixRestangular, $scope, $rootScope, al
         var user_id = $scope.user_profile.id;
 
         $rootScope.root_loading = true;
-        NoSuffixRestangular.one("/billing/revenue?provider="+username+"&from="+from_date+"&to="+to_date).get().then(
+        NoSuffixRestangular.one("/billing/revenue?provider="+user_id+"&from="+from_date+"&to="+to_date).get().then(
             function (response) {
                 $scope.billing = response;
                 $rootScope.root_loading = false;
@@ -180,87 +180,230 @@ function SLACtrl(Restangular, NoSuffixRestangular, $scope, $rootScope) {
 
 }
 
-function SLAChartsCtrl(Restangular, NoSuffixRestangular, $scope, $rootScope, $state, $stateParams) {
+function SLAChartsCtrl(Restangular, NoSuffixRestangular, $scope, $rootScope, $state, $stateParams, $interval) {
     $scope.agreementID = $stateParams.agreementID;
-    $scope.mon_data= [];
+    $scope.productID =  $stateParams.productID;
+    $scope.vnfd = {};
+    $scope.nsd = {};
+    $scope.graphs = [];
 
-        NoSuffixRestangular.all('orchestrator/instances/10/monitoring-data/?instance_type=ns&metric=cpu').getList().then(
-            function (response) {
-                $scope.mon_data = response;
-                //$.each($scope.mon_data, function(key, value) {
-                //    $scope.data.data.push([value.date, parseInt(value.value)]);
-                //    $scope.sla.data.push([value.date, 100]);
-                //});
 
-                console.log("Monitoring Data found size:" + response.length);
-            }, function (response) {
-                console.log("Monitoring Data error with status code " + response.status);
-                console.log("Monitoring Data error message: " + response.data);
+    if ($scope.hasRole('Customer')) {
+
+    Restangular.one('service-catalog/service/catalog', $scope.productID).get().then(
+
+        function (response) {
+
+            $scope.nsd = response;
+
+            console.log("GetNSD " + $scope.productID);
+
+            $.each($scope.nsd.nsd.sla[0].assurance_parameters, function (as_key, as_param) {
+                var instance_id = $scope.agreementID.replace(/^ns/, "");
+                NoSuffixRestangular.all('/orchestrator/instances/'+instance_id+'/monitoring-data/?instance_type=ns&metric='+as_param.id).getList().then(
+                    function (response) {
+
+                        var highchart = {
+                            options: {
+                                chart: {
+                                    type: 'spline'
+                                },
+                                xAxis: {
+                                    type: 'datetime'
+                                },
+                                yAxis: {
+                                    title: {
+                                        text: as_param.id
+                                    }
+                                }
+                            },
+                            series: [{
+                                type: 'area',
+                                name: as_param.id,
+                                data: []
+                            },
+                            {
+                                type: 'spline',
+                                name: 'SLA Threshold',
+                                color: 'red',
+                                data: []
+                            }],
+                            title: {
+                                text: 'SLA '+ as_param.id +' ('+as_param.unit+')'
+                            },
+                            loading: false,
+                            size: {
+                                //height: 240
+                            }
+                        };
+
+                        //$scope.mon_data = response;
+                        $.each(response, function(key, value) {
+                            highchart.series[0].data.push([parseInt(value.date)*1000, parseInt(value.value)]);
+                            highchart.series[1].data.push([parseInt(value.date)*1000, 100]);
+                        });
+
+                        $scope.graphs.push(highchart);
+
+                        console.log("Monitoring Data found metric:"+as_param.id+" size:" + response.length);
+                    }, function (response) {
+                        console.log("Monitoring Data error with status code " + response.status);
+                        console.log("Monitoring Data error message: " + response.data);
+                    });
+
             });
 
-    $scope.addPoints = function () {
-        var seriesArray = $scope.highchartsNG.series;
-        var rndIdx = Math.floor(Math.random() * seriesArray.length);
-        seriesArray[rndIdx].data = seriesArray[rndIdx].data.concat([1, 10, 20])
-    };
+        }, function (response) {
+            console.log("GetNSD error with status code " + response.status);
+            console.log("GetNSD error message: " + response.data);
+        });
 
-    $scope.addSeries = function () {
-        var rnd = [];
-        for (var i = 0; i < 10; i++) {
-            rnd.push(Math.floor(Math.random() * 20) + 1)
+
+
+    } else if ($scope.hasRole('Service Provider')) {
+
+
+
+    Restangular.one('broker/vnfs').getList().then(
+    //Restangular.one('vnfs', $scope.productID).get().then(
+        function (response) {
+
+            var vnfds = response;
+            $.each(vnfds, function (vnfd_key, vnfd) {
+
+                if ($scope.productID==vnfd.id){
+                    $scope.vnfd = vnfd;
+                }
+
+            });
+
+            console.log("GetVNF " + $scope.productID);
+
+            $.each($scope.vnfd.deployment_flavours[0].assurance_parameters, function (as_key, as_param) {
+                var instance_id = $scope.agreementID.replace(/^vnf/, "");
+                NoSuffixRestangular.all('/orchestrator/instances/'+instance_id+'/monitoring-data/?instance_type=vnf&metric='+as_param.id).getList().then(
+                    function (response) {
+
+                        var highchart = {
+                            options: {
+                                chart: {
+                                    type: 'spline'
+                                },
+                                xAxis: {
+                                    type: 'datetime'
+                                },
+                                yAxis: {
+                                    title: {
+                                        text: as_param.id
+                                    }
+                                }
+                            },
+                            series: [{
+                                type: 'area',
+                                name: as_param.id,
+                                data: []
+                            },
+                            {
+                                type: 'spline',
+                                name: 'SLA Threshold',
+                                color: 'red',
+                                data: []
+                            }],
+                            title: {
+                                text: 'SLA '+ as_param.id +' ('+as_param.unit+')'
+                            },
+                            loading: false,
+                            size: {
+                                //height: 240
+                            }
+                        };
+
+                        //$scope.mon_data = response;
+                        $.each(response, function(key, value) {
+                            highchart.series[0].data.push([parseInt(value.date)*1000, parseInt(value.value)]);
+                            highchart.series[1].data.push([parseInt(value.date)*1000, as_param.value]);
+                        });
+
+                        $scope.graphs.push(highchart);
+
+                        console.log("Monitoring Data found metric:"+as_param.id+" size:" + response.length);
+                    }, function (response) {
+                        console.log("Monitoring Data error with status code " + response.status);
+                        console.log("Monitoring Data error message: " + response.data);
+                    });
+
+            });
+
+        }, function (response) {
+            console.log("GetVNF error with status code " + response.status);
+            console.log("GetVNF error message: " + response.data);
+        });
+
+
+
+
+    }
+
+
+    $scope.graphsload = function () {
+
+        if ($scope.hasRole('Customer')) {
+
+            $.each($scope.nsd.nsd.sla[0].assurance_parameters, function (as_key, as_param) {
+
+                var instance_id = $scope.agreementID.replace(/^ns/, "");
+                NoSuffixRestangular.all('/orchestrator/instances/' + instance_id + '/monitoring-data/?instance_type=ns&metric=' + as_param.id).getList().then(
+                    function (response) {
+
+                        $scope.graphs[as_key].series[0].data = [];
+                        $scope.graphs[as_key].series[1].data = [];
+
+                        //$scope.mon_data = response;
+                        $.each(response, function (key, value) {
+                            $scope.graphs[as_key].series[0].data.push([parseInt(value.date) * 1000, parseInt(value.value)]);
+                            $scope.graphs[as_key].series[1].data.push([parseInt(value.date) * 1000, 100]);
+                        });
+
+                        console.log("Monitoring Data found metric:" + as_param.id + " size:" + response.length);
+                    }, function (response) {
+                        console.log("Monitoring Data error with status code " + response.status);
+                        console.log("Monitoring Data error message: " + response.data);
+                    });
+
+            });
+
+
+
+        } else if ($scope.hasRole('Service Provider')) {
+
+
+            $.each($scope.vnfd.deployment_flavours[0].assurance_parameters, function (as_key, as_param) {
+
+                var instance_id = $scope.agreementID.replace(/^vnf/, "");
+                NoSuffixRestangular.all('/orchestrator/instances/' + instance_id + '/monitoring-data/?instance_type=vnf&metric=' + as_param.id).getList().then(
+                    function (response) {
+
+                        $scope.graphs[as_key].series[0].data = [];
+                        $scope.graphs[as_key].series[1].data = [];
+
+                        //$scope.mon_data = response;
+                        $.each(response, function (key, value) {
+                            $scope.graphs[as_key].series[0].data.push([parseInt(value.date) * 1000, parseInt(value.value)]);
+                            $scope.graphs[as_key].series[1].data.push([parseInt(value.date) * 1000, as_param.value]);
+                        });
+
+                        console.log("Monitoring Data found metric:" + as_param.id + " size:" + response.length);
+                    }, function (response) {
+                        console.log("Monitoring Data error with status code " + response.status);
+                        console.log("Monitoring Data error message: " + response.data);
+                    });
+
+            });
+
+
         }
-        $scope.highchartsNG.series.push({
-            data: rnd
-        })
-    };
 
-    $scope.removeRandomSeries = function () {
-        var seriesArray = $scope.highchartsNG.series;
-        var rndIdx = Math.floor(Math.random() * seriesArray.length);
-        seriesArray.splice(rndIdx, 1)
-    };
 
-    $scope.options = {
-        type: 'line'
-    };
-
-    //$scope.data = {
-    //    name: 'data',
-    //    data: []
-    //};
-    //$scope.sla = {
-    //    name: 'sla',
-    //    data: []
-    //};
-
-    //$.each($scope.mon_data, function(key, value) {
-    //    $scope.data.data.push([value.date, parseInt(value.value)]);
-    //    $scope.sla.data.push([value.date, 100]);
-    //});
-
-    $scope.highchartsNG = {
-        options: {
-            chart: {
-                type: 'line'
-            },
-            xAxis: {
-                type: 'datetime'
-            }
-        },
-        series: [{
-            type: 'area',
-            name: '%CPU Utiliazation',
-            data: [50, 40, 33, 45, 66]
-        },
-        {
-            name: 'SLA Threshold',
-            color: 'red',
-            data: [100, 100, 100, 100, 100]
-        }],
-        title: {
-            text: 'SLA %CPU Utiliazation'
-        },
-        loading: false
     };
 
     $scope.init = function () {
@@ -269,6 +412,17 @@ function SLAChartsCtrl(Restangular, NoSuffixRestangular, $scope, $rootScope, $st
     };
 
     $scope.init();
+
+
+    var service_interval = $interval($scope.graphsload, 5000);
+
+    // Cancel interval on page changes
+    $scope.$on('$destroy', function () {
+        if (angular.isDefined(service_interval)) {
+            $interval.cancel(service_interval);
+            service_interval = undefined;
+        }
+    });
 
 }
 

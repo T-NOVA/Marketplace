@@ -263,7 +263,7 @@
                                                                 <label>Monitoring Parameters (Generic)</label>
                                                                 <ui-select multiple class="form-group" ng-model="flavor.monitoring_parameters" ng-disabled="disabled">
                                                                     <ui-select-match placeholder="">[[$item.desc]] ([[$item.unit]])</ui-select-match>
-                                                                    <ui-select-choices repeat="mon_par.metric as mon_par in generic_monitoring_parameters">
+                                                                    <ui-select-choices repeat="mon_par.metric as mon_par in getMonitoringParamaters(flavor)">
                                                                         <span ng-bind-html="mon_par.desc"></span> (<span ng-bind-html="mon_par.unit"></span>)
                                                                     </ui-select-choices>
                                                                 </ui-select>

@@ -20,6 +20,7 @@ Customer:
 # Service Provider permissions
 Service Provider:
  - broker.list_all_vnfs
+ - vnfs.view_all_vnfs
 
 # Function Provider permissions
 Function Provider:
