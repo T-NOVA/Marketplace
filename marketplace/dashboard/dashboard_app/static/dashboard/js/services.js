@@ -309,7 +309,7 @@ function ServiceCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService
         "100Mbps",
         "1Gbps",
         "10Gbps",
-        "Unlimeted"
+        "Unlimited"
     ];
 
     $scope.vnf_events = [
