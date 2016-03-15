@@ -112,7 +112,7 @@ public class Helpers
             if ( sla.getId().equalsIgnoreCase( request.getFlavorId() ) )
             {
                 accountingRequest.setBillingModel( sla.getBilling().getModel() );
-                accountingRequest.setPeriod( Long.toString( sla.getBilling().getPrice().getPricePerPeriod() ) );
+                accountingRequest.setPeriodCost( sla.getBilling().getPrice().getPricePerPeriod() );
                 accountingRequest.setPriceUnit( sla.getBilling().getPrice().getUnit() );
                 accountingRequest.setSetupCost( sla.getBilling().getPrice().getSetup() );
                 accountingRequest.setFlavour( sla.getSlaKey() );
