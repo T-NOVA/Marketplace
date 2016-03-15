@@ -341,6 +341,9 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, al
         $scope.enableFlavor(dst_flavor);
     };
 
+
+    $scope.json_template = '{"controller":"get_attr[vdu0,PublicIp]", "vdu0":"get_attr[vdu1,PublicIp]"}';
+
     $scope.createVNF = function(){
 
         var vnfd = {};
