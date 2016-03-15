@@ -141,19 +141,19 @@
                             <div class="row">
                                 <div class="form-group col-md-12">
                                     <label>NSD Name</label>
-                                    <input class="form-control" type="text" ng-model="nsd.name">
+                                    <input class="form-control" type="text" ng-model="nsd.name" ng-init="nsd.name='PXaaS Service Demo Review'">
                                 </div>
                                 <div class="form-group col-md-12">
                                     <label>NSD Description</label>
-                                    <textarea class="form-control" rows="3" ng-model="nsd.description"></textarea>
+                                    <textarea class="form-control" rows="3" ng-model="nsd.description" ng-init="nsd.description='PXaaS Service provides proxy services on demand such as web access control, bandwidth control, website filtering, web caching and user anonymity.'"></textarea>
                                 </div>
                                 <div class="form-group col-md-4 col-sm-6">
                                     <label>NSD Version</label>
-                                    <input class="form-control" type="text" ng-model="nsd.version">
+                                    <input class="form-control" type="text" ng-model="nsd.version" ng-init="nsd.version='1'">
                                 </div>
                                 <div class="form-group col-md-4 col-sm-6">
                                     <label>NSD Descriptor Version</label>
-                                    <input class="form-control" type="text" ng-model="nsd.descriptor_version">
+                                    <input class="form-control" type="text" ng-model="nsd.descriptor_version" ng-init="nsd.descriptor_version='1'">
                                 </div>
                             </div>
 
