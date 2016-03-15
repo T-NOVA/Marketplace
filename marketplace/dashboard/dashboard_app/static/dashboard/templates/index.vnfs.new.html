@@ -41,19 +41,19 @@
                             <div class="row">
                                 <div class="form-group col-md-12">
                                     <label>VNF Name</label>
-                                    <input class="form-control" type="text" ng-model="vnfd.name">
+                                    <input class="form-control" type="text" ng-model="vnfd.name" ng-init="vnfd.name='PXaaS Demo Review'">
                                 </div>
                                 <div class="form-group col-md-12">
                                     <label>VNF Description</label>
-                                    <textarea class="form-control" rows="3" ng-model="vnfd.description"></textarea>
+                                    <textarea class="form-control" rows="3" ng-model="vnfd.description" ng-init="vnfd.description='PXaaS VNF provides proxy services on demand such as web access control, bandwidth control, website filtering, web caching and user anonymity.'"></textarea>
                                 </div>
                                 <div class="form-group col-md-4 col-sm-6">
                                     <label>VNF Version</label>
-                                    <input class="form-control" type="text" ng-model="vnfd.version">
+                                    <input class="form-control" type="text" ng-model="vnfd.version" ng-init="vnfd.version='1'">
                                 </div>
                                 <div class="form-group col-md-4 col-sm-6">
                                     <label>VNF Descriptor Version</label>
-                                    <input class="form-control" type="text" ng-model="vnfd.descriptor_version">
+                                    <input class="form-control" type="text" ng-model="vnfd.descriptor_version" ng-init="vnfd.descriptor_version='1'">
                                 </div>
                                 <div class="form-group col-md-4 col-sm-12">
                                     <label>VNF Type</label>
