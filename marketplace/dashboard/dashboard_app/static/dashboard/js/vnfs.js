@@ -3,16 +3,42 @@ angular.module('dashboard').controller('VNFEditCtrl', ['Restangular', '$scope', 
 angular.module('dashboard').controller('VNFListCtrl', ['Restangular', '$scope', '$rootScope', 'ModalService', 'alertService', VNFListCtrl]);
 
 
-function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, alertService){
+function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, alertService) {
 
     $scope.vnf_types = [
-        {code:"vTC", desc: "Traffic Classification"},
-        {code:"vSBC", desc: "Session Border Controller"},
-        {code:"vTU", desc: "Transcoder Unit"},
-        {code:"vHG", desc: "Home Gateway"},
-        {code:"vSA", desc: "Security Appliance"},
-        {code:"vPXAAS", desc: "Proxy"}
+        {code: "vTC", desc: "Traffic Classification"},
+        {code: "vSBC", desc: "Session Border Controller"},
+        {code: "vTU", desc: "Transcoder Unit"},
+        {code: "vHG", desc: "Home Gateway"},
+        {code: "vSA", desc: "Security Appliance"},
+        {code: "vPXAAS", desc: "Proxy"}
     ];
+
+    $scope.specific_monitoring_parameters = glob_vnf_metrics;
+
+    $scope.new_vnf_type = {code: "", desc: ""};
+    $scope.new_vnf_metric = {metric: "", desc: "", unit: ''};
+
+    $scope.addNewVNFType = function () {
+        if ($scope.new_vnf_type.code != "" && $scope.new_vnf_type.desc != "") {
+
+            //create new empty array for the specific_monitoring_parameters
+            $scope.specific_monitoring_parameters[$scope.new_vnf_type.code] = [];
+
+            $scope.vnf_types.push(_.clone($scope.new_vnf_type));
+            $scope.new_vnf_type = {code: "", desc: ""};
+
+        }
+    };
+
+    $scope.addNewVNFMetric = function (vdu) {
+
+        if ($scope.new_vnf_metric.metric != "" && $scope.new_vnf_metric.desc != "" && $scope.new_vnf_metric.unit != "") {
+            //vdu.monitoring_parameters_specific.push(_.clone($scope.new_vnf_metric));
+            $scope.specific_monitoring_parameters[$scope.vnfd.type].push(_.clone($scope.new_vnf_metric));
+            $scope.new_vnf_metric = {metric: "", desc: "", unit: ""};
+        }
+    };
 
     $scope.memory_units = ['MB', 'GB'];
     $scope.storage_units = ['MB', 'GB', 'TB'];
@@ -37,9 +63,9 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, al
     ];
 
     $scope.connection_link_types = [
-        {type:'E-LINE', description:'Point-2-Point (E-LINE)'},
-        {type:'E-TREE', description:'Point-2-Multipoint (E-TREE)'},
-        {type:'E-LAN', description:'Lan (E-LAN)'}
+        {type: 'E-LINE', description: 'Point-2-Point (E-LINE)'},
+        {type: 'E-TREE', description: 'Point-2-Multipoint (E-TREE)'},
+        {type: 'E-LAN', description: 'Lan (E-LAN)'}
     ];
 
     $scope.available_periods = [
@@ -57,21 +83,19 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, al
         {metric: "network_incoming", desc: "Network Incoming", unit: 'Mbps'},
         {metric: "network_outgoing", desc: "Network Outgoing", unit: 'Mbps'},
         {metric: "load_shortterm", desc: "Load Average (1 Minute)", unit: '%'},
-		{metric: "load_midterm", desc: "Load Average (5 Minutes)", unit: '%'},
-		{metric: "load_longterm", desc: "Load Average (15 Minutes)", unit: '%'},
-		{metric: "processes_blocked", desc: "Blocked Processes", unit: 'INT'},
-		{metric: "processes_paging", desc: "Paging Processes", unit: 'INT'},
-		{metric: "processes_running", desc: "Running Processes", unit: 'INT'},
-		{metric: "processes_sleeping", desc: "Sleeping Processes", unit: 'INT'},
-		{metric: "processes_stopped", desc: "Stopped Processes", unit: 'INT'},
-		{metric: "processes_zombie", desc: "Zombie Processes", unit: 'INT'}
+        {metric: "load_midterm", desc: "Load Average (5 Minutes)", unit: '%'},
+        {metric: "load_longterm", desc: "Load Average (15 Minutes)", unit: '%'},
+        {metric: "processes_blocked", desc: "Blocked Processes", unit: 'INT'},
+        {metric: "processes_paging", desc: "Paging Processes", unit: 'INT'},
+        {metric: "processes_running", desc: "Running Processes", unit: 'INT'},
+        {metric: "processes_sleeping", desc: "Sleeping Processes", unit: 'INT'},
+        {metric: "processes_stopped", desc: "Stopped Processes", unit: 'INT'},
+        {metric: "processes_zombie", desc: "Zombie Processes", unit: 'INT'}
     ];
 
-    $scope.specific_monitoring_parameters = glob_vnf_metrics;
-
     $scope.lifecycle_events_drivers = [
-        {driver:"ssh", authentication_type: "PubKeyAuthentication"},
-        {driver:"http", authentication_type: "HTTPBasicAuth"}
+        {driver: "ssh", authentication_type: "PubKeyAuthentication"},
+        {driver: "http", authentication_type: "HTTPBasicAuth"}
     ];
 
     $scope.sla_expressions = [
@@ -83,7 +107,7 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, al
         {code: "GE", desc: "Greater Than or Equal", sign: ">="}
     ];
 
-    $scope.event_template_formats= [
+    $scope.event_template_formats = [
         {format: "JSON"}
     ];
 
@@ -113,16 +137,16 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, al
      * VNFD
      */
 
-    $scope.vnfd.release='T-NOVA'; //@ remove this...
-    $scope.vnfd.name='';
-    $scope.vnfd.description='';
-    $scope.vnfd.descriptor_version=''; //VNFD version
-    $scope.vnfd.version=''; //VNF version
-    $scope.vnfd.type=''; //vnf_types
+    $scope.vnfd.release = 'T-NOVA'; //@ remove this...
+    $scope.vnfd.name = '';
+    $scope.vnfd.description = '';
+    $scope.vnfd.descriptor_version = ''; //VNFD version
+    $scope.vnfd.version = ''; //VNF version
+    $scope.vnfd.type = ''; //vnf_types
 
     $scope.postNewVNF = function (json_vnfd) {
 
-        $rootScope.root_loading= true;
+        $rootScope.root_loading = true;
         Restangular.all('vnfs').post(json_vnfd).then(
             function (response) {
                 $rootScope.root_loading = false;
@@ -137,7 +161,7 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, al
                 console.log("CreateVNF error with status code " + response.status);
                 console.log("CreateVNF error message: " + response.data);
 
-                alertService.add('danger', "VNF creation failed, "+ response.data);
+                alertService.add('danger', "VNF creation failed, " + response.data);
             });
 
         console.log($scope.vnfd);
@@ -147,6 +171,11 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, al
     $scope.addVDU = function (flavor) {
 
         var vdus = $scope.flavors[flavor].data.vdu;
+
+        var specific_params = [];
+        if ($scope.specific_monitoring_parameters[$scope.vnfd.type]) {
+            specific_params = $scope.specific_monitoring_parameters[$scope.vnfd.type];
+        }
 
         vdus.push({
             resource_requirements: {
@@ -184,12 +213,12 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, al
                     overlay_tunnel: "GRE"
                 }
             },
-            monitoring_parameters:$scope.generic_monitoring_parameters,
-            monitoring_parameters_specific:$scope.specific_monitoring_parameters[$scope.vnfd.type],
+            monitoring_parameters: $scope.generic_monitoring_parameters,
+            monitoring_parameters_specific: _.clone(specific_params),
             networking_resources: "", // @REMOVE
             "scale_in_out": {
-              "minimum": 1,
-              "maximum": 1
+                "minimum": 1,
+                "maximum": 1
             }
         });
 
@@ -208,9 +237,9 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, al
     $scope.getIndexVDUNameString = function (flavor, vdu) {
         var vdus = $scope.flavors[flavor].data.vdu;
         var id = vdus.indexOf(vdu);
-        if (id>=0){
-            return 'vdu'+id;
-        }else{
+        if (id >= 0) {
+            return 'vdu' + id;
+        } else {
             return 'no vdu';
         }
 
@@ -219,11 +248,11 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, al
     $scope.addVL = function (flavor) {
         var vls = $scope.flavors[flavor].data.virtual_links;
         vls.push({
-            connection_points_reference:[],
-            vdu_reference:[],
-            connection_points:[],
+            connection_points_reference: [],
+            vdu_reference: [],
+            connection_points: [],
             bandwidth: "Unlimited",
-            type: {type:'E-LINE', description:'Point-2-Point (E-LINE)'}
+            type: {type: 'E-LINE', description: 'Point-2-Point (E-LINE)'}
         });
     };
 
@@ -240,7 +269,7 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, al
 
     $scope.addConnectionPoint = function (vl) {
         vl.connection_points.push({
-            id:$scope.generateCPUID()
+            id: $scope.generateCPUID()
         });
     };
 
@@ -249,17 +278,17 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, al
         vl.connection_points.splice(cp_index, 1);
     };
 
-    $scope.generateCPUID = function(){
-        return 'CP'+("0000" + (Math.random()*Math.pow(36,4) << 0).toString(36)).slice(-4)
+    $scope.generateCPUID = function () {
+        return 'CP' + ("0000" + (Math.random() * Math.pow(36, 4) << 0).toString(36)).slice(-4)
     };
 
     $scope.addAssuranceParam = function (flavor) {
         var aparams = $scope.flavors[flavor].data.assurance_parameters;
         aparams.push({
-            violation:[
-                {breaches_count:2,interval:360}
+            violation: [
+                {breaches_count: 2, interval: 360}
             ],
-            penalty:{type:{type: "Discount"}}
+            penalty: {type: {type: "Discount"}}
 
         });
     };
@@ -285,38 +314,38 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, al
     // flavors UI ELEMENTS
     $scope.flavors = {
         gold: {
-            enable:true,
+            enable: true,
             visible: true,
-            data:{
-                vdu:[],
-                virtual_links:[],
+            data: {
+                vdu: [],
+                virtual_links: [],
                 assurance_parameters: []
             }
         },
         silver: {
-            enable:false,
+            enable: false,
             visible: true,
-            data:{
-                vdu:[],
-                virtual_links:[],
+            data: {
+                vdu: [],
+                virtual_links: [],
                 assurance_parameters: []
             }
         },
         bronze: {
-            enable:false,
+            enable: false,
             visible: true,
-            data:{
-                vdu:[],
-                virtual_links:[],
+            data: {
+                vdu: [],
+                virtual_links: [],
                 assurance_parameters: []
             }
         }
     };
 
     $scope.toggleFlavor = function (flavor) {
-        if ($scope.flavors[flavor].visible){
+        if ($scope.flavors[flavor].visible) {
             $scope.flavors[flavor].visible = false;
-        }else{
+        } else {
             $scope.flavors[flavor].visible = true
         }
     };
@@ -333,10 +362,11 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, al
     };
 
     $scope.getAllParameters = function (flavor) {
-        return angular.extend($scope.generic_monitoring_parameters, $scope.specific_monitoring_parameters[$scope.vnfd.type]);
+        return $scope.generic_monitoring_parameters.concat($scope.specific_monitoring_parameters[$scope.vnfd.type]);
+        //return $scope.generic_monitoring_parameters;
     };
 
-    $scope.copyFlavorTo = function(src_flavor, dst_flavor){
+    $scope.copyFlavorTo = function (src_flavor, dst_flavor) {
         angular.copy($scope.flavors[src_flavor], $scope.flavors[dst_flavor]);
         $scope.enableFlavor(dst_flavor);
     };
@@ -344,7 +374,7 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, al
 
     $scope.json_template = '{"controller":"get_attr[vdu0,PublicIp]", "vdu0":"get_attr[vdu1,PublicIp]"}';
 
-    $scope.createVNF = function(){
+    $scope.createVNF = function () {
 
         var vnfd = {};
         angular.copy($scope.vnfd, vnfd);
@@ -361,7 +391,7 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, al
 
         angular.forEach($scope.flavors, function (flavor, flavor_key) {
 
-            if (flavor.data.vdu.length>0){
+            if (flavor.data.vdu.length > 0) {
 
                 //set vlink ids
                 angular.forEach(flavor.data.virtual_links, function (vlink, vlink_key) {
@@ -379,7 +409,7 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, al
                 le = flavor.data.lifecycle_events;
                 le.authentication_type = flavor.data.lifecycle_events.driver.authentication_type;
                 le.driver = flavor.data.lifecycle_events.driver.driver;
-                le.flavor_id_ref = 'flavor'+flavor_index;
+                le.flavor_id_ref = 'flavor' + flavor_index;
 
 
                 vnfd.vnf_lifecycle_events.push(le);
@@ -398,7 +428,7 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, al
                     angular.forEach(flavor.data.virtual_links, function (vlink, vlink_key) {
                         //vlink.connection_points_reference = [];
 
-                        if(flavor_vlink_ref.indexOf(vlink.id) == -1){
+                        if (flavor_vlink_ref.indexOf(vlink.id) == -1) {
                             flavor_vlink_ref.push(vlink.id);
                         }
 
@@ -436,15 +466,15 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, al
                 angular.forEach(flavor.data.virtual_links, function (vlink, vlink_key) {
 
                     var vlink = {
-                        id:vlink.id,
+                        id: vlink.id,
                         alias: vlink.alias,
-                        connectivity_type:vlink.type.type,
-                        connection_points_reference:vlink.connection_points_reference,
-                        vdu_reference:vlink.vdu_reference,
-                        root_requirement:vlink.bandwidth,
-                        leaf_requirement:vlink.bandwidth,
-                        qos:"",
-                        access:vlink.active, //test_access
+                        connectivity_type: vlink.type.type,
+                        connection_points_reference: vlink.connection_points_reference,
+                        vdu_reference: vlink.vdu_reference,
+                        root_requirement: vlink.bandwidth,
+                        leaf_requirement: vlink.bandwidth,
+                        qos: "",
+                        access: vlink.active, //test_access
                         dhcp: vlink.dhcp,
                         net_segment: vlink.net_segment,
                         external_access: vlink.external_access
@@ -466,7 +496,7 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, al
                     assurance_param.value = aparam.value;
 
                     assurance_param.unit = aparam.monitoring_parameter.unit;
-                    assurance_param.formula = aparam.monitoring_parameter.metric +' '+ aparam.expression.code  + ' ' + aparam.value;
+                    assurance_param.formula = aparam.monitoring_parameter.metric + ' ' + aparam.expression.code + ' ' + aparam.value;
 
                     assurance_param.violation = aparam.violation;
                     //assurance_param.penalty = aparam.penalty;
@@ -474,15 +504,15 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, al
                     assurance_param.penalty.expression = aparam.penalty.value;
                     assurance_param.penalty.type = aparam.penalty.type.type;
                     assurance_param.penalty.unit = aparam.monitoring_parameter.unit;
-                    assurance_param.penalty.validity = 'P'+ aparam.penalty.validity.value + aparam.penalty.validity.period;
+                    assurance_param.penalty.validity = 'P' + aparam.penalty.validity.value + aparam.penalty.validity.period;
 
                     assurance_params.push(assurance_param);
 
                 });
 
-                 //Flavors
+                //Flavors
                 var flavor = {
-                    id: 'flavor'+flavor_index,
+                    id: 'flavor' + flavor_index,
                     flavour_key: flavor_key,
                     constraint: "",
                     vdu_reference: flavor_vdu_ref,
@@ -490,10 +520,14 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, al
                     assurance_parameters: assurance_params
                 };
 
-                if (vnfd.billing_model.model=="PAYG"){
+                if (vnfd.billing_model.model == "PAYG") {
                     vnfd.billing_model.period = 'P' + vnfd.billing_model.period.value + vnfd.billing_model.period.period;
-                } else{
-                     vnfd.billing_model.period = '';
+                } else {
+                    vnfd.billing_model.period = '';
+                }
+
+                if (vnfd.trade != true) {
+                    vnfd.billing_model.price.min_per_period = vnfd.billing_model.price.max_per_period;
                 }
 
                 vnfd.deployment_flavours.push(flavor);
@@ -510,32 +544,32 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, al
         $scope.postNewVNF(vnfd);
     };
 
-    $scope.showImageUploadAModal = function() {
+    $scope.showImageUploadAModal = function () {
 
-         ModalService.showModal({
-          templateUrl: "/static/dashboard/templates/modals/image_upload.html",
-             controller: function () {
-                 this.closeModal = function () {
-                     $scope.loadImages();
-                     close(); // close, but give 500ms for bootstrap to animate
-                 };
-             },
-          controllerAs : "ImageUploadCtrl"
-        }).then(function(modal) {
-          // only called on success...
-             modal.element.modal();
-        }).catch(function(error) {
-          // error contains a detailed error message.
-          console.log(error);
+        ModalService.showModal({
+            templateUrl: "/static/dashboard/templates/modals/image_upload.html",
+            controller: function () {
+                this.closeModal = function () {
+                    $scope.loadImages();
+                    close(); // close, but give 500ms for bootstrap to animate
+                };
+            },
+            controllerAs: "ImageUploadCtrl"
+        }).then(function (modal) {
+            // only called on success...
+            modal.element.modal();
+        }).catch(function (error) {
+            // error contains a detailed error message.
+            console.log(error);
         });
 
     };
 
 
-    $scope.onDriverSelectCallback = function(item, model, flavor) {
-        if (item.driver == 'http'){
+    $scope.onDriverSelectCallback = function (item, model, flavor) {
+        if (item.driver == 'http') {
             flavor.data.lifecycle_events.authentication_port = 80;
-        }else{
+        } else {
             flavor.data.lifecycle_events.authentication_port = 22;
         }
     };
@@ -544,30 +578,30 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, al
     //STEPS
     $scope.active_step = 1;
     $scope.steps = {
-        1:{
-            enable:true
+        1: {
+            enable: true
         },
-        2:{
-            enable:false
+        2: {
+            enable: false
         },
-        3:{
-            enable:false
+        3: {
+            enable: false
         },
-        4:{
-            enable:false
+        4: {
+            enable: false
         },
-        5:{
-            enable:false
+        5: {
+            enable: false
         }
     };
 
-    $scope.gotoStep = function(target_step){
+    $scope.gotoStep = function (target_step) {
         if ($scope.steps[target_step].enable) {
             $scope.active_step = target_step;
         }
     };
 
-    $scope.nextStep = function(target_step){
+    $scope.nextStep = function (target_step) {
         if (target_step == target_step && $scope.active_step == target_step - 1) {
             $scope.steps[target_step].enable = true;
             $scope.active_step = target_step;
@@ -577,7 +611,7 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, al
 }
 
 
-function VNFEditCtrl(Restangular, $scope, $rootScope, $state, $stateParams){
+function VNFEditCtrl(Restangular, $scope, $rootScope, $state, $stateParams) {
 
     $scope.loadVNF = function () {
         $scope.loading_edit_vnfd = true;
@@ -597,7 +631,7 @@ function VNFEditCtrl(Restangular, $scope, $rootScope, $state, $stateParams){
         $scope.loadVNF();
     };
 
-   // $scope.init();
+    // $scope.init();
 
 }
 
@@ -616,7 +650,7 @@ function VNFListCtrl(Restangular, $scope, $rootScope, ModalService, alertService
             }, function (response) {
                 console.log("GetVNFList error with status code " + response.status);
                 console.log("GetVNFList error message: " + response.data.detail);
-                $rootScope.root_loading= false;
+                $rootScope.root_loading = false;
             });
     };
 
@@ -652,33 +686,33 @@ function VNFListCtrl(Restangular, $scope, $rootScope, ModalService, alertService
 
     $scope.init = function () {
 
-         $scope.loadVNFs();
+        $scope.loadVNFs();
 
     };
 
     $scope.init();
 
 
-    $scope.showAModal = function(vnfd_id) {
+    $scope.showAModal = function (vnfd_id) {
 
-         ModalService.showModal({
-          templateUrl: "/static/dashboard/templates/modals/jsplump.html",
-          controller: function() {
-            this.jsplumb_vnfd_id = vnfd_id;
-            this.jsplumb_vnfd_url = '/dashboard/vnf-diagram/'+vnfd_id
-          },
-          controllerAs : "jsPlumpCtrl"
-        }).then(function(modal) {
-          // only called on success...
-             modal.element.modal();
-             modal.jsplumb_vnfd_id = vnfd_id;
-             //modal.vnfd_id = vnfd_id
-        }).catch(function(error) {
-          // error contains a detailed error message.
-          console.log(error);
+        ModalService.showModal({
+            templateUrl: "/static/dashboard/templates/modals/jsplump.html",
+            controller: function () {
+                this.jsplumb_vnfd_id = vnfd_id;
+                this.jsplumb_vnfd_url = '/dashboard/vnf-diagram/' + vnfd_id
+            },
+            controllerAs: "jsPlumpCtrl"
+        }).then(function (modal) {
+            // only called on success...
+            modal.element.modal();
+            modal.jsplumb_vnfd_id = vnfd_id;
+            //modal.vnfd_id = vnfd_id
+        }).catch(function (error) {
+            // error contains a detailed error message.
+            console.log(error);
         });
 
-  };
+    };
 
     $scope.showVNFDEditor = function (vnfd_id) {
 

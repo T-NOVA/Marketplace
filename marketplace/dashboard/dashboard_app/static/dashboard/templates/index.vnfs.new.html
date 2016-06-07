@@ -65,6 +65,26 @@
                                         </ui-select-choices>
                                     </ui-select>
                                 </div>
+
+                                <div class="col-md-12">
+                                    <h4>Add New VNF Type</h4>
+                                    <hr>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>VNF Type - Full Name <small>(e.g Traffic Classification)</small></label>
+                                    <input class="form-control" type="text" ng-model="new_vnf_type.desc" >
+                                </div>
+                                <div class="form-group col-md-6">
+                                        <div class="form-group col-md-10">
+                                            <label>VNF Type - Short Code <small>(e.g vTC)</small></label>
+                                            <input class="form-control" type="text" ng-model="new_vnf_type.code">
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <label> Add New</label>
+                                            <button class="btn btn-primary" ng-click="addNewVNFType()"> <i class="fa fa-plus"></i></button>
+                                        </div>
+                                </div>
+
                             </div>
                         </div>
                         <button id="activate-step-1" class="btn btn-primary pull-right" ng-click="nextStep(2)">Next <i class="fa fa-caret-right"></i></button>
@@ -211,6 +231,20 @@
                                                             </div>
                                                         </div>
 
+                                                        <h5>Scalling</h5>
+                                                        <hr>
+
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                             <div class="form-group col-md-6 col-sm-6">
+                                                                <label>Min Instances</label>
+                                                                <input class="form-control" type="number" ng-model="vdu.scale_in_out.minimum">
+                                                            </div>
+                                                            <div class="form-group col-md-6 col-sm-6">
+                                                                <label>Max Instances</label>
+                                                                <input class="form-control" type="number" ng-model="vdu.scale_in_out.maximum">
+                                                            </div>
+                                                        </div>
+
                                                     </div>
 
 
@@ -254,6 +288,32 @@
                                                                 </ui-select-choices>
                                                             </ui-select>
                                                         </div>
+
+                                                        <div class="col-md-12">
+                                                            <h6>Add New VNF Specific Parameter</h6>
+                                                            <hr>
+
+                                                            <div class="form-group col-md-12">
+                                                                <label>Metric Key <small>(e.g cpuidle)</small></label>
+                                                                <input class="form-control" type="text" ng-model="new_vnf_metric.metric">
+                                                            </div>
+
+                                                            <div class="form-group col-md-12">
+                                                                <label>Metric Description <small>(e.g CPU Idle)</small></label>
+                                                                <input class="form-control" type="text" ng-model="new_vnf_metric.desc">
+                                                            </div>
+
+                                                            <div class="form-group col-md-12">
+                                                                <label>Metric Unit <small>(e.g %)</small></label>
+                                                                <input class="form-control" type="text" ng-model="new_vnf_metric.unit">
+                                                            </div>
+
+                                                            <div class="form-group col-md-12">
+                                                                <button class="btn btn-primary" ng-click="addNewVNFMetric(vdu)"> <i class="fa fa-plus"></i></button>
+                                                            </div>
+                                                        </div>
+
+
                                                     </div>
 
                                                     <div class="form-group col-md-12">
@@ -510,6 +570,26 @@ v8JYWnuTwKCcIJhcqA8UbIGhRKHtBnqLr3Ipg97gKBElO3bTzUUut0QcMd14i6ab
                                                             <textarea class="form-control" rows="1" ng-model="flavor.data.lifecycle_events.events.restart.template_file"></textarea>
                                                         </div>
 
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <label>Scalling Event CMD</label>
+                                                            <input class="form-control" type="text" ng-model="flavor.data.lifecycle_events.events.scalling.command">
+                                                        </div>
+
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <label>Scalling Event Template Format</label>
+                                                            <ui-select class="form-group" ng-model="flavor.data.lifecycle_events.events.scalling.template_file_format" ng-disabled="disabled">
+                                                                <ui-select-match placeholder="">[[$select.selected.format]]</ui-select-match>
+                                                                <ui-select-choices repeat="format.format as format in event_template_formats">
+                                                                    <span ng-bind-html="format.format"></span>
+                                                                </ui-select-choices>
+                                                            </ui-select>
+                                                        </div>
+
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <label>Scalling Event Template</label>
+                                                            <textarea class="form-control" rows="1" ng-model="flavor.data.lifecycle_events.events.scalling.template_file"></textarea>
+                                                        </div>
+
                                                       </div>
 
                                                     </div>
@@ -712,14 +792,15 @@ v8JYWnuTwKCcIJhcqA8UbIGhRKHtBnqLr3Ipg97gKBElO3bTzUUut0QcMd14i6ab
                                     </ui-select>
                                 </div>
 
-                                <div class="form-group col-md-4 col-sm-12">
+                                <div class="form-group col-md-4 col-sm-12" ng-show="vnfd.trade==true">
                                     <label>Min Price/Period</label>
                                     <input class="form-control" type="number" ng-model="vnfd.billing_model.price.min_per_period">
                                 </div>
                                 <div class="form-group col-md-4 col-sm-12">
-                                    <label>Max Price/Period</label>
+                                    <label><span ng-show="vnfd.trade==true">Max</span> Price/Period</label>
                                     <input class="form-control" type="number" ng-model="vnfd.billing_model.price.max_per_period">
                                 </div>
+
                                 <div class="form-group col-md-4 col-sm-12">
                                     <label>Setup Price</label>
                                     <input class="form-control" type="number" ng-model="vnfd.billing_model.price.setup">
