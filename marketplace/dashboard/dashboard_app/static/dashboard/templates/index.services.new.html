@@ -106,7 +106,9 @@
                                             <span ng-repeat="flavor in vnf.deployment_flavours" class="label label-[[flavor.flavour_key]]" uib-popover-template="dynamicPopover.templateUrl" popover-title="[[flavor.flavour_key | uppercase]] Flavor Info" popover-trigger="mouseenter">
                                                 [[flavor.flavour_key]] &euro;[[ getDeploymentCost(vnf,flavor.flavour_key) ]]/hour
                                                 <script type="text/ng-template" id="myPopoverTemplate.html">
-                                                    <h5><strong>Assurance Parameters</strong></h5>
+                                                    <h6><strong>Resources</strong></h6>
+                                                    <div></div>
+                                                    <h6><strong>Assurance Parameters</strong></h6>
                                                     <div ng-repeat="par in flavor.assurance_parameters">
                                                         <span> - [[ par.formula ]][[ par.unit ]] ([[par.penalty.expression]]% [[par.penalty.type]] [[par.penalty.validity]])</span>
                                                     </div>
@@ -141,11 +143,11 @@
                             <div class="row">
                                 <div class="form-group col-md-12">
                                     <label>NSD Name</label>
-                                    <input class="form-control" type="text" ng-model="nsd.name" ng-init="nsd.name='PXaaS Service Demo Review'">
+                                    <input class="form-control" type="text" ng-model="nsd.name" ng-init="nsd.name=''">
                                 </div>
                                 <div class="form-group col-md-12">
                                     <label>NSD Description</label>
-                                    <textarea class="form-control" rows="3" ng-model="nsd.description" ng-init="nsd.description='PXaaS Service provides proxy services on demand such as web access control, bandwidth control, website filtering, web caching and user anonymity.'"></textarea>
+                                    <textarea class="form-control" rows="3" ng-model="nsd.description" ng-init="nsd.description=''"></textarea>
                                 </div>
                                 <div class="form-group col-md-4 col-sm-6">
                                     <label>NSD Version</label>
@@ -373,7 +375,7 @@
                                                     </div>
 
                                                     <div class="form-group col-md-12 col-sm-12">
-                                                        <label>Network Subnet (CIRD) <small>(optional)</small></label>
+                                                        <label>Network Subnet (CIDR) <small>(optional)</small></label>
                                                         <input class="form-control" type="text" ng-model="virtual_link.net_segment">
                                                     </div>
 

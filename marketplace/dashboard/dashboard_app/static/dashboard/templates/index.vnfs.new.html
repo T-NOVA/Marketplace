@@ -41,11 +41,11 @@
                             <div class="row">
                                 <div class="form-group col-md-12">
                                     <label>VNF Name</label>
-                                    <input class="form-control" type="text" ng-model="vnfd.name" ng-init="vnfd.name='PXaaS Demo Review'">
+                                    <input class="form-control" type="text" ng-model="vnfd.name" ng-init="vnfd.name=''">
                                 </div>
                                 <div class="form-group col-md-12">
                                     <label>VNF Description</label>
-                                    <textarea class="form-control" rows="3" ng-model="vnfd.description" ng-init="vnfd.description='PXaaS VNF provides proxy services on demand such as web access control, bandwidth control, website filtering, web caching and user anonymity.'"></textarea>
+                                    <textarea class="form-control" rows="3" ng-model="vnfd.description" ng-init="vnfd.description=''"></textarea>
                                 </div>
                                 <div class="form-group col-md-4 col-sm-6">
                                     <label>VNF Version</label>
@@ -231,7 +231,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <h5>Scalling</h5>
+                                                        <h5>Scaling</h5>
                                                         <hr>
 
                                                         <div class="form-group col-md-12 col-sm-12">
@@ -320,6 +320,10 @@
                                                             <label>Bootstrap Script</label>
                                                             <textarea class="form-control" rows="8" ng-model="vdu.bootstrap_script"></textarea>
                                                     </div>
+                                                    <div class="form-group col-md-12">
+                                                            <label>WC_Notify</label>
+                                                            <checkbox larger ng-model="vdu.wc_notify" ng-init="vdu.wc_notify=true"></checkbox>
+                                                    </div>
 
                                                 </div>
                                             </div>
@@ -389,23 +393,38 @@
                                                         </ui-select>
                                                     </div>
 
-                                                    <div class="form-group col-md-4 col-sm4">
+                                                    <div class="form-group col-md-6 col-sm6">
                                                         <label>Active <small>(Floating IP)</small></label><br>
                                                         <checkbox larger ng-model="virtual_link.active"></checkbox>
                                                     </div>
 
-                                                    <div class="form-group col-md-4 col-sm4">
+                                                    <div class="form-group col-md-6 col-sm6">
                                                         <label>Enable DHCP</label><br>
                                                         <checkbox larger ng-model="virtual_link.dhcp"></checkbox>
                                                     </div>
 
-                                                    <div class="form-group col-md-4 col-sm4">
+                                                    <div class="form-group col-md-6 col-sm6">
                                                         <label>External Access</label><br>
                                                         <checkbox larger ng-model="virtual_link.external_access"></checkbox>
                                                     </div>
 
-                                                    <div class="form-group col-md-12 col-sm-12">
-                                                        <label>Network Subnet (CIRD) <small>(optional)</small></label>
+                                                    <div class="form-group col-md-6 col-sm6">
+                                                        <label>Port Security</label><br>
+                                                        <checkbox larger ng-model="virtual_link.port_security_enabled"></checkbox>
+                                                    </div>
+
+                                                    <div class="form-group col-md-6 col-sm6">
+                                                        <label>Use Existing Network</label><br>
+                                                        <checkbox larger ng-model="virtual_link.existing_net"></checkbox>
+                                                    </div>
+
+                                                    <div class="form-group col-md-6 col-sm-6">
+                                                        <label>Network ID</label>
+                                                        <input class="form-control" type="text" ng-model="virtual_link.existing_net_id" ng-disabled="virtual_link.existing_net==false">
+                                                    </div>
+
+                                                    <div class="form-group col-md-12 col-sm-12" ng-show="virtual_link.existing_net==false">
+                                                        <label>Network Subnet (CIDR) <small>(optional)</small></label>
                                                         <input class="form-control" type="text" ng-model="virtual_link.net_segment">
                                                     </div>
 
@@ -476,33 +495,7 @@
 
                                                         <div class="form-group col-md-12">
                                                             <label>Authentication</label>
-                                                            <textarea class="form-control" rows="3" ng-model="flavor.data.lifecycle_events.authentication" ng-init="flavor.data.lifecycle_events.authentication='-----BEGIN RSA PRIVATE KEY-----
-MIIEpAIBAAKCAQEAqKzv1O+8SG53PJsMWHpAaBbbwQ5bEbHMplnOvnfWiL21cfU+
-EQdY2JgjsLMJyMnS2mMBmopJQ8y2c1KS2yz30oz/2ac/PcbiRmX4PV2qqUgDdVj1
-5w5YQreSBMNfi+hXs2uhs5dsDfG1mbedXhyT9QFlimeiZH+WwmX+91A9GQrCTrQU
-Sp7FQsiXyDBNUYmVsYYdP19XcNNc1OoReY8oCBzrrBR+vOf7XA6dh86HlM/ZBuQf
-SUEn8SdYeQM0975aDIrjhW8m3Fd3ZE3ZZKuCl7rbMLY8RRB8pSAkpFrBtyeqtN0H
-Rj7HpAd+BGjfgrL+ivXmG5AZ3fSehTFSKsGDDQIDAQABAoIBACgFkIpXr7cH7ubE
-azN7HlkUQ2QVQep643H9ER8EVDTxvmGhrO5hbeVGhAFjGck4if0jTLgcY7HgmtHW
-H949VzfwGKzOECVaUUoe273DwcCUw61ORFpkfvClmdHjgYIyyMxbl2yDWzIbzdkB
-RieUZE7X2/3xBQkPdPf/N3X65eRQ1FYRR6wOp2dAONzw0xpq2TYOKdVBqgZS3Sa6
-pksSDycaLlSJA/NN2y/FiIU8kkoUShYflRrsyheipQ9D5KMEmQASxWkDQu3xW+Wl
-60aUwnOrEGoMNAXAHUshfpbrsu3A6d59/6rykhc37z9tVUdTnPbX5KPDkWbKqC7H
-DdMSMsECgYEA34kRR8+nBd+fBNHPGsn++S8eaeczX0kMqRiATWq0ZPspcIbA2ojS
-0X5txoEFBjcZ8C2Nq56MjZtqfZRZCLfm1e/Dk2LP0x8vRS9BQRKwL//hypYqEC5l
-orokfy91Ow0kxnHxiYvJy2riinTcqSc4/8u2PuDVGW6JnLRxCIcW1kUCgYEAwSw0
-9jVjwQCWhkRJr/17vCLuCmkSMzmTFSu9SEsrVAmrYeE2qJPNRySjTfnDa/yA3OxG
-j620F5yMrD0ONCtoSqU6VQt23KiS0DPmWkeCuv6eOYMxXGy721idHshCtY9PlSZg
-C/QKa2KQnKV/88UfHUt/3hcAlpJzSdWBSku4iikCgYEAgv1LRw2EDokQIj7gYg5k
-f5kA9YYqMHgaFyzoYnVY6KPVkL8mW+k5wNGZem04iH/Zj0jib+Mk8gZUzOoVkmpR
-tqQds0yABHONu7kJQBy3ailEIvcEBx9pJ4Z0xKMGy2fUWQWESNnFkpI71m7Mr8Lw
-P9UcIpSVy6Vetpl2c0zWMRECgYAGBlbwhuHBlz8amO6jaoh9aal68aP7rQQFWQPi
-SVXknRiXSOrnfxSb72yYdf2+VHXAbi4VNRm00tEgXhcfUWtDSLv1AxKF90v86mF4
-11ogcuiEaq8TbuC9Cpp750sNVpbo0/WS6d2ZU82m1RKUi8VYqI4oYxdFmvO1jc8m
-fg4XYQKBgQCebRk5OiGmHTKUHHuBnFyA1ZJpVPGzBBmyQo83gRQ9+KvBOHQHYQcC
-v8JYWnuTwKCcIJhcqA8UbIGhRKHtBnqLr3Ipg97gKBElO3bTzUUut0QcMd14i6ab
-9oaS/tg7BhxKkQyuYwIpSeqFeZeecID4dfMCMHgaPaAsz+epjv1NIw==
------END RSA PRIVATE KEY-----'"></textarea>
+                                                            <textarea class="form-control" rows="3" ng-model="flavor.data.lifecycle_events.authentication" ng-init="flavor.data.lifecycle_events.authentication=''"></textarea>
                                                         </div>
 
                                                         <div class="form-group col-md-12">
@@ -571,13 +564,13 @@ v8JYWnuTwKCcIJhcqA8UbIGhRKHtBnqLr3Ipg97gKBElO3bTzUUut0QcMd14i6ab
                                                         </div>
 
                                                         <div class="form-group col-md-12 col-sm-12">
-                                                            <label>Scalling Event CMD</label>
-                                                            <input class="form-control" type="text" ng-model="flavor.data.lifecycle_events.events.scalling.command">
+                                                            <label>Scaling In Event CMD</label>
+                                                            <input class="form-control" type="text" ng-model="flavor.data.lifecycle_events.events.scaling_in.command">
                                                         </div>
 
                                                         <div class="form-group col-md-12 col-sm-12">
-                                                            <label>Scalling Event Template Format</label>
-                                                            <ui-select class="form-group" ng-model="flavor.data.lifecycle_events.events.scalling.template_file_format" ng-disabled="disabled">
+                                                            <label>Scaling In Event Template Format</label>
+                                                            <ui-select class="form-group" ng-model="flavor.data.lifecycle_events.events.scaling_in.template_file_format" ng-disabled="disabled">
                                                                 <ui-select-match placeholder="">[[$select.selected.format]]</ui-select-match>
                                                                 <ui-select-choices repeat="format.format as format in event_template_formats">
                                                                     <span ng-bind-html="format.format"></span>
@@ -586,10 +579,29 @@ v8JYWnuTwKCcIJhcqA8UbIGhRKHtBnqLr3Ipg97gKBElO3bTzUUut0QcMd14i6ab
                                                         </div>
 
                                                         <div class="form-group col-md-12 col-sm-12">
-                                                            <label>Scalling Event Template</label>
-                                                            <textarea class="form-control" rows="1" ng-model="flavor.data.lifecycle_events.events.scalling.template_file"></textarea>
+                                                            <label>Scaling In Event Template</label>
+                                                            <textarea class="form-control" rows="1" ng-model="flavor.data.lifecycle_events.events.scaling_in.template_file"></textarea>
                                                         </div>
 
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <label>Scaling Out Event CMD</label>
+                                                            <input class="form-control" type="text" ng-model="flavor.data.lifecycle_events.events.scaling_out.command">
+                                                        </div>
+
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <label>Scaling Out Event Template Format</label>
+                                                            <ui-select class="form-group" ng-model="flavor.data.lifecycle_events.events.scaling_out.template_file_format" ng-disabled="disabled">
+                                                                <ui-select-match placeholder="">[[$select.selected.format]]</ui-select-match>
+                                                                <ui-select-choices repeat="format.format as format in event_template_formats">
+                                                                    <span ng-bind-html="format.format"></span>
+                                                                </ui-select-choices>
+                                                            </ui-select>
+                                                        </div>
+
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <label>Scaling Out Event Template</label>
+                                                            <textarea class="form-control" rows="1" ng-model="flavor.data.lifecycle_events.events.scaling_out.template_file"></textarea>
+                                                        </div>
                                                       </div>
 
                                                     </div>

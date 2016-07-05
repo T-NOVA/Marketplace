@@ -465,7 +465,7 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, al
 
                 angular.forEach(flavor.data.virtual_links, function (vlink, vlink_key) {
 
-                    var vlink = {
+                    var vl = {
                         id: vlink.id,
                         alias: vlink.alias,
                         connectivity_type: vlink.type.type,
@@ -479,7 +479,14 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, al
                         net_segment: vlink.net_segment,
                         external_access: vlink.external_access
                     };
-                    vlinks.push(vlink);
+
+                    if (vlink.existing_net){
+                        vl.existing_net = vlink.existing_net;
+                        vl.existing_net_id = vlink.existing_net_id;
+                        vl.net_segment = '';
+                    }
+
+                    vlinks.push(vl);
                 });
 
                 vnfd.vlinks = vlinks;

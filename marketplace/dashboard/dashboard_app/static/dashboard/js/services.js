@@ -315,6 +315,7 @@ function ServiceCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService
     $scope.vnf_events = [
         {type:'start', description:'Start'},
         {type:'stop', description:'Stop'},
+        {type:'scale_in', description:'Scale In'},
         {type:'scale_out', description:'Scale Out'}
     ];
 
@@ -375,6 +376,7 @@ function ServiceCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService
         lifecycle_events:{
             start:[],
             stop:[],
+            scale_in:[],
             scale_out:[]
         }
     }];
@@ -388,6 +390,7 @@ function ServiceCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService
             lifecycle_events:{
                 start:[],
                 stop:[],
+                scale_in:[],
                 scale_out:[]
             }
         });
@@ -682,6 +685,7 @@ function ServiceCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService
         $scope.nsd.lifecycle_events = {
             start: [],
             stop:[],
+            scale_in:[],
             scale_out:[]
         };
         $scope.nsd.monitoring_parameters = $scope.monitoring_parameters_selected;
