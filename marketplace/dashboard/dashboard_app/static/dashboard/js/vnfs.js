@@ -476,6 +476,7 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, al
                         qos: "",
                         access: vlink.active, //test_access
                         dhcp: vlink.dhcp,
+                        port_security_enabled: vlink.port_security_enabled,
                         net_segment: vlink.net_segment,
                         external_access: vlink.external_access
                     };
