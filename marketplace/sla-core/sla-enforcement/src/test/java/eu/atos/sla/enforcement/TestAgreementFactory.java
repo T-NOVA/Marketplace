@@ -60,9 +60,6 @@ public class TestAgreementFactory {
 		t.setName(kpiName);
 		t.setKpiName(kpiName);
 		t.setServiceLevel(constraint);
-		t.setPolicies(
-			Arrays.<IPolicy>asList(new Policy(1, new Date(0)))
-		);
 		t.setViolations(new ArrayList<IViolation>());
 		
 		IBusinessValueList businessValueList = new BusinessValueList(0, penalties);
@@ -77,7 +74,7 @@ public class TestAgreementFactory {
 	
 	public static IViolation newViolation(IAgreement agreement, IGuaranteeTerm term, IPolicy policy, Date datetime) {
 		
-		IViolation result = new Violation(agreement, term, policy, "", "", datetime);
+		IViolation result = new Violation(agreement, term, policy, "", "", "", datetime);
 		return result;
 	}
 }

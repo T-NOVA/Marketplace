@@ -35,7 +35,7 @@ public class DummyBreachRepository implements IBreachRepository {
 	}
 
 	public DummyBreachRepository(String constraint, List<IMonitoringMetric> metrics) {
-		this.metrics = metrics;
+        this.metrics = new ArrayList<IMonitoringMetric>(metrics);
 		constraintEvaluator = new SimpleConstraintEvaluator();
 		this.constraint = constraint;
 	}
@@ -69,6 +69,28 @@ public class DummyBreachRepository implements IBreachRepository {
 	public void saveBreaches(List<IBreach> breaches) {
 
 		System.out.println("Saving list of breaches: " + breaches.size());
+        for (IBreach breach : breaches) {
+            metrics.add(newMonitoringMetric(breach));
+        }
+    }
+
+    private IMonitoringMetric newMonitoringMetric(final IBreach breach) {
+
+        IMonitoringMetric result = new IMonitoringMetric() {
+            @Override
+            public Date getDate() {
+                return breach.getDatetime();
+            }
+            @Override
+            public String getMetricKey() {
+                return breach.getKpiName();
+            }
+            @Override
+            public String getMetricValue() {
+                return breach.getValue();
+            }
+        };
+        return result;
 	}
 	
 	private Breach newBreach(String kpiName, String value, Date date) {

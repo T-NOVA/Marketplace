@@ -3,6 +3,8 @@ package eu.atos.sla.evaluation.guarantee;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import eu.atos.sla.dao.IBreachDAO;
@@ -19,6 +21,8 @@ import eu.atos.sla.datamodel.IViolation;
  */
 public class Repository implements IBreachRepository, IViolationRepository {
 
+	private static Logger logger = LoggerFactory.getLogger(Repository.class);
+	
 	@Autowired
 	IBreachDAO breachDao;
 
@@ -41,8 +45,10 @@ public class Repository implements IBreachRepository, IViolationRepository {
 	}
 
 	@Override
+//	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void saveBreaches(List<IBreach> breaches) {
 
+		logger.debug("Saving list of {} breaches", breaches.size());
 		for (IBreach breach : breaches) {
 		
 			breachDao.save(breach);

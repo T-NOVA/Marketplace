@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import eu.atos.sla.dao.IAgreementDAO;
 import eu.atos.sla.dao.IEnforcementJobDAO;
@@ -36,7 +35,6 @@ import eu.atos.sla.monitoring.IMonitoringMetric;
  *
  */
 @Service("EnforcementManager")
-@Transactional
 public class EnforcementService implements IEnforcementService {
 	private static Logger logger = LoggerFactory.getLogger(EnforcementService.class);
 	
@@ -189,13 +187,7 @@ public class EnforcementService implements IEnforcementService {
 			
 			dbTerm.setStatus( dbTerm.getViolations().size() > 0? 
 					GuaranteeTermStatusEnum.VIOLATED : GuaranteeTermStatusEnum.FULFILLED);
-			try{
-				guaranteeTermDAO.update(dbTerm);
-			}catch(Exception e){
-				// sometimes the update failes, for example in the test cases.
-				//in such a case 
-				guaranteeTermDAO.save(dbTerm);
-			}
+			guaranteeTermDAO.update(dbTerm);
 		}
 		
 		IEnforcementJob job = getEnforcementJobByAgreementId(agreement.getAgreementId());

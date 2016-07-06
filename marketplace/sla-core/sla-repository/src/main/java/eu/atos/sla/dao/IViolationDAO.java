@@ -125,8 +125,7 @@ public interface IViolationDAO {
 	 * @param active match non-expired if not null
 	 */
 	public List<IViolation> search(SearchParameters params);
-	
-	
+		
 	public static class SearchParameters {
 
 		private String providerUuid;

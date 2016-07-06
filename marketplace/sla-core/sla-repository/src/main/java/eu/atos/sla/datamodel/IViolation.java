@@ -75,6 +75,7 @@ public interface IViolation {
 
 	void setBreaches(List<IBreach> breaches);
 
+	
 	/**
 	 * Policy that raised this violation. If null, there is no policies in the GuaranteeTerm.
 	 */

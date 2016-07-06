@@ -3,18 +3,18 @@ package eu.atos.sla.util;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-
-//import org.codehaus.jackson.JsonNode;
-//import org.codehaus.jackson.JsonProcessingException;
-//import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -24,12 +24,14 @@ import eu.atos.sla.datamodel.IAgreement.Context.ServiceProvider;
 import eu.atos.sla.datamodel.ICompensation.IPenalty;
 import eu.atos.sla.datamodel.IEnforcementJob;
 import eu.atos.sla.datamodel.IGuaranteeTerm;
+import eu.atos.sla.datamodel.IPolicy;
 import eu.atos.sla.datamodel.IProvider;
 import eu.atos.sla.datamodel.IServiceProperties;
 import eu.atos.sla.datamodel.ITemplate;
 import eu.atos.sla.datamodel.IVariable;
 import eu.atos.sla.datamodel.IViolation;
 import eu.atos.sla.datamodel.bean.Agreement;
+import eu.atos.sla.datamodel.bean.Policy;
 import eu.atos.sla.datamodel.bean.Template;
 import eu.atos.sla.parser.ParserException;
 import eu.atos.sla.parser.data.EnforcementJob;
@@ -220,8 +222,10 @@ public class ModelConversion implements IModelConverter {
 					if (csl != null) {
 						logger.debug("CustomServiceLevel not null"); 
 						ServiceLevelParser.Result parsedSlo = ServiceLevelParser.parse(csl);
-						logger.debug("Setting service level with constraint {}", parsedSlo.getConstraint()); 
+						logger.debug("Setting service level with constraint {}", parsedSlo.getConstraint());
+
 						guaranteeTerm.setServiceLevel(parsedSlo.getConstraint());
+						guaranteeTerm.setPolicies(ServiceLevelParser.toPolicies(parsedSlo.getWindows()));
 					}else{
 						logger.debug("CustomServiceLevel is null"); 
 					}
@@ -434,11 +438,69 @@ public class ModelConversion implements IModelConverter {
 
 	public static class ServiceLevelParser {
 
-		public static class Result {
-			String constraint;
+		/**
+		 * A violation is raised if there are "count" occurrences of a breach inside an interval of "interval"
+		 * seconds.
+		 */
+		public static class Window {
+			private int count = 1;
+			private int interval = 0;
 			
-			protected String getConstraint() {
+			/**
+			 * Default constructor where no window is specified in SLO.
+			 */
+			Window() {
+			}
+
+			Window(int count, int interval) {
+				this.count = count;
+				this.interval = interval;
+			}
+			
+			public int getCount() {
+				return count;
+			}
+
+			public int getInterval() {
+				return interval;
+			}
+			
+			@JsonIgnore
+			public Date getDateInterval() {
+				return new Date(interval * 1000);
+			}
+
+			@Override
+			public boolean equals(Object obj) {
+				if (obj != null && obj instanceof Window) {
+					Window other = (Window) obj;
+					
+					return other.count == count && other.interval == interval;
+				}
+				return false; 
+			}
+
+			@Override
+			public String toString() {
+				return String.format("Window [count=%s, interval=%s]", count, interval);
+			}
+		}
+		
+		public static class Result {
+			public static List<Window> DEFAULT_WINDOWS = java.util.Collections.singletonList(new Window());
+			
+			String constraint;
+			List<Window> windows;
+			
+			public Result() {
+				this.windows = DEFAULT_WINDOWS;
+			}
+			public String getConstraint() {
 				return constraint;
+			}
+			
+			public List<Window> getWindows() {
+				return windows;
 			}
 		}
 		
@@ -446,16 +508,23 @@ public class ModelConversion implements IModelConverter {
 			ObjectMapper mapper = new ObjectMapper();
 			
 			String constraint = null;
+			List<Window> windows = null;
 			JsonNode rootNode = null;
 			try {
 				rootNode = mapper.readTree(serviceLevel);
 				JsonNode constraintNode = rootNode.path("constraint");
+				JsonNode windowsNode = rootNode.path("windows");
+				if (windowsNode.isMissingNode()) {
+					windowsNode = rootNode.path("policies");
+				}
 				
 				constraint = textOrJson(constraintNode);
-
+				windows = parseWindows(windowsNode, mapper);
+				
 				if (constraint==null) throw new ModelConversionException(serviceLevel+" didn't contain the constraint keyword");
 				Result result = new Result();
 				result.constraint = constraint;
+				result.windows = windows;
 				
 				return result;
 			} catch (JsonProcessingException e) {
@@ -465,6 +534,15 @@ public class ModelConversion implements IModelConverter {
 				logger.error("Error parsing "+serviceLevel, e);
 				throw new ModelConversionException("Error parsing "+serviceLevel+ " message:"+ e.getMessage());
 			}
+		}
+
+		protected static List<IPolicy> toPolicies(List<Window> windows) {
+			List<IPolicy> result = new ArrayList<IPolicy>();
+			for (Window w : windows) {
+				Policy p = new Policy(w.getCount(), w.getDateInterval());
+				result.add(p);
+			}
+			return result;
 		}
 
 		/**
@@ -485,6 +563,19 @@ public class ModelConversion implements IModelConverter {
 			return constraint;
 		}
 		
+		private static List<Window> parseWindows(JsonNode windowsNode, ObjectMapper mapper) 
+				throws JsonParseException, JsonMappingException, IOException {
+			
+			List<Window> result;
+			if (windowsNode.isMissingNode()) {
+				result = Result.DEFAULT_WINDOWS;
+			}
+			else {
+				result = mapper.readValue(windowsNode.toString(), 
+						mapper.getTypeFactory().constructCollectionType(List.class, Window.class));
+			}
+			return result;
+		}
 	}
 
 	public static class QualifyingConditionParser {

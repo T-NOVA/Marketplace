@@ -109,8 +109,8 @@ public class Violation implements IViolation, Serializable {
 	private String kpiName;
 	private Date datetime;
 	private String expectedValue;
-	private List<IBreach> breaches;
 	private String actualValue;
+	private List<IBreach> breaches;
 	
 	private IPolicy policy;
 
@@ -118,7 +118,7 @@ public class Violation implements IViolation, Serializable {
 	}
 
 	public Violation(final IAgreement contract, final IGuaranteeTerm term, 
-			final IPolicy policy, final String actualValue, 
+			final IPolicy policy,  final String kpiName, final String actualValue, 
 			final String expectedValue, final Date timestamp) {
 
 		this.setUuid(UUID.randomUUID().toString());
@@ -229,7 +229,6 @@ public class Violation implements IViolation, Serializable {
 	public void setBreaches(List<IBreach> breaches) {
 		this.breaches = breaches;
 	}
-
 	@Override
 	@ManyToOne(targetEntity = Policy.class, fetch = FetchType.EAGER)
 	@JoinColumn(name = "policy_id", referencedColumnName = "id", nullable = true)

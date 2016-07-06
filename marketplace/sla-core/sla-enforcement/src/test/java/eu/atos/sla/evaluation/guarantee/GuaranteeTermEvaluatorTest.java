@@ -54,6 +54,7 @@ public class GuaranteeTermEvaluatorTest {
 				new PoliciedServiceLevelEvaluator();
 		slEval.setConstraintEvaluator(constraintEval);
 		slEval.setBreachRepository(new DummyBreachRepository(constraint));
+        slEval.setViolationRepository(new SimpleBusinessValuesEvaluatorTest.DummyViolationRepository());
 		IBusinessValuesEvaluator bEval = new DummyBusinessValuesEvaluator();
 		evaluator.setServiceLevelEvaluator(slEval);
 		evaluator.setBusinessEvaluator(bEval);

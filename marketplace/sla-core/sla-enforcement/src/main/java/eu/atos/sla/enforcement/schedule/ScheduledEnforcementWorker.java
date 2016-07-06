@@ -13,7 +13,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import eu.atos.sla.dao.IAgreementDAO;
 import eu.atos.sla.dao.IEnforcementJobDAO;
@@ -34,7 +33,6 @@ import eu.atos.sla.datamodel.IEnforcementJob;
  * eu.atos.sla.enforcement.poll.interval.mseconds=30000
  */
 @Component
-@Transactional
 public class ScheduledEnforcementWorker implements InitializingBean, IScheduledEnforcementWorker {
 	private static final String POLL_INTERVAL = "eu.atos.sla.enforcement.poll.interval.mseconds";
 

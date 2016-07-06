@@ -74,7 +74,7 @@ public class SimpleBusinessValuesEvaluatorTest {
 
 	private IViolation newViolation(int time) {
 		Date datetime = new Date(1000 * time);
-		IViolation violation = new Violation(contract, contract.getGuaranteeTerms().get(0), null, "", "", datetime);
+		IViolation violation = new Violation(contract, contract.getGuaranteeTerms().get(0), null, "", "", "", datetime);
 		return violation;
 	}
 	
@@ -143,13 +143,12 @@ public class SimpleBusinessValuesEvaluatorTest {
 		
 		List<IViolation> violations = new ArrayList<IViolation>();
 		
-		public DummyViolationRepository(List<IViolation> violations) {
+        public DummyViolationRepository() {
+        }
+
+        public DummyViolationRepository(List<IViolation> violations) {
 			this.violations.addAll(violations);
 		}
-
-		public DummyViolationRepository() {
-		}
-
 
 		@Override
 		public List<IViolation> getViolationsByTimeRange(IAgreement agreement,
@@ -169,8 +168,7 @@ public class SimpleBusinessValuesEvaluatorTest {
 		}
 
 		@Override
-		public Date getLastViolationDate(IAgreement agreement,
-				String guaranteeTermName) {
+		public Date getLastViolationDate(IAgreement agreement, String guaranteeTermName) {
 			Date maxDate = new Date(0);
 			for (IViolation violation: violations) {
 				if (violation == null) {
@@ -181,7 +179,7 @@ public class SimpleBusinessValuesEvaluatorTest {
 					maxDate = violationDate;
 				}
 			}
-			return maxDate;
+            return maxDate.getTime() == 0? null : maxDate;
 		}
 	}
 }

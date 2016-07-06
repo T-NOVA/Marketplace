@@ -57,8 +57,8 @@ public class PoliciedServiceLevelEvaluator implements IServiceLevelEvaluator {
 	private IConstraintEvaluator constraintEval;
 	private IBreachRepository breachRepository;
 	private IViolationRepository violationRepository;
-	private PoliciedServiceLevelEvaluator.ActualValueBuilder actualValueBuilder = new ActualValueBuilder();
 	private PoliciedServiceLevelEvaluator.BreachesFromMetricsBuilder breachesFromMetricsBuilder = new BreachesFromMetricsBuilder();
+    private ViolationsFromBreachesBuilder violationsFromBreachesBuilder = new ViolationsFromBreachesBuilder();
 
 	@Override
 	public List<IViolation> evaluate(
@@ -87,18 +87,14 @@ public class PoliciedServiceLevelEvaluator implements IServiceLevelEvaluator {
 		List<IBreach> newBreaches = null; 		/* only to use with policies */
 		if (withPolicies) {
 			newBreaches = breachesFromMetricsBuilder.build(newBreachMetrics, agreement, kpiName);
-			saveBreaches(newBreaches);
 		}
 		
 		/*
 		 * Evaluate each policy
 		 */
-		for (IPolicy policy : policies) {
-			Date breachesBegin = new Date(now.getTime() - policy.getTimeInterval().getTime());
-			Date lastViolation = violationRepository.getLastViolationDate(agreement, kpiName);
-			if ((lastViolation != null) && (breachesBegin.compareTo(lastViolation) < 0)) {
-	                    breachesBegin = lastViolation;
-	        }
+        for (IPolicy policy : policies) {
+            Date breachesBegin = calcBreachesBegin(agreement, now, kpiName, policy, metrics);
+
 			logger.debug("Evaluating policy({},{}s) in interval({}, {})", 
 					policy.getCount(), policy.getTimeInterval().getTime() / 1000, breachesBegin, now);
 			
@@ -111,10 +107,10 @@ public class PoliciedServiceLevelEvaluator implements IServiceLevelEvaluator {
 				List<IBreach> breaches = new PoliciedServiceLevelEvaluator.CompositeList<IBreach>(
 						oldBreaches, newBreaches);
 				if (evaluatePolicy(policy, oldBreaches, newBreaches)) {
-					IViolation violation = newViolation(agreement, term, policy, kpiName, breaches, now);
+                    List<IViolation> policyViolations = violationsFromBreachesBuilder.build(
+                            agreement, term, kpiName, breaches, policy);
 
-					newViolations.add(violation);
-					violation.setBreaches(breaches);
+                    newViolations.addAll(policyViolations);
 					logger.debug("Violation raised");
 				}
 			} 
@@ -127,9 +123,30 @@ public class PoliciedServiceLevelEvaluator implements IServiceLevelEvaluator {
 				}
 			}
 		}
+        if (withPolicies) {
+            saveBreaches(newBreaches);
+        }
 		return newViolations;
 	}
 
+    private Date calcBreachesBegin(
+            IAgreement agreement, Date now, String kpiName, IPolicy policy, List<IMonitoringMetric> metrics) {
+        
+        Date breachesBegin = (metrics.size() > 0)?
+                substract(metrics.get(0).getDate(), policy.getTimeInterval())
+                : substract(now, policy.getTimeInterval());
+        Date lastViolation = violationRepository.getLastViolationDate(agreement, kpiName);
+        if (lastViolation != null && breachesBegin.compareTo(lastViolation) < 0) {
+            breachesBegin = lastViolation;
+        }
+        return breachesBegin;
+    }
+
+    private static Date substract(Date d1, Date d2) {
+        
+        return new Date(d1.getTime() - d2.getTime());
+    }
+    
 	private void checkInitialized() {
 		
 		if (breachRepository == null) {
@@ -145,21 +162,6 @@ public class PoliciedServiceLevelEvaluator implements IServiceLevelEvaluator {
 		breachRepository.saveBreaches(breaches);
 	}
 
-	/**
-	 * Builds a Violation from a list of breaches (for the case when the term has policies)
-	 */
-	private IViolation newViolation(final IAgreement agreement, final IGuaranteeTerm term,
-			final IPolicy policy, final String kpiName, final List<IBreach> breaches, final Date timestamp) {
-		
-		String actualValue = actualValueBuilder.fromBreaches(breaches);
-		//String expectedValue = null;
-		String expectedValue = term.getServiceLevel();
-		
-		IViolation v = newViolation(
-				agreement, term, policy, kpiName, actualValue, expectedValue, timestamp);
-		return v;
-	}
-	
 	/**
 	 * Builds a Violation from metric breach (for the case when the term does not have policies)
 	 */
@@ -253,6 +255,7 @@ public class PoliciedServiceLevelEvaluator implements IServiceLevelEvaluator {
 	public void setViolationRepository(IViolationRepository violationRepository) {
 		this.violationRepository = violationRepository;
 	}
+
 	/**
 	 * Unmodifiable List wrapper over 2 lists. 
 	 * 
@@ -353,4 +356,59 @@ public class PoliciedServiceLevelEvaluator implements IServiceLevelEvaluator {
 			return result;
 		}
 	}
+    
+    /**
+     * Builds violations from a list of breaches (for the case when the term has policies)
+     * 
+     * The build method constructs a violation every policy.getCount() breaches if the gap between breaches
+     * are less or equal than the window interval.
+     * 
+     * Each violation have date and actualValue of the last breach in the series.
+     */
+    public static class ViolationsFromBreachesBuilder {
+        public List<IViolation> build(IAgreement agreement, IGuaranteeTerm term, String kpiName, 
+                List<IBreach> allBreaches, IPolicy policy) {
+            
+            List<IViolation> result = new ArrayList<IViolation>();
+           
+            int index = 0;
+            int count = policy.getCount();
+            while (index < allBreaches.size()) {
+                if (isViolation(allBreaches, policy, index)) {
+                    
+                    List<IBreach> vBreaches = new ArrayList<IBreach>(allBreaches.subList(index, index + count));
+                    IBreach lastBreach = allBreaches.get(index + count - 1);
+                    
+                    IViolation v = new Violation(
+                            agreement, term, policy, kpiName, lastBreach.getValue(), term.getServiceLevel(), lastBreach.getDatetime());
+                    v.setBreaches(vBreaches);
+                    
+                    result.add(v);
+                    index += index + count;
+                }
+                else {
+                    index++;
+                }
+            }
+            return result;
+        }
+        
+        /**
+         * Check that the n breaches starting from <code>firstBreachIndex</code> are inside the interval time
+         * of the window.
+         */
+        private boolean isViolation(List<IBreach> breaches, IPolicy policy, int firstBreachIndex) {
+            
+            int lastBreachIndex = firstBreachIndex + policy.getCount() - 1;
+            if (lastBreachIndex >= breaches.size()) {
+                
+                return false;
+            }
+            Date firstBreachDate = breaches.get(firstBreachIndex).getDatetime();
+            Date lastBreachDate = breaches.get(lastBreachIndex).getDatetime();
+            
+            return (substract(lastBreachDate, firstBreachDate).compareTo(policy.getTimeInterval()) <= 0);
+        }
+    }
+    
 }

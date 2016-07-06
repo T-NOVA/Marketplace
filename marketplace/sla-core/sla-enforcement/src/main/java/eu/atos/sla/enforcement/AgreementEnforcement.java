@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.transaction.annotation.Transactional;
 
 import eu.atos.sla.datamodel.IAgreement;
 import eu.atos.sla.datamodel.IGuaranteeTerm;
@@ -62,6 +63,7 @@ import eu.atos.sla.notification.INotifierManager;
  * 
  * @author rsosa
  */
+@Transactional
 public class AgreementEnforcement {
 	private static Logger logger = LoggerFactory.getLogger(AgreementEnforcement.class);
 	private static final String POLL_INTERVAL = "eu.atos.sla.enforcement.poll.interval.mseconds";

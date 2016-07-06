@@ -5,7 +5,9 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.net.URL;
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -20,9 +22,10 @@ import org.junit.Test;
 import eu.atos.sla.datamodel.IAgreement;
 import eu.atos.sla.datamodel.IGuaranteeTerm;
 import eu.atos.sla.datamodel.ICompensationDefinition.IPenaltyDefinition;
+import eu.atos.sla.datamodel.IPolicy;
 import eu.atos.sla.datamodel.bean.PenaltyDefinition;
+import eu.atos.sla.datamodel.bean.Policy;
 import eu.atos.sla.parser.data.wsag.Context.ServiceProvider;
-import eu.atos.sla.util.ModelConversion.ServiceLevelParser;
 
 public class ModelConversionTest {
 
@@ -48,74 +51,6 @@ public class ModelConversionTest {
 	public void tearDown() throws Exception {
 	}
 
-	private String parseServiceLevel(String slo) throws ModelConversionException {
-		
-		return ServiceLevelParser.parse(slo).getConstraint();
-	}
-	
-	@Test
-	public void testParserServiceLevel() throws ModelConversionException {
-		String expected;
-		String actual;
-		expected = "Performance GT 0.1";
-		
-		/*
-		 * accepted constraint
-		 */
-		actual = parseServiceLevel(
-				String.format("{\"constraint\" : \"%s\"}", expected));
-		
-		assertEquals(expected, actual);
-		
-		/*
-		 * constraint does not exist
-		 */
-		try {
-			actual = parseServiceLevel(
-					String.format("{\"thereisnoconstraint\" : \"%s\"}", expected));
-			fail("ModelConversionException not thrown");
-		} catch (ModelConversionException e) {
-			assertTrue(true);
-		}
-		
-		/*
-		 * constraint is a json object, instead of string
-		 */
-		expected = "{\"hasMaxValue\":1.0}";
-		actual = parseServiceLevel(
-				String.format("{\"constraint\" : %s}", expected));
-		
-	}
-	
-	@Test
-	public void testParseServiceLevelShouldPass() throws ModelConversionException {
-
-		String expected;
-		String actual;
-		
-		expected = "Performance GT 0.1";
-		
-		actual = parseServiceLevel(
-				String.format("{\"constraint\" : \"%s\"}", expected));
-		
-		assertEquals(expected, actual);
-	}
-
-	private void checkParseSloFails(String slo) {
-		try {
-			parseServiceLevel(slo);
-			fail("Parse of '"+ slo + "' should fail");
-		} catch (ModelConversionException e) {
-			/* 
-			 * Does nothing
-			 */
-		}
-	}
-	@Test
-	public void testParseServiceLevelShouldFail() {
-		checkParseSloFails("{\"thereisnoconstraint\" : \"dont'care\"}");
-	}
-	
 	private eu.atos.sla.parser.data.wsag.Agreement readXml(File f) 
 			throws JAXBException, FileNotFoundException {
 		
@@ -130,8 +65,11 @@ public class ModelConversionTest {
 	}
 	
 	private File getResourceFile(String path) {
-		
-		return new File(this.getClass().getResource(path).getFile());
+		URL url = this.getClass().getResource(path);
+		if (url == null) {
+			throw new IllegalArgumentException("Resource file " + path + " not found");
+		}
+		return new File(url.getFile());
 	}
 	
 	private void checkParseAgreementContext(eu.atos.sla.parser.data.wsag.Agreement agreementXML, 
@@ -213,5 +151,42 @@ public class ModelConversionTest {
 				i++;
 			}
 		}
+	}
+	
+	@Test
+	public void testPolicies() throws ModelConversionException, FileNotFoundException, JAXBException {
+		
+		File file = getResourceFile("/samples/test_parse_windows.xml");
+		eu.atos.sla.parser.data.wsag.Agreement agreementXML = readXml(file);
+		IAgreement a = modelConverter.getAgreementFromAgreementXML((eu.atos.sla.parser.data.wsag.IAgreement)agreementXML, "");
+
+		checkPolicyExists(new Policy(2, new Date(120*1000)), a.getGuaranteeTerms().get(0).getPolicies());
+		checkPolicyExists(new Policy(3, new Date(3600*1000)), a.getGuaranteeTerms().get(0).getPolicies());
+	}
+	
+	private void checkPolicyExists(IPolicy expected, List<IPolicy> actuals) {
+		boolean found = false;
+		for (IPolicy actual : actuals) {
+			System.out.println(actual.getCount() + " " + actual.getTimeInterval());
+			if (equalsPolicy(expected, actual)) {
+				found = true;
+				break;
+			}
+		}
+		if (!found) {
+			fail("Policy " + expected + " not found");
+		}
+	}
+	
+	/*
+	 * Being a jpa object, IPolicy do not implement equals.
+	 * Nice read: http://www.onjava.com/lpt/a/6718
+	 */
+	private boolean equalsPolicy(IPolicy p1, IPolicy p2) {
+		if (p1 == null || p2 == null) {
+			throw new NullPointerException();
+		}
+		
+		return (p1.getCount() == p2.getCount() && p1.getTimeInterval().equals(p2.getTimeInterval()));
 	}
 }
