@@ -464,6 +464,20 @@ class updateServiceStatus(APIView):
         a_enforcement= f.enforcements()
         a_enforcement.stop(agreementId) 
 
+    def stopVNF(self, vnfInstance, jsonStatus):
+        vnf = vnfquery[0]
+        vnfserializer = AccountSerializer(vnf, many=False, data=json.loads(jsonStatus))
+        if vnfserializer.is_valid():
+            #print "VNF2: ", json.dumps(vnfserializer.data)
+            vnfserializer.save()
+            #Send the message to the billing module
+            send_msg(json.dumps(vnfSerializer.data))
+            #start/stop the SLA enforcement accordingly
+            if (new_status == settings.STATUS_RUNNING):
+                self.startEnforcement(vnf.agreementId)
+            if (new_status == settings.STATUS_STOPPED):
+                self.stopEnforcement(vnf.agreementId)
+
 
     def post(self, request, ns_instance, new_status, format=None):
         """
@@ -499,17 +513,7 @@ class updateServiceStatus(APIView):
                     for vnfInstance in vnf_list:
                         time.sleep(1)
                         print "VNF: ", vnfInstance
-                        vnfquery = Account.objects.filter(productType=settings.VNF, instanceId=vnfInstance)    
-                        vnf = vnfquery[0]
-                        vnfserializer = AccountSerializer(vnf, many=False, data=json.loads(jsonStatus))
-                        if vnfserializer.is_valid():
-                            #print "VNF2: ", json.dumps(vnfserializer.data)
-                            vnfserializer.save()
-                            #start/stop the SLA enforcement accordingly
-                            if (new_status == settings.STATUS_RUNNING):
-                                self.startEnforcement(vnf.agreementId)
-                            if (new_status == settings.STATUS_STOPPED):
-                                self.stopEnforcement(vnf.agreementId)
+                        self.stopVNF(vnfInstance, jsonStatus)
                     return Response(serializer.data, status=status.HTTP_201_CREATED)
             except ReferenceError:
                 print "  [ERROR] Could not update the messages queue"
@@ -554,7 +558,7 @@ class updateVNFStatus(APIView):
 class SLAInformation(APIView): 
     """
     API endpoint that gives details about the services purchased by a certain user. 
-        /sla-info/?clientId=c1&kind=service
+        /sla-info/?clientId=c1&kind=ns
     """
     def get(self, request, format=None):
         """
@@ -565,7 +569,7 @@ class SLAInformation(APIView):
               kind: string
               paramType: form
             - name: type
-              description: Type of the SLA information to be returned: service (for the customer) or vnf (for the SP)
+              description: Type of the SLA information to be returned: ns (for the customer) or vnf (for the SP)
               type: string
               paramType: form
         serializer: SLAInfoSerializer
