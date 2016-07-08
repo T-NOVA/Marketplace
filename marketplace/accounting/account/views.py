@@ -464,12 +464,13 @@ class updateServiceStatus(APIView):
         a_enforcement= f.enforcements()
         a_enforcement.stop(agreementId) 
 
-    def stopVNF(self, vnfInstance, jsonStatus):
+    def stopVNF(self, vnfInstance, jsonStatus, new_status):
+        vnfquery = Account.objects.filter(productType=settings.VNF, instanceId=vnfInstance) 
         vnf = vnfquery[0]
-        vnfserializer = AccountSerializer(vnf, many=False, data=json.loads(jsonStatus))
-        if vnfserializer.is_valid():
+        vnfSerializer = AccountSerializer(vnf, many=False, data=json.loads(jsonStatus))
+        if vnfSerializer.is_valid():
             #print "VNF2: ", json.dumps(vnfserializer.data)
-            vnfserializer.save()
+            vnfSerializer.save()
             #Send the message to the billing module
             send_msg(json.dumps(vnfSerializer.data))
             #start/stop the SLA enforcement accordingly
@@ -513,7 +514,7 @@ class updateServiceStatus(APIView):
                     for vnfInstance in vnf_list:
                         time.sleep(1)
                         print "VNF: ", vnfInstance
-                        self.stopVNF(vnfInstance, jsonStatus)
+                        self.stopVNF(vnfInstance, jsonStatus, new_status)
                     return Response(serializer.data, status=status.HTTP_201_CREATED)
             except ReferenceError:
                 print "  [ERROR] Could not update the messages queue"
