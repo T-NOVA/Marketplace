@@ -31,8 +31,10 @@ class Account(models.Model):
    instanceId = models.CharField(max_length=256, default=None, blank=False) 
    #Id of the agreement in the SLA module
    agreementId = models.CharField(max_length=256, null=False, default=None, blank=False) 
-   #Id of the parent service (null if it's a Service parent already)
+   #Comma separated string indicating the IDs of the VNFs of NSs associated to this entry element
    relatives = models.CharField(max_length=256, null=True, default=None, blank=False) 
+   #Comma separated string indicating the IDs of the instances associated to this entry element
+   relatives_instances = models.CharField(max_length=256, null=True, default=None, blank=False) 
    #vnf|service
    productType = models.CharField(max_length=10, default=None, blank=False) 
    #Name of the flavour of the product

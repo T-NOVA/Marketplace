@@ -52,8 +52,18 @@ CREATE TABLE `account_account` (
   `dateCreated` datetime NOT NULL,
   `dateModified` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `account_account`
+--
+
+LOCK TABLES `account_account` WRITE;
+/*!40000 ALTER TABLE `account_account` DISABLE KEYS */;
+INSERT INTO `account_account` VALUES (1,'ns01','ns01_001','ns01_001_sla','vnf01','vnf01_001','ns','basic','2016-08-22 08:33:41','2016-08-22 08:33:41','c1','c2','running','PAYG','P1M','EUR',1,1,0,'2016-08-22 08:33:41','2016-08-22 10:20:36'),(2,'vnf01','vnf01_001','vnf01_001_sla','ns01','ns01_001','vnf','basic','2016-08-22 08:35:00','2016-08-22 08:35:00','fp1','c1','running','PAYG','P1M','EUR',1,1,0,'2016-08-22 08:35:00','2016-08-22 10:20:37'),(3,'vnf02','vnf02_001','vnf02_001_sla','ns02','ns02_001','vnf','basic','2016-08-22 08:36:27','2016-08-22 08:36:27','fp2','c1','running','PAYG','P1M','EUR',1,1,0,'2016-08-22 08:36:27','2016-08-22 10:20:32'),(4,'vnf01','vnf01_002','vnf01_002_sla','ns02','ns02_001','vnf','basic','2016-08-22 10:01:52','2016-08-22 10:01:52','fp1','c1','running','PAYG','P1M','EUR',1,1,0,'2016-08-22 10:01:52','2016-08-22 10:20:31'),(5,'ns02','ns02_001','ns02_001_sla','vnf01, vnf02','vnf01_002, vnf02_001','ns','basic','2016-08-22 10:03:43','2016-08-22 10:03:43','c1','c3','running','PAYG','P1M','EUR',1,1,0,'2016-08-22 10:03:43','2016-08-22 10:20:29');
+/*!40000 ALTER TABLE `account_account` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `account_billingevent`
@@ -76,6 +86,15 @@ CREATE TABLE `account_billingevent` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `account_billingevent`
+--
+
+LOCK TABLES `account_billingevent` WRITE;
+/*!40000 ALTER TABLE `account_billingevent` DISABLE KEYS */;
+/*!40000 ALTER TABLE `account_billingevent` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `account_monitor`
 --
 
@@ -92,6 +111,14 @@ CREATE TABLE `account_monitor` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Dumping data for table `account_monitor`
+--
+
+LOCK TABLES `account_monitor` WRITE;
+/*!40000 ALTER TABLE `account_monitor` DISABLE KEYS */;
+/*!40000 ALTER TABLE `account_monitor` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `account_slainfo`
@@ -115,6 +142,15 @@ CREATE TABLE `account_slainfo` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `account_slainfo`
+--
+
+LOCK TABLES `account_slainfo` WRITE;
+/*!40000 ALTER TABLE `account_slainfo` DISABLE KEYS */;
+/*!40000 ALTER TABLE `account_slainfo` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `account_slapenalty`
 --
 
@@ -129,6 +165,15 @@ CREATE TABLE `account_slapenalty` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `account_slapenalty`
+--
+
+LOCK TABLES `account_slapenalty` WRITE;
+/*!40000 ALTER TABLE `account_slapenalty` DISABLE KEYS */;
+/*!40000 ALTER TABLE `account_slapenalty` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `account_slaviolation`
@@ -147,6 +192,15 @@ CREATE TABLE `account_slaviolation` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `account_slaviolation`
+--
+
+LOCK TABLES `account_slaviolation` WRITE;
+/*!40000 ALTER TABLE `account_slaviolation` DISABLE KEYS */;
+/*!40000 ALTER TABLE `account_slaviolation` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `auth_group`
 --
 
@@ -161,6 +215,14 @@ CREATE TABLE `auth_group` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Dumping data for table `auth_group`
+--
+
+LOCK TABLES `auth_group` WRITE;
+/*!40000 ALTER TABLE `auth_group` DISABLE KEYS */;
+/*!40000 ALTER TABLE `auth_group` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `auth_group_permissions`
@@ -182,6 +244,14 @@ CREATE TABLE `auth_group_permissions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Dumping data for table `auth_group_permissions`
+--
+
+LOCK TABLES `auth_group_permissions` WRITE;
+/*!40000 ALTER TABLE `auth_group_permissions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `auth_group_permissions` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `auth_permission`
@@ -199,7 +269,7 @@ CREATE TABLE `auth_permission` (
   UNIQUE KEY `content_type_id` (`content_type_id`,`codename`),
   KEY `auth_permission_417f1b1c` (`content_type_id`),
   CONSTRAINT `auth__content_type_id_508cf46651277a81_fk_django_content_type_id` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -236,6 +306,14 @@ CREATE TABLE `auth_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Dumping data for table `auth_user`
+--
+
+LOCK TABLES `auth_user` WRITE;
+/*!40000 ALTER TABLE `auth_user` DISABLE KEYS */;
+/*!40000 ALTER TABLE `auth_user` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `auth_user_groups`
@@ -256,6 +334,15 @@ CREATE TABLE `auth_user_groups` (
   CONSTRAINT `auth_user_groups_user_id_4b5ed4ffdb8fd9b0_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `auth_user_groups`
+--
+
+LOCK TABLES `auth_user_groups` WRITE;
+/*!40000 ALTER TABLE `auth_user_groups` DISABLE KEYS */;
+/*!40000 ALTER TABLE `auth_user_groups` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `auth_user_user_permissions`
@@ -333,7 +420,7 @@ CREATE TABLE `django_content_type` (
   `model` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `django_content_type_app_label_45f3b1d93ec8c61c_uniq` (`app_label`,`model`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

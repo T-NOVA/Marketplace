@@ -22,7 +22,7 @@ from rest_framework import serializers
 class AccountSerializer(serializers.ModelSerializer):
    class Meta:
       model = Account
-      fields = ('id', 'instanceId', 'productId', 'agreementId', 'relatives', 'productType', 'flavour', 'startDate', 'lastBillDate', 'providerId', 'clientId', 'status', 'billingModel', 'period', 'priceUnit', 'periodCost', 'setupCost', 'renew', 'dateCreated', 'dateModified')
+      fields = ('id', 'instanceId', 'productId', 'agreementId', 'relatives', 'relatives_instances', 'productType', 'flavour', 'startDate', 'lastBillDate', 'providerId', 'clientId', 'status', 'billingModel', 'period', 'priceUnit', 'periodCost', 'setupCost', 'renew', 'dateCreated', 'dateModified')
       read_only_fields = ('dateCreated', )
 
 class AccountBillSerializer(serializers.ModelSerializer):
