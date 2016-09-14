@@ -291,6 +291,15 @@ public class ServiceSelectionServiceImpl
             relatives.add( vnf.getVnfdId() );
         }
         serviceRequest.setRelatives( relatives.toString().replace( "[", "" ).replace( "]", "" ) );
+
+        List<String> relativeInstances = new ArrayList<>();
+        for( Vnf vnf : reply.getVnfs() )
+        {
+            relativeInstances.add( vnf.getVnfiId() );
+        }
+        serviceRequest.setRelativeInstances( relativeInstances.toString().replace( "[", "" ).replace( "]", "" ) );
+
+
         serviceRequest.setProductType( "ns" );
         //        serviceRequest.setFlavour( request.getFlavorId() );
         serviceRequest.setProviderId( networkService.getNsd().getProviderId() );
@@ -344,6 +353,7 @@ public class ServiceSelectionServiceImpl
             vnfRequest.setPeriod( "P1M" );
             vnfRequest.setRelatives( networkService.getNsd().getId() );
             vnfRequest.setRenew( true );
+            vnfRequest.setRelativeInstances( reply.getId().toString() );
 
             logger.info( "vnf reference id is = {}", vnfReferenceFlavorId );
             vnfRequest.setFlavour( vnfReferenceFlavorId );
