@@ -6,6 +6,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @JsonInclude( JsonInclude.Include.NON_NULL )
@@ -24,7 +25,8 @@ import java.util.Map;
     "priceUnit",
     "periodCost",
     "setupCost",
-    "renew" } )
+    "relative_instances",
+    "renew"} )
 public class AccountingRequest
 {
 
@@ -58,6 +60,9 @@ public class AccountingRequest
     private double setupCost;
     @JsonProperty( "renew" )
     private boolean renew;
+    @JsonProperty("relative_instances")
+    private String relativeInstances;
+
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -65,7 +70,7 @@ public class AccountingRequest
 
     public AccountingRequest( String instanceId, String productId, String agreementId, String relatives,
         String productType, String flavour, String providerId, String clientId, String status, String billingModel,
-        String period, String priceUnit, double periodCost, double setupCost, boolean renew )
+        String period, String priceUnit, double periodCost, double setupCost, boolean renew, String relativeInstances )
     {
         this.instanceId = instanceId;
         this.productId = productId;
@@ -81,6 +86,7 @@ public class AccountingRequest
         this.priceUnit = priceUnit;
         this.periodCost = periodCost;
         this.setupCost = setupCost;
+        this.relativeInstances = relativeInstances;
         this.renew = renew;
     }
 
@@ -386,6 +392,18 @@ public class AccountingRequest
     {
         this.setupCost = setupCost;
         return this;
+    }
+
+    @JsonProperty("relative_instances")
+    public String getRelativeInstances()
+    {
+        return relativeInstances;
+    }
+
+    @JsonProperty("relative_instances")
+    public void setRelativeInstances( String relativeInstances )
+    {
+        this.relativeInstances = relativeInstances;
     }
 
     /**
