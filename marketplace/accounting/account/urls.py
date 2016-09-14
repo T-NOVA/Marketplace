@@ -44,12 +44,3 @@ urlpatterns = [
 
 urlpatterns = format_suffix_patterns(urlpatterns)
 
-'''
-
-router.register(r'monitor', views.MonitorViewSet)
-router.register(r'client', views.AccountClientIdFiltered)
-
-    url(r'^event', views.BillingEventViewSet.as_view()),
-    url(r'^', include(router.urls)),
-    #url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
-'''

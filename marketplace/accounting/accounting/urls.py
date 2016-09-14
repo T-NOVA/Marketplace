@@ -1,7 +1,7 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^', include('account.urls')),
-    url(r'^docs/', include('rest_framework_swagger.urls')),
-)
+    #url(r'^docs/', include('rest_framework_swagger.urls')),
+]
 
