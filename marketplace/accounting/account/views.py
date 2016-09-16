@@ -509,7 +509,7 @@ class updateServiceStatus(APIView):
                     send_msg(json.dumps(serializer.data))
 
                     #update the status of the participant VNFs
-                    vnf_list = service.relatives_instances.replace(" ", "").split(",")
+                    vnf_list = service.relative_instances.replace(" ", "").split(",")
                     print "VNF list: ", vnf_list
                     for vnfInstance in vnf_list:
                         time.sleep(1)

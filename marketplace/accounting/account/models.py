@@ -34,7 +34,7 @@ class Account(models.Model):
    #Comma separated string indicating the IDs of the VNFs of NSs associated to this entry element
    relatives = models.CharField(max_length=256, null=True, default=None, blank=False) 
    #Comma separated string indicating the IDs of the instances associated to this entry element
-   relatives_instances = models.CharField(max_length=256, null=True, default=None, blank=False) 
+   relative_instances = models.CharField(max_length=256, null=True, default=None, blank=False) 
    #vnf|service
    productType = models.CharField(max_length=10, default=None, blank=False) 
    #Name of the flavour of the product
