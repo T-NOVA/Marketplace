@@ -35,7 +35,7 @@ CREATE TABLE `account_account` (
   `instanceId` varchar(256) NOT NULL,
   `agreementId` varchar(256) NOT NULL,
   `relatives` varchar(256) DEFAULT NULL,
-  `relatives_instances` varchar(256) DEFAULT NULL,
+  `relative_instances` varchar(256) DEFAULT NULL,
   `productType` varchar(10) NOT NULL,
   `flavour` varchar(256) NOT NULL,
   `startDate` datetime NOT NULL,
