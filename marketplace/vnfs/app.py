@@ -1,11 +1,9 @@
 __author__ = "George Alexiou (TEIC)"
 __email__ = "g.alexiou@pasiphae.eu"
 
-from bson.json_util import dumps
 from flask import Flask, request, jsonify, Response
-from flask.ext.pymongo import PyMongo
 from functools import wraps
-
+from json import dumps
 from vnfdj2j import createVNFDSLATemplate
 
 import datetime
@@ -29,13 +27,6 @@ with open('/keys/.shared_key', 'r') as content_file:
 
 app = Flask(__name__)
 app.debug = True
-
-app.config['MONGO_DBNAME'] = 'vnfd_db'
-app.config['MONGO_HOST'] = 'mongodb'
-#app.config['MONGO_HOST'] = '127.0.0.1'
-app.config['MONGO_PORT'] = 27017
-
-mongo = PyMongo(app)
 
 def jwt_required():
     """View decorator that requires a valid JWT token to be present in the request"""
@@ -126,31 +117,48 @@ def has_perm_decorator(role):
 @jwt_required()
 def vnfs():
     vnfds = []
-    if has_perm('vnfs.view_all_vnfs'):
-        vnfds = mongo.db.vnfds.find()
-    elif has_perm('vnfs.view_own_vnfs'):
-        vnfds = mongo.db.vnfds.find({'provider_id': request.user['user_id']})
-    return Response(dumps(vnfds), mimetype='application/json', status=200)
+
+    code, nfs_response = nfsapi.get_vnfd_list()
+
+    if code != 200:
+        response = jsonify(detail="NFS GET vnfds request failed, code:%s" % code)
+        response.status_code = 404
+        return response
+    else:
+
+        if has_perm('vnfs.view_all_vnfs'):
+            return Response(dumps(nfs_response['vnfds']), mimetype='application/json', status=200)
+        elif has_perm('vnfs.view_own_vnfs'):
+            for vnfd in nfs_response['vnfds']:
+                if vnfd['provider_id'] == request.user['user_id']:
+                    vnfds.append(vnfd)
+            return Response(dumps(vnfds), mimetype='application/json', status=200)
 
 
 # is an internal interface for module-to-module communication (for the broker)
 @app.route('/internal/vnfs/', methods=['GET'])
 def vnfs_internal():
-    vnfds = mongo.db.vnfds.find()
-    return Response(dumps(vnfds), mimetype='application/json', status=200)
+    code, nfs_response = nfsapi.get_vnfd_list()
+
+    if code != 200:
+        response = jsonify(detail="NFS GET vnfds request failed, code:%s" % code)
+        response.status_code = 404
+        return response
+    else:
+        return Response(dumps(nfs_response['vnfds']), mimetype='application/json', status=200)
 
 
 # is an internal interface for module-to-module communication (for service selection)
 @app.route('/internal/vnfs/<int:vnfd_id>/', methods=['GET'])
 def get_vnf_internal(vnfd_id):
-    vnfd = mongo.db.vnfds.find_one({'_id': vnfd_id})
-    if vnfd != None:
-        del vnfd['_id']
-        return Response(dumps(vnfd), mimetype='application/json', status=200)
-    else:
-        response = jsonify(detail="VNFD not found.")
+    code, nfs_response = nfsapi.get_vnfd(vnfd_id)
+
+    if code != 200:
+        response = jsonify(detail="NFS GET VNFD request failed, code:%s" % code)
         response.status_code = 404
         return response
+    else:
+        return Response(dumps(nfs_response), mimetype='application/json', status=200)
 
 
 @app.route('/vnfs/', methods=['POST'])
@@ -182,7 +190,6 @@ def create_vnf():
         return response
 
     code, nfs_vnfd = nfsapi.get_vnfd(nfs_response['vnfd_id'])
-    nfs_vnfd['_id'] = nfs_response['vnfd_id']
 
     # SLA TEMPLATE GENERATION
     try:
@@ -190,72 +197,52 @@ def create_vnf():
     except:
         print("VNF SLA template exception error")
 
-    # insert submitted vnfd to your db
-    vnfd_id = mongo.db.vnfds.insert(nfs_vnfd)
+    return Response(nfs_vnfd, mimetype='application/json', status=200)
 
-    if vnfd_id:
-        return Response(dumps(vnfd), mimetype='application/json', status=200)
-    else:
-        response = jsonify(detail="VNFD insert failed.")
-        response.status_code = 404
-        return response
 
 @app.route('/vnfs/<int:vnfd_id>/', methods=['GET'])
 @jwt_required()
 def get_vnf(vnfd_id):
-    vnfd = mongo.db.vnfds.find_one({'_id': vnfd_id})
+    code, nfs_response = nfsapi.get_vnfd(vnfd_id)
 
-    if vnfd != None:
-        if has_perm('vnfs.view_all_vnfs') or (has_perm('vnfs.view_own_vnfs') and vnfd['provider_id'] == request.user['user_id']):
-            del vnfd['_id']
-            return Response(dumps(vnfd), mimetype='application/json', status=200)
+    if code != 200:
+        response = jsonify(detail="NFS GET VNFD request failed, code:%s" % code)
+        response.status_code = 404
+        return response
+    else:
+        if has_perm('vnfs.view_all_vnfs') or (has_perm('vnfs.view_own_vnfs') and nfs_response['provider_id'] == request.user['user_id']):
+            return Response(dumps(nfs_response), mimetype='application/json', status=200)
         else:
             response = jsonify(detail="You do not have permission to perform this action.")
             response.status_code = 401
             return response
-    else:
-        response = jsonify(detail="VNFD not found.")
-        response.status_code = 404
-        return response
+
 
 @app.route('/vnfs/<int:vnfd_id>/vnfd', methods=['GET'])
 #@jwt_required()
 def get_vnfd_file(vnfd_id):
-    vnfd = mongo.db.vnfds.find_one({'_id': vnfd_id})
+    code, nfs_response = nfsapi.get_vnfd(vnfd_id)
 
-    if vnfd != None:
-        if True:
-        #if has_perm('vnfs.view_all_vnfs') or (has_perm('vnfs.view_own_vnfs') and vnfd['provider_id'] == request.user['user_id']):
-            del vnfd['_id']
-            return Response(dumps(vnfd), mimetype='application/json', status=200)
-        else:
-            response = jsonify(detail="You do not have permission to perform this action.")
-            response.status_code = 401
-            return response
-    else:
-        response = jsonify(detail="VNFD not found.")
+    if code != 200:
+        response = jsonify(detail="NFS GET VNFD request failed, code:%s" % code)
         response.status_code = 404
         return response
+    else:
+        return Response(dumps(nfs_response), mimetype='application/json', status=200)
 
 
 @app.route('/vnfs/<int:vnfd_id>/yaml', methods=['GET'])
 #@jwt_required()
 def get_vnfd_yaml_file(vnfd_id):
-    vnfd = mongo.db.vnfds.find_one({'_id': vnfd_id})
+    code, nfs_response = nfsapi.get_vnfd(vnfd_id)
 
-    if vnfd != None:
-        if True:
-        #if has_perm('vnfs.view_all_vnfs') or (has_perm('vnfs.view_own_vnfs') and vnfd['provider_id'] == request.user['user_id']):
-            del vnfd['_id']
-            return Response(yaml.safe_dump(vnfd, default_flow_style=False), mimetype='text/yaml', status=200)
-        else:
-            response = jsonify(detail="You do not have permission to perform this action.")
-            response.status_code = 401
-            return response
-    else:
-        response = jsonify(detail="VNFD not found.")
+    if code != 200:
+        response = jsonify(detail="NFS GET VNFD request failed, code:%s" % code)
         response.status_code = 404
         return response
+    else:
+        return Response(yaml.safe_dump(nfs_response, default_flow_style=False), mimetype='text/yaml', status=200)
+
 
 # @app.route('/vnfs/<int:vnfd_id>/', methods=['PUT'])
 # @jwt_required()
@@ -284,33 +271,27 @@ def get_vnfd_yaml_file(vnfd_id):
 @jwt_required()
 def delete_vnf(vnfd_id):
 
-    vnfd = mongo.db.vnfds.find_one({'_id': vnfd_id})
+    code, nfs_response = nfsapi.get_vnfd(vnfd_id)
 
-    if vnfd != None:
-        if not has_perm('vnfs.delete_all_vnfs') and not (has_perm('vnfs.delete_own_vnfs') and vnfd['provider_id'] == request.user['user_id']):
+    if code != 200:
+        response = jsonify(detail="NFS GET VNFD request failed, code:%s" % code)
+        response.status_code = 404
+        return response
+    else:
+
+        if not has_perm('vnfs.delete_all_vnfs') and not (has_perm('vnfs.delete_own_vnfs') and nfs_response['provider_id'] == request.user['user_id']):
             response = jsonify(detail="You do not have permission to perform this action.")
             response.status_code = 401
             return response
-    else:
-        response = jsonify(detail="VNFD not found.")
-        response.status_code = 404
-        return response
+        else:
+            code, nfs_response = nfsapi.delete_vnfd(vnfd_id)
 
-    code, nfs_response = nfsapi.delete_vnfd(vnfd_id)
-
-    if code != 204:
-        response = jsonify(detail="NFS DELETE request failed, code:%s" % code)
-        response.status_code = 404
-        return response
-
-    success = mongo.db.vnfds.remove({'_id': vnfd_id})
-
-    if success:
-        return Response(mimetype='application/json', status=204)
-    else:
-        response = jsonify(detail="VNFD not found.")
-        response.status_code = 404
-        return response
+            if code != 204:
+                response = jsonify(detail="NFS DELETE request failed, code:%s" % code)
+                response.status_code = 404
+                return response
+            else:
+                return Response(mimetype='application/json', status=204)
 
 
 @app.route('/vnfs/images/', methods=['GET'])
@@ -396,7 +377,6 @@ def init_sample_data():
 
         code, nfs_vnfd = nfsapi.get_vnfd(nfs_response['vnfd_id'])
         nfs_vnfd['_id'] = nfs_response['vnfd_id']
-        vnfd_id = mongo.db.vnfds.insert(nfs_vnfd)
 
         # SLA TEMPLATE GENERATION
         try:
@@ -412,7 +392,6 @@ def init_sample_data():
 
         code, nfs_vnfd = nfsapi.get_vnfd(nfs_response['vnfd_id'])
         nfs_vnfd['_id'] = nfs_response['vnfd_id']
-        vnfd_id = mongo.db.vnfds.insert(nfs_vnfd)
 
         # SLA TEMPLATE GENERATION
         try:
