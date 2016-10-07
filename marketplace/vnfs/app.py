@@ -179,8 +179,9 @@ def create_vnf():
     vnfd['modified_at'] = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
 
     #rename vdus to vdu
-    vnfd['vdu'] = vnfd['vdus']
-    del vnfd['vdus']
+    if 'vdus' in vnfd:
+        vnfd['vdu'] = vnfd['vdus']
+        del vnfd['vdus']
 
     code, nfs_response = nfsapi.upload_vnfd(vnfd)
     print code, nfs_response

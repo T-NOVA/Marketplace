@@ -16,13 +16,13 @@ mysql:
     STARTUP_SQL: /tmp/init/*.sql
   ports:
     - 3306:3306
-#  volumes:
-#    - /data/mysql:/var/lib/mysql
+  volumes:
+    - /data/mysql:/var/lib/mysql
 
 mongodb:
   build: mongodb/
-#  volumes:
-#    - /data/mongodb:/data/db
+  volumes:
+    - /data/mongodb:/data/db
   ports:
     - 27017:27017
   command: mongod --smallfiles
