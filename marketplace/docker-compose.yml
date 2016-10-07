@@ -5,8 +5,8 @@ dnsdock:
  ports:
 #   - 8080:80
    - 172.17.0.1:53:53/udp
-# volumes:
-#   - /var/run/docker.sock:/var/run/docker.sock
+ volumes:
+   - /var/run/docker.sock:/var/run/docker.sock
 
 mysql:
   build: mysql/
@@ -16,8 +16,8 @@ mysql:
     STARTUP_SQL: /tmp/init/*.sql
   ports:
     - 3306:3306
-  volumes:
-    - /data/mysql:/var/lib/mysql
+#  volumes:
+#    - /data/mysql:/var/lib/mysql
 
 mongodb:
   build: mongodb/
