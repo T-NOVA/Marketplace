@@ -12,7 +12,6 @@ MARKETPLACE_PORT = int(config.get("marketplace", "port"))
 
 parser = argparse.ArgumentParser(description='Marketplace-CLI v0.1')
 parser.add_argument('--upload', type=str, choices=["nsd", "vnfd"])
-parser.add_argument('--init', type=str, choices=["nsd", "vnfd"])
 args = parser.parse_args()
 
 

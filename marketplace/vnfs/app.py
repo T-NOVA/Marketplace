@@ -198,7 +198,7 @@ def create_vnf():
     except:
         print("VNF SLA template exception error")
 
-    return Response(nfs_vnfd, mimetype='application/json', status=200)
+    return Response(dumps(nfs_vnfd), mimetype='application/json', status=201)
 
 
 @app.route('/vnfs/<int:vnfd_id>/', methods=['GET'])
