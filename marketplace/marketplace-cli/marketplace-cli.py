@@ -38,9 +38,9 @@ if args.upload == "vnfd":
     if os.path.isfile(VNFD_FILE):
         VNFD_TEMPLATE = open(VNFD_FILE).read()
         r = requests.post(_get_call_url('vnfs/'), data=VNFD_TEMPLATE, headers={"Authorization": "JWT " + FP_AUTH_TOKEN, 'Content-Type': 'application/json'})
-        if r.status_code != 200:
+        if r.status_code != 201:
             print "VNFD uploading failed."
-            print "STATUS_CODE:" + r.status_code
+            print "STATUS_CODE: %s" % r.status_code
             print "---ERROR---\n" + r.text
             exit(1)
         else:
