@@ -5,8 +5,8 @@ dnsdock:
  ports:
 #   - 8080:80
    - 172.17.0.1:53:53/udp
- volumes:
-   - /var/run/docker.sock:/var/run/docker.sock
+# volumes:
+#   - /var/run/docker.sock:/var/run/docker.sock
 
 mysql:
   build: mysql/
