@@ -209,6 +209,30 @@ public class ServiceSelectionRestController
         return nsInstances;
     }
 
+    @RequestMapping( method = RequestMethod.GET, value = "/{id}")
+    public NetworkServiceInstantiateReply getNetworkInstanceById( @PathVariable String id )
+    {
+        logger.info( "Retrieve ns instance from orchestrator with id=<{}>", id );
+        NetworkServiceInstantiateReply nsInstances = serviceSelection.getNsInstanceById( id );
+
+//        if ( nsInstances != null )
+//        {
+//            logger.info( "{} network instances found in orchestrator.", nsInstances.size() );
+//        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        try
+        {
+            mapper.writerWithDefaultPrettyPrinter().writeValueAsString( nsInstances );
+        } catch( Exception ex )
+        {
+            ex.printStackTrace();
+        }
+
+
+        return nsInstances;
+    }
+
     @RequestMapping( method = RequestMethod.GET, value = "/{id}/status" )
     public String getNetworkServiceInstanceStatus( @PathVariable String id )
     {
