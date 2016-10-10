@@ -29,6 +29,9 @@ public interface ServiceSelectionService
 
     List<NetworkServiceInstantiateReply> getAllNsInstances();
 
+    NetworkServiceInstantiateReply getNsInstanceById( String id );
+
+
     List<AccountingRequest> getAccountingRequests();
 
     List<AccountingRequest> getAccountingRequestByNetworkInstance(String instanceId );

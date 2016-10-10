@@ -485,6 +485,48 @@ public class ServiceSelectionServiceImpl
     }
 
     @Override
+    @SuppressWarnings( "unchecked" )
+    public NetworkServiceInstantiateReply getNsInstanceById( String id )
+    {
+        logger.info( "Retrieve ns instances from orchestrator with id=<{}>", id );
+        RestTemplate restTemplate = new RestTemplate();
+        ObjectMapper mapper = new ObjectMapper();
+        List<NetworkServiceInstantiateReply> instances = new ArrayList<>();
+        NetworkServiceInstantiateReply instance = null;
+
+        if( isOrchestratorModuleEnabled != null && isOrchestratorModuleEnabled.equalsIgnoreCase( "disabled" ) )
+        {
+            logger.info( "No connection to Orchestrator. Empty content http status" );
+            throw new NsInstancesEmptyListException( "No reply from orchestrator, empty ns instance" );
+
+        }
+
+        final ResponseEntity<String> response = restTemplate.getForEntity( orchestratorUrl + "/" + id, String.class );
+
+        if( response != null && response.getStatusCode() == HttpStatus.OK )
+        {
+            logger.info( "Received OK from orchestrator" );
+            try
+            {
+
+                instance = mapper.readValue( response.getBody(), NetworkServiceInstantiateReply.class);
+
+            }
+            catch( Exception ex )
+            {
+                logger.error( "An exception occurred during retrieving ns instances from orchestrator" );
+                logger.error( ex.getMessage() );
+            }
+        }
+//
+//        if( instances.isEmpty() )
+//            throw new NsInstancesEmptyListException();
+
+        return instance;
+    }
+
+
+    @Override
     public List<AccountingRequest> getAccountingRequests()
     {
         logger.info( "Get all accounting requests for all instantiated services" );

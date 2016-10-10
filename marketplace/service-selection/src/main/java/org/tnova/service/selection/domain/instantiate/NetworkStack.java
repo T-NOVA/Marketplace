@@ -1,106 +1,110 @@
-
 package org.tnova.service.selection.domain.instantiate;
 
-import java.util.HashMap;
-import java.util.Map;
-import javax.annotation.Generated;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.*;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({
-    "stack"
-})
-public class NetworkStack {
+import javax.annotation.Generated;
+import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
-    @JsonProperty("stack")
+@JsonInclude( JsonInclude.Include.NON_NULL )
+@Generated( "org.jsonschema2pojo" )
+@JsonPropertyOrder( { "stack" } )
+public class NetworkStack
+{
+
+    @JsonProperty( "stack" )
+    @Valid
     private Stack stack;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
      * No args constructor for use in serialization
-     * 
      */
-    public NetworkStack() {
+    public NetworkStack()
+    {
     }
 
     /**
-     * 
      * @param stack
      */
-    public NetworkStack(Stack stack) {
+    public NetworkStack( Stack stack )
+    {
         this.stack = stack;
     }
 
     /**
-     * 
-     * @return
-     *     The stack
+     * @return The stack
      */
-    @JsonProperty("stack")
-    public Stack getStack() {
+    @JsonProperty( "stack" )
+    public Stack getStack()
+    {
         return stack;
     }
 
     /**
-     * 
-     * @param stack
-     *     The stack
+     * @param stack The stack
      */
-    @JsonProperty("stack")
-    public void setStack(Stack stack) {
+    @JsonProperty( "stack" )
+    public void setStack( Stack stack )
+    {
         this.stack = stack;
     }
 
-    public NetworkStack withStack(Stack stack) {
+    public NetworkStack withStack( Stack stack )
+    {
         this.stack = stack;
         return this;
     }
 
     @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+    public String toString()
+    {
+        return ToStringBuilder.reflectionToString( this );
     }
 
     @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
+    public Map<String, Object> getAdditionalProperties()
+    {
         return this.additionalProperties;
     }
 
     @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
+    public void setAdditionalProperty( String name, Object value )
+    {
+        this.additionalProperties.put( name, value );
     }
 
-    public NetworkStack withAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
+    public NetworkStack withAdditionalProperty( String name, Object value )
+    {
+        this.additionalProperties.put( name, value );
         return this;
     }
 
     @Override
-    public int hashCode() {
-        return new HashCodeBuilder().append(stack).append(additionalProperties).toHashCode();
+    public int hashCode()
+    {
+        return new HashCodeBuilder().append( stack ).append( additionalProperties ).toHashCode();
     }
 
     @Override
-    public boolean equals(Object other) {
-        if (other == this) {
+    public boolean equals( Object other )
+    {
+        if( other == this )
+        {
             return true;
         }
-        if ((other instanceof NetworkStack) == false) {
+        if( ( other instanceof NetworkStack ) == false )
+        {
             return false;
         }
-        NetworkStack rhs = ((NetworkStack) other);
-        return new EqualsBuilder().append(stack, rhs.stack).append(additionalProperties, rhs.additionalProperties).isEquals();
+        NetworkStack rhs = ( (NetworkStack) other );
+        return new EqualsBuilder().append( stack, rhs.stack ).append( additionalProperties, rhs.additionalProperties )
+            .isEquals();
     }
 
 }
