@@ -14,7 +14,14 @@
                         <th></th>
                     </tr>
                     <tr ng-repeat="service in services">
-                        <td data-title="ID">#[[service.id]]</td>
+                        <td data-title="ID">#[[service.id]]
+
+                            <ul ng-repeat="vnfr in service.vnfrs">
+                                <li ng-repeat="v in vnfr.vnf_addresses">
+                                    [[ v ]]
+                                </li>
+                            </ul>
+                        </td>
                         <td data-title="Name">[[service.nsd.name]]</td>
                         <td data-title="Status">
                             <span class="label label-[[service.status | lowercase]]" >[[service.status]]</span>

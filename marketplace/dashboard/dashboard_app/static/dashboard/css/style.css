@@ -260,13 +260,20 @@ input.formula{
     background-color: #019f18;
     margin-right: 2px;
 }
+
 .label-start {
     background-color: #019f18;
     margin-right: 2px;
 }
+
 .label-error_creating {
     background-color: #cd4a2a;
 }
+
 .label-stopped {
     background-color: #F39C12;
+}
+
+.label-instantiating {
+    background-color: dodgerblue;
 }

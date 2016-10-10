@@ -45,6 +45,8 @@ if args.upload == "vnfd":
             exit(1)
         else:
             print "VNFD succesfully uploaded."
+            v = r.json()
+            print "VNFD_ID:%s" % v['id']
     else:
         print "VNFD template not found."
         exit(1)

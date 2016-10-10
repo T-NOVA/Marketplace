@@ -1,5 +1,6 @@
 {
-  "vdus": [
+  "provider_id": 4,
+  "vdu": [
     {
       "resource_requirements": {
         "network_interface_bandwidth_unit": "",
@@ -184,49 +185,9 @@
       }
     }
   ],
-  "name": "Proxy1",
-  "created_at": "2016-09-30T09:31:21Z",
-  "modified_at": "2016-09-30T09:31:21Z",
-  "vlinks": [
-    {
-      "leaf_requirement": "1Gbps",
-      "connectivity_type": "E-LINE",
-      "vdu_reference": [
-        "vdu0"
-      ],
-      "external_access": true,
-      "connection_points_reference": [
-        "CP6kpi"
-      ],
-      "net_segment": "10.10.1.0/24",
-      "access": true,
-      "alias": "management",
-      "port_security_enabled": false,
-      "root_requirement": "1Gbps",
-      "dhcp": true,
-      "id": "vl0",
-      "qos": ""
-    },
-    {
-      "leaf_requirement": "1Gbps",
-      "connectivity_type": "E-LINE",
-      "vdu_reference": [
-        "vdu0"
-      ],
-      "external_access": true,
-      "connection_points_reference": [
-        "CP7awl"
-      ],
-      "net_segment": "10.10.2.0/24",
-      "access": true,
-      "alias": "data",
-      "port_security_enabled": false,
-      "root_requirement": "1Gbps",
-      "dhcp": true,
-      "id": "vl1",
-      "qos": ""
-    }
-  ],
+  "name": "Proxy1_DEMO",
+  "created_at": "2016-10-04T14:48:44Z",
+  "modified_at": "2016-10-04T14:48:44Z",
   "trade": false,
   "descriptor_version": "1",
   "deployment_flavours": [
@@ -300,6 +261,46 @@
   },
   "provider": "TEIC",
   "release": "T-NOVA",
+  "vlinks": [
+    {
+      "leaf_requirement": "1Gbps",
+      "connectivity_type": "E-LINE",
+      "vdu_reference": [
+        "vdu0"
+      ],
+      "external_access": true,
+      "connection_points_reference": [
+        "CP6kpi"
+      ],
+      "net_segment": "",
+      "access": true,
+      "alias": "management",
+      "port_security_enabled": false,
+      "root_requirement": "1Gbps",
+      "dhcp": true,
+      "id": "vl0",
+      "qos": ""
+    },
+    {
+      "leaf_requirement": "1Gbps",
+      "connectivity_type": "E-LINE",
+      "vdu_reference": [
+        "vdu0"
+      ],
+      "external_access": true,
+      "connection_points_reference": [
+        "CP7awl"
+      ],
+      "net_segment": "",
+      "access": true,
+      "alias": "data",
+      "port_security_enabled": false,
+      "root_requirement": "1Gbps",
+      "dhcp": true,
+      "id": "vl1",
+      "qos": ""
+    }
+  ],
   "type": "vPXAAS",
-  "description": "proxy1"
+  "description": "proxy1_DEMO"
 }

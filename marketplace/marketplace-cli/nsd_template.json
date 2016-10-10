@@ -1,10 +1,10 @@
 {
   "nsd": {
-    "name": "VHG_VIOTECH_16_09_23__16H3_service_test2",
+    "name": "ProxyService1_DEMO",
     "vendor": "3",
     "version": "1",
     "vnfds": [
-      "2506"
+      "2544"
     ],
     "vnffgd": {
       "vnffgs": [
@@ -13,99 +13,21 @@
           "number_of_endpoints": 1,
           "number_of_virtual_links": 1,
           "dependent_virtual_links": [
-            "vld0"
+            "vld1"
           ],
           "network_forwarding_path": [
             {
               "nfp_id": "nfp0",
               "graph": [
-                "vld0"
+                "vld1"
               ],
               "connection_points": [
-                "ns_ext_vl-service",
-                "VNF#2506:ext_management"
+                "ns_ext_data",
+                "VNF#2544:ext_data"
               ],
               "constituent_vnfs": [
                 {
-                  "vnf_ref_id": "2506",
-                  "vnf_flavor_key_ref": "gold"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "vnffg_id": "vnffg0",
-          "number_of_endpoints": 1,
-          "number_of_virtual_links": 1,
-          "dependent_virtual_links": [
-            "vld0"
-          ],
-          "network_forwarding_path": [
-            {
-              "nfp_id": "nfp0",
-              "graph": [
-                "vld0"
-              ],
-              "connection_points": [
-                "ns_ext_vl-service",
-                "VNF#2506:ext_management"
-              ],
-              "constituent_vnfs": [
-                {
-                  "vnf_ref_id": "2506",
-                  "vnf_flavor_key_ref": "gold"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "vnffg_id": "vnffg0",
-          "number_of_endpoints": 1,
-          "number_of_virtual_links": 1,
-          "dependent_virtual_links": [
-            "vld0"
-          ],
-          "network_forwarding_path": [
-            {
-              "nfp_id": "nfp0",
-              "graph": [
-                "vld0"
-              ],
-              "connection_points": [
-                "ns_ext_vl-service",
-                "VNF#2506:ext_management"
-              ],
-              "constituent_vnfs": [
-                {
-                  "vnf_ref_id": "2506",
-                  "vnf_flavor_key_ref": "gold"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "vnffg_id": "vnffg0",
-          "number_of_endpoints": 1,
-          "number_of_virtual_links": 1,
-          "dependent_virtual_links": [
-            "vld0"
-          ],
-          "network_forwarding_path": [
-            {
-              "nfp_id": "nfp0",
-              "graph": [
-                "vld0"
-              ],
-              "connection_points": [
-                "ns_ext_vl-service",
-                "VNF#2506:ext_management"
-              ],
-              "constituent_vnfs": [
-                {
-                  "vnf_ref_id": "2506",
+                  "vnf_ref_id": "2544",
                   "vnf_flavor_key_ref": "gold"
                 }
               ]
@@ -117,7 +39,7 @@
     "lifecycle_events": {
       "start": [
         {
-          "vnf_id": "2506",
+          "vnf_id": "2544",
           "vnf_event": "start",
           "event_rel_id": "rel_le0",
           "event_id": "le0",
@@ -146,7 +68,7 @@
       "virtual_links": [
         {
           "vld_id": "vld0",
-          "alias": "vl-service",
+          "alias": "management",
           "root_requirements": "Unlimited",
           "leaf_requirement": "Unlimited",
           "qos": {
@@ -155,11 +77,29 @@
             "burst": ""
           },
           "connections": [
-            "VNF#2506:ext_management"
+            "VNF#2544:ext_management"
+          ],
+          "connectivity_type": "E-LINE",
+          "external_access": false,
+          "merge": true,
+          "sla_ref_id": "sla0"
+        },
+        {
+          "vld_id": "vld1",
+          "alias": "data",
+          "root_requirements": "Unlimited",
+          "leaf_requirement": "Unlimited",
+          "qos": {
+            "average": "",
+            "peak": "",
+            "burst": ""
+          },
+          "connections": [
+            "VNF#2544:ext_data"
           ],
           "connectivity_type": "E-LINE",
           "external_access": true,
-          "merge": false,
+          "merge": true,
           "sla_ref_id": "sla0"
         }
       ]
@@ -169,40 +109,21 @@
         "id": "sla0",
         "assurance_parameters": [
           {
-            "formula": "AVG(VNF:2506.load_longterm)",
-            "id": "load_longterm",
-            "name": "load_longterm",
+            "formula": "MIN(VNF:2544.cpuidle)",
+            "id": "cpuidle",
+            "name": "cpuidle",
             "penalty": {
               "type": "Discount",
               "unit": "%",
-              "validity": "P1D",
-              "value": 0
+              "validity": "P2D",
+              "value": 5
             },
             "unit": "%",
-            "value": "GT(90)",
+            "value": "GT(99)",
             "violations": [
               {
                 "breaches_count": 2,
-                "interval": 180
-              }
-            ]
-          },
-          {
-            "formula": "AVG(VNF:2506.load_longterm)",
-            "id": "load_longterm",
-            "name": "load_longterm",
-            "penalty": {
-              "type": "Discount",
-              "unit": "%",
-              "validity": "P1D",
-              "value": 0
-            },
-            "unit": "%",
-            "value": "LT(10)",
-            "violations": [
-              {
-                "breaches_count": 0,
-                "interval": 180
+                "interval": 360
               }
             ]
           }
@@ -210,8 +131,8 @@
         "billing": {
           "model": "PAYG",
           "price": {
-            "price_per_period": 1,
-            "setup": 1,
+            "price_per_period": 20,
+            "setup": 10,
             "unit": "EUR"
           }
         },
@@ -220,10 +141,10 @@
             "number_of_instances": 1,
             "redundancy_model": "Active",
             "vnf_flavour_id_reference": "gold",
-            "vnf_reference": "2506"
+            "vnf_reference": "2544"
           }
         ],
-        "sla_key": "basic"
+        "sla_key": "Basic"
       }
     ],
     "auto_scale_policy": {
@@ -232,7 +153,7 @@
     "connection_points": [],
     "vnf_dependency": [],
     "provider": "T-Nova",
-    "description": "VHG_VIOTECH_16_09_23__16H3_service",
+    "description": "ProxyService1_DEMO",
     "provider_id": "3",
     "descriptor_version": "1"
   }
