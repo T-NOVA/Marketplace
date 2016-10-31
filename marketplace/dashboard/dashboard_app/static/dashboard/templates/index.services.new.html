@@ -575,7 +575,8 @@
                                                         </div>
 
                                                         <div class="form-group col-md-12 col-sm-12">
-                                                            <label>Penalty Type</label>
+                                                            <label>Action Type</label>
+                                                            <!--<label>Penalty Type</label>-->
                                                             <ui-select class="form-group" ng-model="assurance_param.penalty.type" ng-disabled="disabled">
                                                                 <ui-select-match placeholder="">[[$select.selected.type]]</ui-select-match>
                                                                 <ui-select-choices repeat="penalty.type as penalty in penalty_types">
@@ -584,17 +585,17 @@
                                                             </ui-select>
                                                         </div>
 
-                                                        <div class="form-group col-md-12 col-sm-12">
+                                                        <div ng-show="assurance_param.penalty.type=='Discount'" class="form-group col-md-12 col-sm-12">
                                                             <label>% Discount</label>
                                                             <input class="form-control" type="number" ng-model="assurance_param.penalty.value">
                                                         </div>
 
-                                                        <div class="form-group col-md-6 col-sm-12">
+                                                        <div ng-show="assurance_param.penalty.type=='Discount'" class="form-group col-md-6 col-sm-12">
                                                             <label>Validity Value</label>
                                                             <input class="form-control" type="number" ng-model="assurance_param.penalty.validity.value">
                                                         </div>
 
-                                                        <div class="form-group col-md-6 col-sm-12">
+                                                        <div ng-show="assurance_param.penalty.type=='Discount'" class="form-group col-md-6 col-sm-12">
                                                             <label>Validity Period</label>
                                                             <ui-select class="form-group" ng-model="assurance_param.penalty.validity.period" ng-disabled="disabled">
                                                                 <ui-select-match placeholder="">[[$select.selected.desc]]</ui-select-match>

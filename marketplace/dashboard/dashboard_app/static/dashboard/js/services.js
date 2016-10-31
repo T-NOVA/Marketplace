@@ -283,7 +283,9 @@ function ServiceCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService
     ];
 
     $scope.penalty_types = [
-        {type: "Discount"}
+        {type: "Discount"},
+        {type: "Scale In"},
+        {type: "Scale Out"}
     ];
 
     $scope.redundancy_models = [
@@ -420,7 +422,8 @@ function ServiceCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService
             violation:[
                 {breaches_count:2,interval:360}
             ],
-            penalty:{type:{type: "Discount"}}
+            //penalty:{type:{type: "Discount"}}
+            penalty:{type: "Discount"}
 
         });
     };
@@ -812,37 +815,63 @@ function ServiceCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService
                 billing:flavor.billing_model
             };
 
+            $scope.nsd.auto_scale_policy[flavor.flavor_key]=[];
 
+            var x=0;
             angular.forEach(flavor.assurance_parameters, function (assurance_parameter, assurance_parameter_key) {
 
-                    var formula_in = '';
+                        var formula_in = '';
 
-                    angular.forEach(assurance_parameter.constituent_vnfs, function (vnf, vnf_key) {
-                        formula_in+='VNF:'+ vnf.vnf.id +'.'+ assurance_parameter.monitoring_parameter.metric+',';
-                    });
+                        angular.forEach(assurance_parameter.constituent_vnfs, function (vnf, vnf_key) {
+                            formula_in+='VNF:'+ vnf.vnf.id +'.'+ assurance_parameter.monitoring_parameter.metric+',';
+                        });
 
-                    var formula = assurance_parameter.expression2.code + '('+formula_in.replace(/(^[,\s]+)|([,\s]+$)/g, '')+')';
+                        var formula = assurance_parameter.expression2.code + '('+formula_in.replace(/(^[,\s]+)|([,\s]+$)/g, '')+')';
 
-                    var aparam = {
-                        id:assurance_parameter.monitoring_parameter.metric,
-                        name:assurance_parameter.monitoring_parameter.metric,
-                        value: assurance_parameter.expression.code+'('+assurance_parameter.value+')',
-                        unit: assurance_parameter.monitoring_parameter.unit,
-                        //formula: assurance_parameter.expression2.code+'('+')',
-                        formula: formula,
-                        violations:assurance_parameter.violation,
-                        //penalty:assurance_param.penalty,
+                        var aparam = {
+                            uid: "ap"+x++,
+                            id:assurance_parameter.monitoring_parameter.metric,
+                            name:assurance_parameter.monitoring_parameter.metric,
+                            value: assurance_parameter.expression.code+'('+assurance_parameter.value+')',
+                            unit: assurance_parameter.monitoring_parameter.unit,
+                            //formula: assurance_parameter.expression2.code+'('+')',
+                            formula: formula,
+                            violations:assurance_parameter.violation
+                            //penalty:assurance_param.penalty,
 
-                    };
+                        };
+
+
+
+                if (assurance_parameter.penalty.type == "Discount") {
+
+                        aparam.penalty = {};
+                        aparam.penalty.type = assurance_parameter.penalty.type;
+                        aparam.penalty.value = assurance_parameter.penalty.value;
+                        aparam.penalty.unit = assurance_parameter.monitoring_parameter.unit;
+                        aparam.penalty.validity = 'P'+ assurance_parameter.penalty.validity.value + assurance_parameter.penalty.validity.period;
+
+                        //nsd_flavor.billing = flavor.billing_model;
+                        nsd_flavor.assurance_parameters.push(aparam);
+
+                } else {
 
                     aparam.penalty = {};
-                    aparam.penalty.type = assurance_parameter.penalty.type.type;
-                    aparam.penalty.value = assurance_parameter.penalty.value;
-                    aparam.penalty.unit = assurance_parameter.monitoring_parameter.unit;
-                    aparam.penalty.validity = 'P'+ assurance_parameter.penalty.validity.value + assurance_parameter.penalty.validity.period;
+                    // aparam.penalty.type = assurance_parameter.penalty.type;
+                    // aparam.penalty.value = assurance_parameter.penalty.value;
+                    // aparam.penalty.unit = assurance_parameter.monitoring_parameter.unit;
+                    // aparam.penalty.validity = 'P' + assurance_parameter.penalty.validity.value + assurance_parameter.penalty.validity.period;
 
                     //nsd_flavor.billing = flavor.billing_model;
                     nsd_flavor.assurance_parameters.push(aparam);
+
+                    $scope.nsd.auto_scale_policy[flavor.flavor_key].push({
+                        criteria: [{"assurance_parameter_id": aparam.uid}],
+                        actions: [{"type": assurance_parameter.penalty.type}]
+                    });
+
+                }
+
             });
 
             $scope.nsd.sla.push(nsd_flavor);
