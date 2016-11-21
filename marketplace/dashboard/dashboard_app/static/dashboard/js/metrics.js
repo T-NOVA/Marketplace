@@ -117,24 +117,14 @@ var glob_vnf_metrics = {
     ],
     "vHG": [
         {
-            "metric": "object",
-            "desc": "Number of objects in the repository",
+            "metric": "transcoding_score",
+            "desc": "Transcoding Score",
             "unit": "INT"
         },
         {
-            "metric": "size",
-            "desc": "Size of the object repository",
-            "unit": "INT"
-        },
-        {
-            "metric": "rpm",
-            "desc": "Requests per minute in the VHG",
-            "unit": "INT"
-        },
-        {
-            "metric": "hpm",
-            "desc": "Hits per minute in the VHG",
-            "unit": "INT"
+            "metric": "distributed_storage_free_space",
+            "desc": "Distributed storage free space",
+            "unit": "%"
         }
     ],
     "vSA": [
