@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 
 @JsonInclude( JsonInclude.Include.NON_NULL )
-@Generated( "org.jsonschema2pojo" )
 @JsonPropertyOrder( { "ports", "network_stack", "routers", "networks", "public_network_id", "dns_server", "pop_id" } )
 public class ResourceReservation
 {
@@ -21,21 +20,28 @@ public class ResourceReservation
     @JsonProperty( "ports" )
     @Valid
     private List<Port> ports = new ArrayList<Port>();
+
     @JsonProperty( "network_stack" )
     @Valid
     private NetworkStack networkStack;
+
     @JsonProperty( "routers" )
     @Valid
     private List<Router> routers = new ArrayList<Router>();
+
     @JsonProperty( "networks" )
     @Valid
     private List<Network> networks = new ArrayList<Network>();
+
     @JsonProperty( "public_network_id" )
     private String publicNetworkId;
+
     @JsonProperty( "dns_server" )
-    private String dnsServer;
+    private List<String> dnsServer;
+
     @JsonProperty( "pop_id" )
     private String popId;
+
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -56,7 +62,7 @@ public class ResourceReservation
      * @param popId
      */
     public ResourceReservation( List<Port> ports, NetworkStack networkStack, List<Router> routers,
-        List<Network> networks, String publicNetworkId, String dnsServer, String popId )
+        List<Network> networks, String publicNetworkId, List<String> dnsServer, String popId )
     {
         this.ports = ports;
         this.networkStack = networkStack;
@@ -191,7 +197,7 @@ public class ResourceReservation
      * @return The dnsServer
      */
     @JsonProperty( "dns_server" )
-    public String getDnsServer()
+    public List<String> getDnsServer()
     {
         return dnsServer;
     }
@@ -200,12 +206,12 @@ public class ResourceReservation
      * @param dnsServer The dns_server
      */
     @JsonProperty( "dns_server" )
-    public void setDnsServer( String dnsServer )
+    public void setDnsServer( List<String> dnsServer )
     {
         this.dnsServer = dnsServer;
     }
 
-    public ResourceReservation withDnsServer( String dnsServer )
+    public ResourceReservation withDnsServer( List<String> dnsServer )
     {
         this.dnsServer = dnsServer;
         return this;

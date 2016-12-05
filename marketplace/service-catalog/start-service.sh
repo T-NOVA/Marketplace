@@ -46,6 +46,3 @@ docker-compose up -d --no-deps service-catalog
 echo "$(date +'%b-%d-%y, %H:%M:%S') - INFO: Eat my dust .. I have created all"
 docker ps
 echo "$(date +'%b-%d-%y, %H:%M:%S') - INFO: Microservice end point: http://$DOCKER_HOST_IP:42050/service/catalog"
-
-
-
