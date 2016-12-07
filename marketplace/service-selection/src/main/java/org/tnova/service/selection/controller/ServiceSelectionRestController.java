@@ -148,7 +148,7 @@ public class ServiceSelectionRestController
 
         String result = null;
         logger.info( "{}: Start non-blocking request #{}, processing time: {}ms", concReqs, reqId );
-        DeferredResult<NetworkServiceInstantiateReply> deferredResult = new DeferredResult<>( 900000);
+        DeferredResult<NetworkServiceInstantiateReply> deferredResult = new DeferredResult<>();
 
         ServiceSelectionMsgTable.getInstance().add( reqId, new NetworkServiceInstantiateReply() );
         ServiceSelectionRequestMsgTable.getInstance().add( reqId, request );
@@ -177,7 +177,7 @@ public class ServiceSelectionRestController
 
 
         // Schedule the task for a-synch completion in the future
-        timer.schedule(task, 5000, 5000);
+        timer.schedule(task, 5000);
 
         logger.debug("{}: Processing of non-blocking request #{} leave the request thread", concReqs, reqId);
 

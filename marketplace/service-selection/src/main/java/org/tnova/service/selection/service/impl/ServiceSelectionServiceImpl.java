@@ -229,7 +229,7 @@ public class ServiceSelectionServiceImpl
             ResponseEntity<String> responseEntity = restTemplate
                 .exchange( orchestratorUrl, HttpMethod.POST, entity, String.class );
 
-            if( responseEntity.getStatusCode() == HttpStatus.OK )
+            if( responseEntity.getStatusCode() == HttpStatus.OK || responseEntity.getStatusCode() == HttpStatus.CREATED )
             {
                 logger.info( "Request send it to orchestrator. Waiting for response" );
                 return "SUCCESS";
