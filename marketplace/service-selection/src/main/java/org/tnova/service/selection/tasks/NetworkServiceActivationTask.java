@@ -35,7 +35,7 @@ public class NetworkServiceActivationTask extends TimerTask
 
         if ( deferredResult.isSetOrExpired() )
         {
-            logger.warn( "{}: Processing of non-blocking request #{} already expired", requests, requestId );
+            logger.info( "{}: Processing of non-blocking request #{} already expired", requests, requestId );
         }
         else
         {
@@ -47,7 +47,7 @@ public class NetworkServiceActivationTask extends TimerTask
             }
 
             boolean deferredStatus = deferredResult.setResult( reply );
-            logger.debug("{}: Processing of non-blocking request #{} done, deferredStatus = {}",
+            logger.info("{}: Processing of non-blocking request #{} done, deferredStatus = {}",
                 requests, requestId, deferredStatus);
         }
     }
