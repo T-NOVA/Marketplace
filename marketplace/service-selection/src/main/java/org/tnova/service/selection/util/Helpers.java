@@ -71,6 +71,7 @@ public class Helpers
         accountingRequest.setPeriod( "P1M" );
         accountingRequest.setRelatives( networkService.getNsd().getId() );
         accountingRequest.setRenew( true );
+        accountingRequest.setRelativeInstances( reply.getId() );
 
         for( Sla sla : networkService.getNsd().getSla() )
         {
@@ -136,11 +137,16 @@ public class Helpers
         accountingRequest.setRenew( true );
 
         List<String> relatives = new ArrayList<>();
+        List<String> relativesInstances =new ArrayList<>();
         for( Vnfr vnfr : reply.getVnfrs() )
         {
             relatives.add( vnfr.getVnfdId() );
+            relativesInstances.add( vnfr.getVnfrId() );
         }
         accountingRequest.setRelatives( relatives.toString().replace( "[", "" ).replace( "]", "" )  );
+
+
+        accountingRequest.setRelativeInstances( relativesInstances.toString().replace( "[", "" ).replace( "]", "" )  );
 
         logger.info( "Accounting Request for network service was created" );
         try
