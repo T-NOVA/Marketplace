@@ -857,10 +857,10 @@ function ServiceCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService
                 } else {
 
                     aparam.penalty = {};
-                    // aparam.penalty.type = assurance_parameter.penalty.type;
-                    // aparam.penalty.value = assurance_parameter.penalty.value;
-                    // aparam.penalty.unit = assurance_parameter.monitoring_parameter.unit;
-                    // aparam.penalty.validity = 'P' + assurance_parameter.penalty.validity.value + assurance_parameter.penalty.validity.period;
+                    aparam.penalty.type = assurance_parameter.penalty.type;
+                    aparam.penalty.value = assurance_parameter.penalty.value;
+                    aparam.penalty.unit = assurance_parameter.monitoring_parameter.unit;
+                    aparam.penalty.validity = 'P' + assurance_parameter.penalty.validity.value + assurance_parameter.penalty.validity.period;
 
                     //nsd_flavor.billing = flavor.billing_model;
                     nsd_flavor.assurance_parameters.push(aparam);
