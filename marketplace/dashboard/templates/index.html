@@ -29,6 +29,9 @@
     <link rel="stylesheet" href="{% static 'dashboard/css/box.css' %}">
     <link rel="stylesheet" href="{% static 'dashboard/css/style.css' %}">
 
+    <link rel="stylesheet" href="{% static 'dashboard/diagram/joint.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/diagram/custom_ns.css' %}">
+
 </head>
 
 <body ng-app="dashboard">
@@ -39,7 +42,8 @@
 
 <div ui-view></div>
 <script src="{% static 'dashboard/js/metrics.js' %}"></script>
-<script src="{% static 'jquery/dist/jquery.js' %}"></script>
+<script src="{% static 'dashboard/diagram/jquery.min.js' %}"></script>
+<!-- <script src="{% static 'jquery/dist/jquery.js' %}"></script> -->
 <!-- <script src="{% static 'bootstrap/dist/js/bootstrap.js' %}"></script>  -->
 <script src="{% static 'bootstrap/dist/js/bootstrap.js' %}"></script>
 
@@ -93,6 +97,11 @@
 <script src="{% static 'dashboard/js/misc.js' %}"></script>
 
 <script src="{% static 'dashboard/js/services/alertService.js' %}"></script>
+
+
+<script src="{% static 'dashboard/diagram/backbone-min.js' %}"></script>
+<script src="{% static 'dashboard/diagram/joint.js' %}"></script>
+<script src="{% static 'dashboard/diagram/models_ns.js' %}"></script>
 
 </body>
 

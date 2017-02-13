@@ -47,9 +47,7 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, al
     $scope.available_bandwidths = [
         "10Mbps",
         "100Mbps",
-        "1Gbps",
-        "10Gbps",
-        "Unlimited"
+        "1Gbps"
     ];
 
     $scope.billing_model_types = [
@@ -128,6 +126,24 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, al
             });
     };
     $scope.loadImages();
+
+    $scope.vduControllerstateChanged = function (f, v) {
+
+        angular.forEach($scope.flavors, function (flavor, flavor_key) {
+
+            if (f == flavor) {
+
+                angular.forEach(flavor.data.vdu, function (flavor_vdu, vdu_key) {
+                    if (v == flavor_vdu && v.controller) {
+
+                    } else {
+                        flavor_vdu.controller = false;
+                    }
+                });
+            }
+        });
+
+    };
 
     // end of definitions
     $scope.loading_create_vnfd = false;
@@ -251,7 +267,7 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, al
             connection_points_reference: [],
             vdu_reference: [],
             connection_points: [],
-            bandwidth: "Unlimited",
+            bandwidth: "1Gbps",
             type: {type: 'E-LINE', description: 'Point-2-Point (E-LINE)'}
         });
     };
@@ -318,7 +334,22 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, al
             visible: true,
             data: {
                 vdu: [],
-                virtual_links: [],
+                virtual_links: [{
+                    alias:"data",
+                    connection_points_reference: [],
+                    vdu_reference: [],
+                    connection_points: [],
+                    bandwidth: "1Gbps",
+                    type: {type: 'E-LINE', description: 'Point-2-Point (E-LINE)'},
+                    external_access:true
+                }, {
+                    alias:"management",
+                    connection_points_reference: [],
+                    vdu_reference: [],
+                    connection_points: [],
+                    bandwidth: "1Gbps",
+                    type: {type: 'E-LINE', description: 'Point-2-Point (E-LINE)'}
+                }],
                 assurance_parameters: []
             }
         },
@@ -610,9 +641,37 @@ function VNFCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService, al
     };
 
     $scope.nextStep = function (target_step) {
+
+                    if ($scope.active_step==1){
+
+                        if($scope.vnfd.name.length == 0)
+                        {
+                            alertService.add('danger', "VNF name required.");
+                            return;
+                        }
+
+                        if ($scope.vnfd.version.length == 0) {
+                            alertService.add('danger', "VNF version required.");
+                            return;
+                        }
+
+                        if ($scope.vnfd.descriptor_version.length == 0) {
+                            alertService.add('danger', "VNF descriptor version required.");
+                            return;
+                        }
+
+                        if (!$scope.vnfd.type) {
+                            alertService.add('danger', "VNF type required.");
+                            return;
+                        }
+                    }
+
         if (target_step == target_step && $scope.active_step == target_step - 1) {
             $scope.steps[target_step].enable = true;
             $scope.active_step = target_step;
+
+
+
         }
     }
 

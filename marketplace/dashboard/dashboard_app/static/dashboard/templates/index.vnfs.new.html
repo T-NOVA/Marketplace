@@ -40,7 +40,7 @@
                         <div class="box-body">
                             <div class="row">
                                 <div class="form-group col-md-12">
-                                    <label>VNF Name</label>
+                                    <label>VNF Name</label> <span class="red-star">*</span>
                                     <input class="form-control" type="text" ng-model="vnfd.name" ng-init="vnfd.name=''">
                                 </div>
                                 <div class="form-group col-md-12">
@@ -48,15 +48,15 @@
                                     <textarea class="form-control" rows="3" ng-model="vnfd.description" ng-init="vnfd.description=''"></textarea>
                                 </div>
                                 <div class="form-group col-md-4 col-sm-6">
-                                    <label>VNF Version</label>
+                                    <label>VNF Version</label> <span class="red-star">*</span>
                                     <input class="form-control" type="text" ng-model="vnfd.version" ng-init="vnfd.version='1'">
                                 </div>
                                 <div class="form-group col-md-4 col-sm-6">
-                                    <label>VNF Descriptor Version</label>
+                                    <label>VNF Descriptor Version</label> <span class="red-star">*</span>
                                     <input class="form-control" type="text" ng-model="vnfd.descriptor_version" ng-init="vnfd.descriptor_version='1'">
                                 </div>
                                 <div class="form-group col-md-4 col-sm-12">
-                                    <label>VNF Type</label>
+                                    <label>VNF Type</label> <span class="red-star">*</span>
                                     <ui-select class="form-group" ng-model="vnfd.type" ng-disabled="disabled">
                                         <ui-select-match placeholder="">[[$select.selected.desc]]</ui-select-match>
                                         <ui-select-choices repeat="vnf_type.code as vnf_type in vnf_types">
@@ -176,7 +176,7 @@
 
                                                         <div class="form-group col-md-2 col-sm-2">
                                                              <label>Controller</label><br>
-                                                             <checkbox larger ng-model="vdu.controller"></checkbox>
+                                                             <checkbox larger ng-model="vdu.controller" ng-change="vduControllerstateChanged(flavor, vdu)"></checkbox>
                                                         </div>
 
                                                         <h5>Resources</h5>
@@ -208,6 +208,7 @@
                                                                 </ui-select>
                                                             </div>
                                                         </div>
+
 
                                                         <div class="form-group col-md-12 col-sm-12">
                                                             <div class="form-group col-md-4 col-sm-4">
@@ -271,7 +272,7 @@
 
                                                         <div class="form-group col-md-12 col-sm-12">
                                                             <label>Monitoring Parameters (Generic)</label>
-                                                            <ui-select multiple class="form-group" ng-model="vdu.monitoring_parameters" ng-disabled="disabled">
+                                                            <ui-select multiple class="form-group" ng-model="vdu.monitoring_parameters" ng-disabled="true">
                                                                 <ui-select-match placeholder="">[[$item.desc]] ([[$item.unit]])</ui-select-match>
                                                                 <ui-select-choices repeat="mon_par in generic_monitoring_parameters">
                                                                     <span ng-bind-html="mon_par.desc"></span> (<span ng-bind-html="mon_par.unit"></span>)
@@ -321,7 +322,7 @@
                                                             <textarea class="form-control" rows="8" ng-model="vdu.bootstrap_script"></textarea>
                                                     </div>
                                                     <div class="form-group col-md-12">
-                                                            <label>WC_Notify</label>
+                                                            <label>Cloud Init Support</label>
                                                             <checkbox larger ng-model="vdu.wc_notify" ng-init="vdu.wc_notify=true"></checkbox>
                                                     </div>
 
@@ -423,10 +424,10 @@
                                                         <input class="form-control" type="text" ng-model="virtual_link.existing_net_id" ng-disabled="virtual_link.existing_net==false">
                                                     </div>
 
-                                                    <div class="form-group col-md-12 col-sm-12" ng-show="virtual_link.existing_net==false">
+                                                    <!-- <div class="form-group col-md-12 col-sm-12" ng-show="virtual_link.existing_net==false">
                                                         <label>Network Subnet (CIDR) <small>(optional)</small></label>
                                                         <input class="form-control" type="text" ng-model="virtual_link.net_segment">
-                                                    </div>
+                                                    </div> -->
 
                                                 </div>
                                             </div>

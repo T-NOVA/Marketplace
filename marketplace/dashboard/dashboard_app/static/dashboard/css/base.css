@@ -986,3 +986,7 @@ ul.sidebar .sidebar-list .menu-icon {
 .dropdown-menu {
     border-radius: 0;
 }
+
+.red-star {
+    color: red;
+}
