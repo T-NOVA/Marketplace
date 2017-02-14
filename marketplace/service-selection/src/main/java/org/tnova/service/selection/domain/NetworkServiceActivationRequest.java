@@ -11,7 +11,8 @@ import java.util.Map;
     "customer_id",
     "nap_id",
     "flavor_id",
-    "callbackUrl" } )
+    "callbackUrl",
+    "pop_id"} )
 public class NetworkServiceActivationRequest
 {
 
@@ -23,6 +24,9 @@ public class NetworkServiceActivationRequest
     private String napId;
     @JsonProperty( "flavor_id" )
     private String flavorId;
+
+    @JsonProperty( "pop_id" )
+    private String popId;
 
     @JsonProperty( "callbackUrl" )
     private String callbackUrl;
@@ -77,6 +81,22 @@ public class NetworkServiceActivationRequest
         this.flavorId = flavorId;
     }
 
+    @JsonProperty( "pop_id" )
+    public String getPopId()
+    {
+        return popId;
+    }
+
+    @JsonProperty( "pop_id" )
+    public void setPopId( String popId )
+    {
+        this.popId = popId;
+    }
+
+    public void setAdditionalProperties( Map<String, Object> additionalProperties )
+    {
+        this.additionalProperties = additionalProperties;
+    }
 
     @JsonProperty( "callbackUrl" )
     public String getCallbackUrl()
