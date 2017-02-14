@@ -222,6 +222,7 @@ public class ServiceSelectionServiceImpl
             requestToOrch.setCustomerId( request.getCustomerId() );
             requestToOrch.setNsId( request.getNsId() );
             requestToOrch.setNapId( request.getNapId() );
+            requestToOrch.setPopId( request.getPopId() );
 
             ObjectMapper mapper = new ObjectMapper();
             HttpEntity<String> entity = new HttpEntity<>( mapper.writeValueAsString( requestToOrch ), headers );

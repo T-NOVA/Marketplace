@@ -13,8 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @JsonInclude( JsonInclude.Include.NON_NULL )
-@Generated( "org.jsonschema2pojo" )
-@JsonPropertyOrder( { "audit_log", "authentication", "auto_scale_policy", "connection_points", "created_at",
+@JsonPropertyOrder( { "authentication", "auto_scale_policy", "connection_points", "created_at",
     "descriptor_reference", "instantiation_end_time", "instantiation_start_time", "lifecycle_event",
     "lifecycle_event_history", "lifecycle_events", "mapping_time", "marketplace_callback", "monitoring_parameters",
     "notification", "nsd_id", "pnfr", "resource_reservation", "runtime_policy_info", "service_deployment_flavour",
@@ -23,8 +22,8 @@ import java.util.Map;
 public class NetworkServiceInstantiateReply
 {
 
-    @JsonProperty("audit_log")
-    private List<String> auditLog = new ArrayList<String>();
+//    @JsonProperty("audit_log")
+//    private List<String> auditLog = new ArrayList<String>();
 
     @JsonProperty( "authentication" )
 
@@ -107,7 +106,7 @@ public class NetworkServiceInstantiateReply
     {
     }
 
-    public NetworkServiceInstantiateReply( List<String> auditLog, List<Authentication> authentication,
+    public NetworkServiceInstantiateReply( /*  List<String> auditLog, */ List<Authentication> authentication,
         AutoScalePolicy autoScalePolicy, List<Object> connectionPoints, String createdAt, String descriptorReference,
         String instantiationEndTime, String instantiationStartTime, Object lifecycleEvent,
         List<String> lifecycleEventHistory, LifecycleEvents lifecycleEvents, String mappingTime,
@@ -116,7 +115,7 @@ public class NetworkServiceInstantiateReply
         String serviceDeploymentFlavour, String status, String updatedAt, String vendor, String version, List<Vlr> vlr,
         List<Object> vnfDepedency, Object vnfDependency, Vnffgd vnffgd, Object vnffgr, List<Vnfr> vnfrs, String id )
     {
-        this.auditLog = auditLog;
+//        this.auditLog = auditLog;
         this.authentication = authentication;
         this.autoScalePolicy = autoScalePolicy;
         this.connectionPoints = connectionPoints;
@@ -149,42 +148,36 @@ public class NetworkServiceInstantiateReply
         this.id = id;
     }
 
-    /**
-     * @return The auditLog
-     */
-    @JsonProperty( "audit_log" )
-    public List<String> getAuditLog()
-    {
-        return auditLog;
-    }
+//    /**
+//     * @return The auditLog
+//     */
+//    @JsonProperty( "audit_log" )
+//    public List<String> getAuditLog()
+//    {
+//        return auditLog;
+//    }
+//
+//    /**
+//     * @param auditLog The audit_log
+//     */
+//    @JsonProperty( "audit_log" )
+//    public void setAuditLog( List<String> auditLog )
+//    {
+//        this.auditLog = auditLog;
+//    }
+//
+//    public NetworkServiceInstantiateReply withAuditLog( List<String> auditLog )
+//    {
+//        this.auditLog = auditLog;
+//        return this;
+//    }
 
-    /**
-     * @param auditLog The audit_log
-     */
-    @JsonProperty( "audit_log" )
-    public void setAuditLog( List<String> auditLog )
-    {
-        this.auditLog = auditLog;
-    }
-
-    public NetworkServiceInstantiateReply withAuditLog( List<String> auditLog )
-    {
-        this.auditLog = auditLog;
-        return this;
-    }
-
-    /**
-     * @return The authentication
-     */
     @JsonProperty( "authentication" )
     public List<Authentication> getAuthentication()
     {
         return authentication;
     }
 
-    /**
-     * @param authentication The authentication
-     */
     @JsonProperty( "authentication" )
     public void setAuthentication( List<Authentication> authentication )
     {
@@ -197,18 +190,12 @@ public class NetworkServiceInstantiateReply
         return this;
     }
 
-    /**
-     * @return The autoScalePolicy
-     */
     @JsonProperty( "auto_scale_policy" )
     public AutoScalePolicy getAutoScalePolicy()
     {
         return autoScalePolicy;
     }
 
-    /**
-     * @param autoScalePolicy The auto_scale_policy
-     */
     @JsonProperty( "auto_scale_policy" )
     public void setAutoScalePolicy( AutoScalePolicy autoScalePolicy )
     {
@@ -221,18 +208,12 @@ public class NetworkServiceInstantiateReply
         return this;
     }
 
-    /**
-     * @return The connectionPoints
-     */
     @JsonProperty( "connection_points" )
     public List<Object> getConnectionPoints()
     {
         return connectionPoints;
     }
 
-    /**
-     * @param connectionPoints The connection_points
-     */
     @JsonProperty( "connection_points" )
     public void setConnectionPoints( List<Object> connectionPoints )
     {
@@ -245,18 +226,12 @@ public class NetworkServiceInstantiateReply
         return this;
     }
 
-    /**
-     * @return The createdAt
-     */
     @JsonProperty( "created_at" )
     public String getCreatedAt()
     {
         return createdAt;
     }
 
-    /**
-     * @param createdAt The created_at
-     */
     @JsonProperty( "created_at" )
     public void setCreatedAt( String createdAt )
     {
@@ -269,18 +244,12 @@ public class NetworkServiceInstantiateReply
         return this;
     }
 
-    /**
-     * @return The descriptorReference
-     */
     @JsonProperty( "descriptor_reference" )
     public String getDescriptorReference()
     {
         return descriptorReference;
     }
 
-    /**
-     * @param descriptorReference The descriptor_reference
-     */
     @JsonProperty( "descriptor_reference" )
     public void setDescriptorReference( String descriptorReference )
     {
@@ -920,7 +889,7 @@ public class NetworkServiceInstantiateReply
     @Override
     public int hashCode()
     {
-        return new HashCodeBuilder().append( auditLog ).append( authentication ).append( autoScalePolicy )
+        return new HashCodeBuilder().append( authentication ).append( autoScalePolicy )
             .append( connectionPoints ).append( createdAt ).append( descriptorReference ).append( instantiationEndTime )
             .append( instantiationStartTime ).append( lifecycleEvent ).append( lifecycleEventHistory )
             .append( lifecycleEvents ).append( mappingTime ).append( marketplaceCallback )
@@ -943,7 +912,7 @@ public class NetworkServiceInstantiateReply
             return false;
         }
         NetworkServiceInstantiateReply rhs = ( (NetworkServiceInstantiateReply) other );
-        return new EqualsBuilder().append( auditLog, rhs.auditLog ).append( authentication, rhs.authentication )
+        return new EqualsBuilder().append( authentication, rhs.authentication )
             .append( autoScalePolicy, rhs.autoScalePolicy ).append( connectionPoints, rhs.connectionPoints )
             .append( createdAt, rhs.createdAt ).append( descriptorReference, rhs.descriptorReference )
             .append( instantiationEndTime, rhs.instantiationEndTime )
