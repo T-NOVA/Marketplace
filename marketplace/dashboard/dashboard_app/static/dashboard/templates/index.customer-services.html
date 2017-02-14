@@ -11,6 +11,7 @@
                         <th style="width: 10px">#Instance ID</th>
                         <th>Service Name</th>
                         <th>Status</th>
+                        <th>Created At</th>
                         <th></th>
                     </tr>
                     <tr ng-repeat="service in services">
@@ -22,10 +23,11 @@
                                 </li>
                             </ul>
                         </td>
-                        <td data-title="Name">[[service.nsd.name]]</td>
+                        <td data-title="Name">[[service.name]]</td>
                         <td data-title="Status">
                             <span class="label label-[[service.status | lowercase]]" >[[service.status]]</span>
                         </td>
+                        <td data-title="Created At">[[service.created_at]]</td>
                         <td data-title="Action">
                             <div class="box-tools pull-right">
                                 <!-- <a target="_blank" href="/services/[[service.id]]/nsd" class="btn btn-info btn-sm" role="button"><i class="fa fa-file-text-o"></i> NSD</a> -->

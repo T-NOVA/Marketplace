@@ -68,6 +68,14 @@ function CustomerBuyService(Restangular, $scope, $rootScope, $state, $stateParam
     $scope.nsd = {};
     $scope.selected_flavor = {};
     $scope.nap_id = '';
+    $rootScope.pop_id = 0;
+
+    $scope.available_pops = [
+        {name: "Automatic", id: 0},
+        {name: "PoP1", id: 2},
+        {name: "PoP2", id: 5}
+    ];
+
 
     $scope.loadNSD = function () {
 
@@ -111,6 +119,10 @@ function CustomerBuyService(Restangular, $scope, $rootScope, $state, $stateParam
             ns_id: nsd_id,
             flavor_id: 'sla0'
         };
+
+        if ($rootScope.pop_id > 0) {
+            service['pop_id'] = $rootScope.pop_id;
+        }
 
         console.log(service);
 

@@ -9,13 +9,13 @@
                     <tbody>
                     <tr>
                         <th>Service Name</th>
-                        <th style="width: 500px">Service Description</th>
+                        <th style="max-width: 300px">Service Description</th>
                         <th>Available SLAs</th>
                         <th></th>
                     </tr>
                     <tr ng-repeat="service in services">
                         <td data-title="Name">[[service.nsd.name]]</td>
-                        <td style="width: 500px" data-title="Description">[[service.nsd.description]]</td>
+                        <td style="max-width: 300px" data-title="Description">[[service.nsd.description]]</td>
                         <td data-title="Flavors">
 
                            <div class="row">
