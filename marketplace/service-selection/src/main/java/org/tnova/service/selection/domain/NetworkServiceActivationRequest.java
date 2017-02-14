@@ -24,10 +24,8 @@ public class NetworkServiceActivationRequest
     private String napId;
     @JsonProperty( "flavor_id" )
     private String flavorId;
-
     @JsonProperty( "pop_id" )
-    private String popId;
-
+    private int popId;
     @JsonProperty( "callbackUrl" )
     private String callbackUrl;
     @JsonIgnore
@@ -82,13 +80,13 @@ public class NetworkServiceActivationRequest
     }
 
     @JsonProperty( "pop_id" )
-    public String getPopId()
+    public int getPopId()
     {
         return popId;
     }
 
     @JsonProperty( "pop_id" )
-    public void setPopId( String popId )
+    public void setPopId( int popId )
     {
         this.popId = popId;
     }
