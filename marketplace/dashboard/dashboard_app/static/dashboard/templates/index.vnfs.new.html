@@ -272,7 +272,7 @@
 
                                                         <div class="form-group col-md-12 col-sm-12">
                                                             <label>Monitoring Parameters (Generic)</label>
-                                                            <ui-select multiple class="form-group" ng-model="vdu.monitoring_parameters" ng-disabled="true">
+                                                            <ui-select multiple class="form-group" ng-model="vdu.monitoring_parameters" ng-disabled="false">
                                                                 <ui-select-match placeholder="">[[$item.desc]] ([[$item.unit]])</ui-select-match>
                                                                 <ui-select-choices repeat="mon_par in generic_monitoring_parameters">
                                                                     <span ng-bind-html="mon_par.desc"></span> (<span ng-bind-html="mon_par.unit"></span>)
