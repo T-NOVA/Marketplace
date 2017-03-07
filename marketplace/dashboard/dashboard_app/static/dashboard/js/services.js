@@ -72,8 +72,9 @@ function CustomerBuyService(Restangular, $scope, $rootScope, $state, $stateParam
 
     $scope.available_pops = [
         {name: "Automatic", id: 0},
-        {name: "PoP1", id: 2},
-        {name: "PoP2", id: 5}
+        {name: "PoP1(Athens)", id: 2},
+        {name: "PoP2(Athens)", id: 6},
+        {name: "PoP3(Aveiro)", id: 0}
     ];
 
 

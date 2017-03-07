@@ -277,3 +277,11 @@ input.formula{
 .label-instantiating {
     background-color: dodgerblue;
 }
+
+.label-creating.networks {
+    background-color: #9f75ff;
+}
+
+.label-deleting {
+    background-color: #ff3d3c;
+}
