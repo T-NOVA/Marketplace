@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
-@JsonInclude( JsonInclude.Include.NON_NULL )
+@JsonInclude( JsonInclude.Include.NON_DEFAULT )
 @JsonPropertyOrder( {
     "ns_id",
     "customer_id",
