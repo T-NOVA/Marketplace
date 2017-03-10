@@ -806,11 +806,11 @@
                                 </div>
 
                                 <div class="form-group col-md-4 col-sm-12" ng-show="vnfd.trade==true">
-                                    <label>Min Price/Period</label>
+				     <label>Min <span ng-show="vnfd.billing_model.model=='PAYG'">Price/Period</span><span ng-show="vnfd.billing_model.model=='RS'">% of the revenues</span></label>
                                     <input class="form-control" type="number" ng-model="vnfd.billing_model.price.min_per_period">
                                 </div>
                                 <div class="form-group col-md-4 col-sm-12">
-                                    <label><span ng-show="vnfd.trade==true">Max</span> Price/Period</label>
+				    <label><span ng-show="vnfd.trade==true">Max</span> <span ng-show="vnfd.billing_model.model=='PAYG'">Price/Period</span><span ng-show="vnfd.billing_model.model=='RS'">% of the revenues</span></label>
                                     <input class="form-control" type="number" ng-model="vnfd.billing_model.price.max_per_period">
                                 </div>
 
