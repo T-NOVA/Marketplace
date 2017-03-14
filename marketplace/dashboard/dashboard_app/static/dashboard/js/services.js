@@ -214,6 +214,27 @@ function ServiceListCtrl(Restangular, $scope, $rootScope, $state, ModalService, 
         $scope.deleteNSD(id, nsd_name);
     };
 
+    
+    $scope.showNSModal = function (nsd_id) {
+
+        ModalService.showModal({
+            templateUrl: "/static/dashboard/templates/modals/jsplump_ns.html",
+            controller: function () {
+                this.jsplumb_nsd_id = nsd_id;
+                this.jsplumb_nsd_url = '/dashboard/ns-diagram/' + nsd_id;
+            },
+            controllerAs: "jsPlumpCtrl"
+        }).then(function (modal) {
+            // only called on success...
+            modal.element.modal();
+            modal.jsplumb_nsd_id = nsd_id;
+            //modal.vnfd_id = vnfd_id
+        }).catch(function (error) {
+            // error contains a detailed error message.
+            console.log(error);
+        });
+
+    };
 
     $scope.showNSDEditor = function (nsd_id) {
 
@@ -1011,203 +1032,7 @@ function ServiceCreateCtrl(Restangular, $scope, $rootScope, $state, ModalService
             $scope.steps[target_step].enable = true;
             $scope.active_step = target_step;
             console.log("STEP:"+$scope.active_step);
-            if ($scope.active_step==5){
 
-    console.log(JSON.stringify($scope.flavors));
-    console.log(JSON.stringify($scope.nsd));
-
-                var vdus = [];
-                var vlinks = [];
-                var ext_vlinks = [];
-
-                $.each($scope.flavors, function (flavour_index, flavour) {
-
-
-                    // $.each(flavour, function (vdu_index, vdu) {
-                    //
-                    //     var storage = 'No Storage';
-                    //
-                    //
-                    //     if(vdu.resource_requirements.storage.size>0){
-                    //         storage = vdu.resource_requirements.storage.size + vdu.resource_requirements.storage.size_unit + ' Storage';
-                    //     }
-                    //
-                    //     if (flavour.vdu_reference.indexOf(vdu.id) != -1 && flavour.flavour_key==selected_flavor) {
-                    //         vdus.push({
-                    //             id: vdu.id,
-                    //             alias: vdu.alias,
-                    //             cpu: vdu.resource_requirements.vcpus + (vdu.resource_requirements.vcpus > 1 ? ' Cores' : ' Core'),
-                    //             ram: vdu.resource_requirements.memory + vdu.resource_requirements.memory_unit + ' Ram',
-                    //             storage: storage,
-                    //             connection_points: vdu.connection_points
-                    //         });
-                    //     }
-                    //
-                    // });
-
-                    $.each(flavour.constituent_vnf, function (vnf_index, vnf) {
-
-
-                            vdus.push({
-                                id: vnf.vnf_reference,
-                                alias: "test",
-                                cpu: "1 Core",
-                                ram: "1024Mb Ram",
-                                storage: "1GB"
-                                //connection_points: vdu.connection_points
-                            });
-                    });
-
-                    $.each(flavour.virtual_links, function (vlink_index, vlink) {
-
-                            vlinks.push({
-                                // id: vlink.id,
-                                connection_points_reference: vlink.connection_points_reference,
-                                alias: vlink.alias,
-                                external: vlink.external_access
-                            });
-
-                            if (vlink.external_access){
-//                                ext_vlinks.push({
-//                                    id: vlink.id,
-//                                    alias: vlink.alias
-//                                });
-                                ext_vlinks.push('ext_'+vlink.alias);
-                            }
-
-                    });
-
-
-                });
-
-                var network_colors = ['#1843a5', '#ec7639', '#2aa54d', '#cb1022', '#a5b9ce', '#f3d086', '#7367b1'];
-
-                var connect = function (source, sourcePort, target, targetPort, color) {
-                    var link = new joint.shapes.devs.Link({
-                        source: {id: source.id, selector: source.getPortSelector(sourcePort)},
-                        target: {id: target.id, selector: target.getPortSelector(targetPort)}
-                    });
-                    link.attr({'.connection': {stroke: color}});
-                    link.addTo(graph).reparent();
-                };
-
-
-                var graph = new joint.dia.Graph();
-
-                var paper_canvas_div = $('#paperCanvas');
-                var paper_canvas_width = paper_canvas_div.width();
-                var paper_canvas_height = paper_canvas_div.height();
-                var paper_div = $('#paper');
-
-                var paper = new joint.dia.Paper({
-                    el: paper_div,
-                    width: paper_canvas_width,
-                    height: paper_canvas_height,
-                    gridSize: 1,
-                    model: graph,
-                    //snapLinks: true,
-                    //linkPinning: false,
-                    embeddingMode: true,
-                    interactive: false
-                });
-
-
-                var vnfmodel = new joint.shapes.devs.VNFModel({
-                    position: {x: 20, y: 20},
-                    size: {width: paper_canvas_width - 40, height: paper_canvas_height - 40},
-                    outPorts: ext_vlinks,
-                    attrs: {
-                        '.label': {text: 'NS ' + $scope.nsd.name}
-                    }
-
-                });
-
-                graph.addCell(vnfmodel);
-
-                // $.each(vlinks, function (vlink_index, vlink) {
-                //
-                //     var networkmodel = new joint.shapes.devs.ExtNetworkModel({
-                //         position: {x: 50, y: 300 + (vlink_index + 1) * 50},
-                //         size: {width: paper_canvas_width - 100, height: 25},
-                //         attrs: {
-                //             '.label': {text: vlink.alias+'('+vlink.id+')'}
-                //         }
-                //         //outPorts: ['external']
-                //     });
-                //
-                //     //networkmodel.toBack();
-                //     // networkmodel.attr({'.body': {stroke: network_colors[vlink_index]}});
-                //     // networkmodel.attr({'.body': {fill: network_colors[vlink_index]}});
-                //     //
-                //     // graph.addCell(networkmodel);
-                //     // vnfmodel.embed(networkmodel);
-                //
-                // });
-
-//                 var number_of_vdus = vdus.length;
-//                 var number_of_vlinks = vlinks.length;
-//
-//                 var vdu_width = (paper_canvas_width - 90) / number_of_vdus;
-//
-//
-//                 $.each(vdus, function (vdu_index, vdu) {
-//
-//                     // var connection_points = [];
-//                     // //var vlink_connection_points = [];
-//                     //
-//                     // $.each(vdu.connection_points, function (cp_index, cp) {
-//                     //     connection_points.push(cp.id);
-//                     // });
-//
-//                     var vdumodel = new joint.shapes.devs.VDUModel({
-//                         position: {x: (vdu_index * vdu_width) + 50, y: 80},
-//                         size: {width: vdu_width - 10, height: 200},
-//                         //outPorts: connection_points,
-//                         attrs: {
-//                             '.label': {text: vdu.alias+'('+vdu.id+')'},
-//                             '.cpu-label': {text: vdu.cpu},
-//                             '.ram-label': {text: vdu.ram},
-//                             '.storage-label': {text: vdu.storage}
-//                         }
-//                     });
-//
-//                     graph.addCell(vdumodel);
-//                     vnfmodel.embed(vdumodel);
-//
-// //                     $.each(vlinks, function (vlink_index, vlink) {
-// //
-// //                         var vlink_connection_points = [];
-// //
-// //
-// //                         $.each(connection_points, function (vdu_cp_index, vdu_cp) {
-// //                             vlink_connection_points.push(vdu_cp + vlink.id);
-// //                         });
-// //
-// //                         var vlinknetworkmodel = new joint.shapes.devs.NetworkModel({
-// //                             position: {x: (vdu_index * vdu_width) + 50, y: 300 + (vlink_index + 1) * 50},
-// //                             size: {width: vdu_width - 10, height: 20},
-// //                             inPorts: vlink_connection_points,
-// //                         });
-// //
-// //                         graph.addCell(vlinknetworkmodel);
-// //                         vnfmodel.embed(vlinknetworkmodel);
-// //
-// //                         $.each(vdu.connection_points, function (cp_index, cp) {
-// //                             if (cp.vlink_ref == vlink.id) {
-// //                                 connect(vdumodel, cp.id, vlinknetworkmodel, cp.id + vlink.id, network_colors[vlink_index]);
-// //                             }
-// //                         });
-// //
-// // //                        if (vlink.external){
-// // //                            connect(vnfmodel, 'ext_'+vlink.alias, vlinknetworkmodel, 'cp2' + vlink.id, network_colors[vlink_index]);
-// // //                        }
-// //
-// //
-// //                     });
-//
-//                 });
-
-            }
         }
     };
 

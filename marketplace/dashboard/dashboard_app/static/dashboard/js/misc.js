@@ -193,7 +193,7 @@ function SLAChartsCtrl(Restangular, NoSuffixRestangular, $scope, $rootScope, $st
     Restangular.one('service-catalog/service/catalog', $scope.productID).get().then(
 
         function (response) {
-
+            var valueRegexp = /^.*\((.*)\)$/i;
             $scope.nsd = response;
 
             console.log("GetNSD " + $scope.productID);
@@ -240,7 +240,7 @@ function SLAChartsCtrl(Restangular, NoSuffixRestangular, $scope, $rootScope, $st
                         //$scope.mon_data = response;
                         $.each(response, function(key, value) {
                             highchart.series[0].data.push([parseInt(value.date)*1000, parseInt(value.value)]);
-                            highchart.series[1].data.push([parseInt(value.date)*1000, 100]);
+                            highchart.series[1].data.push([parseInt(value.date)*1000, parseInt(/\d+/.exec(as_param.value)[0])]);
                         });
 
                         $scope.graphs.push(highchart);

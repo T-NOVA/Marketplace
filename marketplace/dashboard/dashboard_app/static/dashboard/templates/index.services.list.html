@@ -24,9 +24,10 @@
                         <td data-title="Action">
                             <div class="box-tools pull-right">
                                 <!-- <a target="_blank" href="/services/[[service.id]]/nsd" class="btn btn-info btn-sm" role="button"><i class="fa fa-file-text-o"></i> NSD</a> -->
-                                <!-- <button class="btn btn-default btn-sm" ng-click="showAModal(service.id)"><i class="fa fa-tv"></i></button> -->
+
                                  <a target="_blank" href="/service-catalog/service/catalog/[[service.nsd.id]]" class="btn btn-info btn-sm" role="button"><i class="fa fa-file-text-o"></i> NSD</a>
                                 <!--<button class="btn btn-default btn-sm" ng-click="showNSDEditor(service.id)"><i class="fa fa-edit"></i> YAML Editor</button>-->
+                                <button class="btn btn-default btn-sm" ng-click="showNSModal(service.nsd.id)"><i class="fa fa-tv"></i></button>
                                 <button class="btn btn-danger btn-sm" ng-click="NSDDeleteConfirm(service.nsd.id, service.nsd.name)"><i class="fa fa-trash"></i></button>
                             </div>
                         </td>

@@ -7,45 +7,61 @@
 
 
     <link rel="stylesheet" href="{% static 'dashboard/diagram/joint.css' %}">
-    <link rel="stylesheet" href="{% static 'dashboard/diagram/custom.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/diagram/custom_ns.css' %}">
 
     <script src="{% static 'dashboard/diagram/jquery.min.js' %}"></script>
     <script src="{% static 'dashboard/diagram/lodash.min.js' %}"></script>
     <script src="{% static 'dashboard/diagram/backbone-min.js' %}"></script>
     <script src="{% static 'dashboard/diagram/joint.js' %}"></script>
-    <script src="{% static 'dashboard/diagram/models.js' %}"></script>
+    <script src="{% static 'dashboard/diagram/models_ns.js' %}"></script>
 
 
     <script>
 
         $(document).ready(function () {
 
-            var selected_flavor = 'gold';
+            $.ajaxSetup( { "async": false } );
 
-            var hashValue = location.hash;
-            hashValue = hashValue.replace(/^#/, '');
-            if (hashValue == 'gold' || hashValue == 'silver' || hashValue == 'bronze'){
-                selected_flavor = hashValue;
-            }
+            var selected_flavor = 'basic';
+            var vnf_flavour = 'gold';
 
-            //var vnfd = {};
+            //var hashValue = location.hash;
+            //hashValue = hashValue.replace(/^#/, '');
+            //if (hashValue == 'gold' || hashValue == 'silver' || hashValue == 'bronze'){
+            //    selected_flavor = hashValue;
+            //}
+
             var nsd_id = $("#paperCanvas").data('id');
-            var nsd_id = '56e1bf25e4b073a61862cf75';
 
 
             $.getJSON("/service-catalog/service/catalog/" + nsd_id, function (nsd) {
 
-                var constituent_vnf_ids = [];
+                var constituent_vnfs = [];
                 var vlinks = [];
                 var ext_vlinks = [];
 
+                //$.each(nsd.nsd.sla[0].constituent_vnf, function (constituent_vnf_index, constituent_vnf) {
+                    //constituent_vnf_ids.push(constituent_vnf.vnf_reference);
+                //});
+
                 $.each(nsd.nsd.sla[0].constituent_vnf, function (constituent_vnf_index, constituent_vnf) {
+                    $.getJSON("/vnfs/" + constituent_vnf.vnf_reference + "/vnfd", function (vnfd) {
+                        constituent_vnfs.push(vnfd);
 
-                    constituent_vnf_ids.push(constituent_vnf.vnf_reference);
-
-
+                    });
                 });
 
+
+                $.each(nsd.nsd.vld.virtual_links, function (vlink_index, vlink) {
+
+                    if (vlink.external_access) {
+                        ext_vlinks.push('ext_' + vlink.alias);
+                    }
+
+                });
+                //$.each(constituent_vnfs, function (vnfd_index, vnfd) {
+
+                //});
 
                 var network_colors = ['#1843a5', '#ec7639', '#2aa54d', '#cb1022', '#a5b9ce', '#f3d086', '#7367b1'];
 
@@ -79,26 +95,25 @@
                 });
 
 
-                var vnfmodel = new joint.shapes.devs.VNFModel({
+                var nsmodel = new joint.shapes.devs.NSModel({
                     position: {x: 20, y: 20},
                     size: {width: paper_canvas_width - 40, height: paper_canvas_height - 40},
                     outPorts: ext_vlinks,
                     attrs: {
-                        '.label': {text: 'VNF ' + vnfd.name}
+                        '.label': {text: 'NS ' + nsd.nsd.name}
                     }
 
                 });
 
-                graph.addCell(vnfmodel);
+                graph.addCell(nsmodel);
 
-
-                $.each(vlinks, function (vlink_index, vlink) {
+                $.each(nsd.nsd.vld.virtual_links, function (vlink_index, vlink) {
 
                     var networkmodel = new joint.shapes.devs.ExtNetworkModel({
                         position: {x: 50, y: 300 + (vlink_index + 1) * 50},
                         size: {width: paper_canvas_width - 100, height: 25},
                         attrs: {
-                            '.label': {text: vlink.alias+'('+vlink.id+')'}
+                            '.label': {text: vlink.alias+'('+vlink.vld_id+')'}
                         }
                         //outPorts: ['external']
                     });
@@ -108,73 +123,33 @@
                     networkmodel.attr({'.body': {fill: network_colors[vlink_index]}});
 
                     graph.addCell(networkmodel);
-                    vnfmodel.embed(networkmodel);
+                    nsmodel.embed(networkmodel);
 
                 });
 
-                var number_of_vdus = vdus.length;
-                var number_of_vlinks = vlinks.length;
+                var number_of_vnfs = constituent_vnfs.length;
+                var number_of_vlinks = nsd.nsd.vld.virtual_links.length;
 
-                var vdu_width = (paper_canvas_width - 90) / number_of_vdus;
+                var vnf_width = (paper_canvas_width - 90) / number_of_vnfs;
 
-                $.each(vdus, function (vdu_index, vdu) {
+                $.each(constituent_vnfs, function (vnfd_index, vnfd) {
 
-                    var connection_points = [];
-                    //var vlink_connection_points = [];
-
-                    $.each(vdu.connection_points, function (cp_index, cp) {
-                        connection_points.push(cp.id);
-                    });
-
-                    var vdumodel = new joint.shapes.devs.VDUModel({
-                        position: {x: (vdu_index * vdu_width) + 50, y: 80},
-                        size: {width: vdu_width - 10, height: 200},
-                        outPorts: connection_points,
+                    var vnfmodel = new joint.shapes.devs.VNFModel({
+                        position: {x: (vnfd_index * vnf_width) + 50, y: 80},
+                        size: {width: vnf_width - 10, height: 200},
+                        outPorts: [],
                         attrs: {
-                            '.label': {text: vdu.alias+'('+vdu.id+')'},
-                            '.cpu-label': {text: vdu.cpu},
-                            '.ram-label': {text: vdu.ram},
-                            '.storage-label': {text: vdu.storage}
+                            '.label': {text: vnfd.name},
+                            '.cpu-label': {text: '#'+vnfd.id},
+                            '.ram-label': {text: ''},
+                            '.storage-label': {text: ''}
                         }
                     });
 
-                    graph.addCell(vdumodel);
-                    vnfmodel.embed(vdumodel);
-
-                    $.each(vlinks, function (vlink_index, vlink) {
-
-                        var vlink_connection_points = [];
-
-
-                        $.each(connection_points, function (vdu_cp_index, vdu_cp) {
-                            vlink_connection_points.push(vdu_cp + vlink.id);
-                        });
-
-                        var vlinknetworkmodel = new joint.shapes.devs.NetworkModel({
-                            position: {x: (vdu_index * vdu_width) + 50, y: 300 + (vlink_index + 1) * 50},
-                            size: {width: vdu_width - 10, height: 20},
-                            inPorts: vlink_connection_points,
-                        });
-
-                        graph.addCell(vlinknetworkmodel);
-                        vnfmodel.embed(vlinknetworkmodel);
-
-                        $.each(vdu.connection_points, function (cp_index, cp) {
-                            if (cp.vlink_ref == vlink.id) {
-                                connect(vdumodel, cp.id, vlinknetworkmodel, cp.id + vlink.id, network_colors[vlink_index]);
-                            }
-                        });
-
-//                        if (vlink.external){
-//                            connect(vnfmodel, 'ext_'+vlink.alias, vlinknetworkmodel, 'cp2' + vlink.id, network_colors[vlink_index]);
-//                        }
-
-
-                    });
+                    graph.addCell(vnfmodel);
+                    nsmodel.embed(vnfmodel);
 
                 });
-
-
             });
 
 
@@ -186,7 +161,7 @@
 </head>
 <body>
 
-<div id="paperCanvas" style="width:790px;height:600px" data-id="{{  vnfd_id }}">
+<div id="paperCanvas" style="width:790px;height:600px" data-id="{{  ns_id }}">
     <div id="paper"></div>
 </div>
 

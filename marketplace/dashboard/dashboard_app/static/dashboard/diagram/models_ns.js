@@ -1,4 +1,4 @@
-joint.shapes.devs.VNFModel = joint.shapes.basic.Generic.extend(_.extend({}, joint.shapes.basic.PortsModelInterface, {
+joint.shapes.devs.NSModel = joint.shapes.basic.Generic.extend(_.extend({}, joint.shapes.basic.PortsModelInterface, {
 
     markup: '<g class="rotatable"><g class="scalable"><rect class="body vnf"/></g><text class="label"/><g class="inPorts"/><g class="outPorts"/></g>',
     portMarkup: '<g class="port port<%= id %>"><circle class="port-body"/><text class="port-label"/></g>',
@@ -52,7 +52,7 @@ joint.shapes.devs.VNFModel = joint.shapes.basic.Generic.extend(_.extend({}, join
 }));
 
 
-joint.shapes.devs.VDUModel = joint.shapes.basic.Generic.extend(_.extend({}, joint.shapes.basic.PortsModelInterface, {
+joint.shapes.devs.VNFModel = joint.shapes.basic.Generic.extend(_.extend({}, joint.shapes.basic.PortsModelInterface, {
 
     markup: '<g class="rotatable vdu"><g class="scalable"><rect class="body vdu"/></g><text class="label"/><text class="cpu-label"/><text class="ram-label"/><text class="storage-label"/><g class="inPorts"/><g class="outPorts"/></g>',
     portMarkup: '<g class="port port<%= id %>"><circle class="port-body"/><text class="port-label"/></g>',

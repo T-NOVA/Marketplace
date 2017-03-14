@@ -23,20 +23,20 @@
                             <h4 class="list-group-item-heading"><i class="fa fa-share-alt"></i> Step 4</h4>
                             <p class="list-group-item-text">Networking</p>
                         </a></li>
+                        <!--<li ng-class="{'active': active_step==5, 'disabled': !steps[5].enable}"><a href="javascript:void(0)" ng-click="gotoStep(5)">-->
+                        <!--    <h4 class="list-group-item-heading"><i class="fa fa-arrows-alt"></i> Step 5</h4>-->
+                        <!--    <p class="list-group-item-text">Forwarding Graph</p>-->
+                        <!--</a></li>-->
                         <li ng-class="{'active': active_step==5, 'disabled': !steps[5].enable}"><a href="javascript:void(0)" ng-click="gotoStep(5)">
-                            <h4 class="list-group-item-heading"><i class="fa fa-arrows-alt"></i> Step 5</h4>
-                            <p class="list-group-item-text">Forwarding Graph</p>
-                        </a></li>
-                        <li ng-class="{'active': active_step==6, 'disabled': !steps[6].enable}"><a href="javascript:void(0)" ng-click="gotoStep(6)">
-                            <h4 class="list-group-item-heading"><i class="fa fa-refresh"></i> Step 6</h4>
+                            <h4 class="list-group-item-heading"><i class="fa fa-refresh"></i> Step 5</h4>
                             <p class="list-group-item-text">Lifecycle Events</p>
                         </a></li>
-                        <li ng-class="{'active': active_step==7, 'disabled': !steps[7].enable}"><a href="javascript:void(0)" ng-click="gotoStep(7)">
-                            <h4 class="list-group-item-heading"><i class="fa fa-object-ungroup"></i> Step 7</h4>
+                        <li ng-class="{'active': active_step==6, 'disabled': !steps[6].enable}"><a href="javascript:void(0)" ng-click="gotoStep(6)">
+                            <h4 class="list-group-item-heading"><i class="fa fa-object-ungroup"></i> Step 6</h4>
                             <p class="list-group-item-text">Assurance Parameters</p>
                         </a></li>
-                        <li ng-class="{'active': active_step==8, 'disabled': !steps[8].enable}"><a href="javascript:void(0)" ng-click="gotoStep(8)">
-                            <h4 class="list-group-item-heading"><i class="fa fa-money"></i> Step 8</h4>
+                        <li ng-class="{'active': active_step==7, 'disabled': !steps[7].enable}"><a href="javascript:void(0)" ng-click="gotoStep(7)">
+                            <h4 class="list-group-item-heading"><i class="fa fa-money"></i> Step 7</h4>
                             <p class="list-group-item-text">Billing</p>
                         </a></li>
                     </ul>
@@ -394,7 +394,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row" id="vnf-step-5" ng-show="active_step==5">
+            <!--<div class="row" id="vnf-step-5" ng-show="active_step==5">
                 <div class="col-xs-12">
                     <div class="col-md-12 box thumbnail">
                         <div class="box-header">
@@ -404,22 +404,17 @@
                         <div class="box-body">
 
 
-        <div id="paperCanvas" style="width:790px;height:600px">
-            <div id="paper"></div>
-        </div>
-
-
                         </div>
                         <button id="activate-step-5" class="btn btn-primary pull-right" ng-click="nextStep(6)">Next <i class="fa fa-caret-right"></i></button>
                     </div>
                 </div>
-            </div>
-            <div class="row" id="vnf-step-6" ng-show="active_step==6">
+            </div>-->
+            <div class="row" id="vnf-step-5" ng-show="active_step==5">
                 <div class="col-xs-12">
                     <div class="col-md-12 box thumbnail">
                         <div class="box-header">
                             <i class="fa fa-arrows-alt"></i>
-                            <h3 class="box-title">6. Lifecycle Events</h3>
+                            <h3 class="box-title">5. Lifecycle Events</h3>
                         </div>
                         <div class="box-body">
                           <div class="row">
@@ -465,16 +460,16 @@
                                 </div>
                             </div>
                         </div>
-                        <button id="activate-step-6" class="btn btn-primary pull-right" ng-click="nextStep(7)">Next <i class="fa fa-caret-right"></i></button>
+                        <button id="activate-step-5" class="btn btn-primary pull-right" ng-click="nextStep(6)">Next <i class="fa fa-caret-right"></i></button>
                     </div>
                 </div>
             </div>
-            <div class="row" id="vnf-step-7" ng-show="active_step==7">
+            <div class="row" id="vnf-step-6" ng-show="active_step==6">
                 <div class="col-xs-12">
                     <div class="col-md-12 box thumbnail">
                         <div class="box-header">
                             <i class="fa fa-object-ungroup"></i>
-                            <h3 class="box-title">7. Assurance Parameters</h3>
+                            <h3 class="box-title">6. Assurance Parameters</h3>
                         </div>
                         <div class="box-body">
 
@@ -624,16 +619,16 @@
 
 
                         </div>
-                        <button id="activate-step-7" class="btn btn-primary pull-right" ng-click="nextStep(8)">Next <i class="fa fa-caret-right"></i></button>
+                        <button id="activate-step-6" class="btn btn-primary pull-right" ng-click="nextStep(7)">Next <i class="fa fa-caret-right"></i></button>
                     </div>
                 </div>
             </div>
-            <div class="row" id="vnf-step-8" ng-show="active_step==8">
+            <div class="row" id="vnf-step-7" ng-show="active_step==7">
                 <div class="col-xs-12">
                     <div class="col-md-12 box thumbnail">
                         <div class="box-header">
                             <i class="fa fa-money"></i>
-                            <h3 class="box-title">8. Billing</h3>
+                            <h3 class="box-title">7. Billing</h3>
                         </div>
                         <div class="box-body">
                           <div class="row">
@@ -705,7 +700,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button id="activate-step-8" class="btn btn-primary pull-right" ng-click="createNSD()">Create <i class="fa fa-plus"></i></button>
+                        <button id="activate-step-7" class="btn btn-primary pull-right" ng-click="createNSD()">Create <i class="fa fa-plus"></i></button>
                     </div>
                 </div>
             </div>
