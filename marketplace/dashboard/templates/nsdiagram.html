@@ -134,10 +134,20 @@
 
                 $.each(constituent_vnfs, function (vnfd_index, vnfd) {
 
+                    var connection_points = [];
+
+                    $.each(vnfd.vlinks, function (v_index, vl) {
+                        if (vl.external_access) {
+                            //connection_points.push(vnfd.id+":"+vl.id);
+                            connection_points.push("CP_VNF#"+vnfd.id+":ext_"+vl.alias);
+
+                        }
+                    });
+
                     var vnfmodel = new joint.shapes.devs.VNFModel({
                         position: {x: (vnfd_index * vnf_width) + 50, y: 80},
                         size: {width: vnf_width - 10, height: 200},
-                        outPorts: [],
+                        outPorts: connection_points,
                         attrs: {
                             '.label': {text: vnfd.name},
                             '.cpu-label': {text: '#'+vnfd.id},
@@ -149,7 +159,51 @@
                     graph.addCell(vnfmodel);
                     nsmodel.embed(vnfmodel);
 
+                    $.each(nsd.nsd.vld.virtual_links, function (vlink_index, vlink) {
+
+                            var vlink_connection_points = [];
+
+                            console.log("VL"+vlink.alias+" "+vlink.vld_id);
+
+                            $.each(vnfd.vlinks, function (v_index, vl) {
+                                if (vl.external_access) {
+                                    //vlink_connection_points.push("VNF#"+vnfd.id+":ext_"+vl.alias);
+                                    console.log("VNF#"+vnfd.id+":ext_"+vl.alias);
+
+                                    vlink_connection_points.push("VNF#"+vnfd.id+":ext_"+vl.alias);
+                                }
+                            });
+
+                            var vlinknetworkmodel = new joint.shapes.devs.NetworkModel({
+                                position: {x: (vnfd_index * vnf_width) + 50, y: 300 + (vlink_index + 1) * 50},
+                                size: {width: vnf_width - 10, height: 20},
+                                inPorts: vlink_connection_points,
+                            });
+
+                            graph.addCell(vlinknetworkmodel);
+                            vnfmodel.embed(vlinknetworkmodel);
+
+
+                            //connect(vnfmodel, "3065:vl0", vlinknetworkmodel, "VNF#3065:ext_management");
+                            $.each(vlink.connections, function (c_index, con) {
+                                if (con.includes(vlink.alias) && con.startsWith("VNF#"+vnfd.id)) {
+
+                                    console.log(vlink.alias+" __ connection <> " + "CP_" + con + " <to> " + con);
+                                    connect(vnfmodel, "CP_" + con, vlinknetworkmodel, con);
+                                }
+                            });
+
+
+                            console.log("--------");
+                    });
+
+
+
+
+
                 });
+
+
             });
 
 
