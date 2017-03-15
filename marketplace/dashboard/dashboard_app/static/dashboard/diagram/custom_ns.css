@@ -39,6 +39,12 @@
     fill: #fea500;
 }
 
+.element.devs.Model .outPorts .port text{
+    -ms-transform: rotate(-90deg); /* IE 9 */
+    -webkit-transform: rotate(-90deg); /* Safari */
+    transform: rotate(-90deg);
+}
+
 .devs .body.net {
     fill: rgba(255, 255, 255, 0);
     stroke: rgba(255, 255, 255, 0);
