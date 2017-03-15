@@ -187,7 +187,6 @@ function SLAChartsCtrl(Restangular, NoSuffixRestangular, $scope, $rootScope, $st
     $scope.nsd = {};
     $scope.graphs = [];
 
-
     if ($scope.hasRole('Customer')) {
 
     Restangular.one('service-catalog/service/catalog', $scope.productID).get().then(
@@ -361,7 +360,7 @@ function SLAChartsCtrl(Restangular, NoSuffixRestangular, $scope, $rootScope, $st
                         //$scope.mon_data = response;
                         $.each(response, function (key, value) {
                             $scope.graphs[as_key].series[0].data.push([parseInt(value.date) * 1000, parseInt(value.value)]);
-                            $scope.graphs[as_key].series[1].data.push([parseInt(value.date) * 1000, 100]);
+                            $scope.graphs[as_key].series[1].data.push([parseInt(value.date) * 1000, parseInt(/\d+/.exec(as_param.value)[0])]);
                         });
 
                         console.log("Monitoring Data found metric:" + as_param.id + " size:" + response.length);
